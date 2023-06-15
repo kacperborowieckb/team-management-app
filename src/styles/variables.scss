@@ -1,0 +1,31 @@
+:root {
+  --clr-yellow: hsl(44, 100%, 52%);
+  --clr-orange: hsl(19, 97%, 51%);
+  --clr-red: hsl(334, 100%, 50%);
+  --clr-purple: hsl(265, 83%, 57%);
+  --clr-blue: hsl(217, 100%, 61%);
+  --clr-green: hsl(90, 100%, 44%);
+  --clr-success: hsl(144, 82%, 47%);
+  --clr-error: hsl(353, 86%, 54%);
+  --clr-bg: hsl(184, 58%, 95%);
+  --clr-main-100: hsl(218, 100%, 87%);
+  --clr-main-300: hsl(227, 100%, 80%);
+  --clr-main-500: hsl(232, 100%, 74%);
+  --clr-main-700: hsl(234, 100%, 66%);
+  --clr-font-white: hsl(0, 0%, 94%);
+  --clr-font-black: #141414;
+  --clr-font-body-white: hsl(0, 0%, 94%);
+  --clr-font-body-black: ;
+
+  --fw-normal: 400;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+
+  --fs-body: 18px;
+}
+
+[data-theme='dark'] {
+  --clr-font-body-white: hsl(0, 0%, 8%);
+  --clr-font-body-black: hsl(0, 0%, 94%);
+  --clr-bg: #242424;
+}
