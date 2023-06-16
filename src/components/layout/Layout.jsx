@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <>
       <Nav />
-      <section style={{ display: 'flex', flexDirection: 'column' }}>
+      <section style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
         <Header />
         <Outlet />
       </section>

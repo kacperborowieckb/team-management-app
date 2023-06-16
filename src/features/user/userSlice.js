@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { signInWithGooglePopup } from '../../utils/firebase/firebase';
+import { signInWithGooglePopup, signOutCurrentUser } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
   user: null,
   status: ACTION_STATUS.IDLE,
   error: null,
+  isSignInPopupOpen: false,
 };
 
-export const logInUser = createAsyncThunk('user/logInUser', async () => {
+export const signInUser = createAsyncThunk('user/signInUser', async () => {
   try {
     const {
       user: { uid, displayName, email },
@@ -20,21 +21,44 @@ export const logInUser = createAsyncThunk('user/logInUser', async () => {
   }
 });
 
+export const signOutUser = createAsyncThunk('user/signOutUser', async () => {
+  try {
+    await signOutCurrentUser();
+  } catch (error) {
+    return err.message;
+  }
+});
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    openSignInPopup: (state) => {
+      state.isSignInPopupOpen = true;
+    },
+  },
   extraReducers(builder) {
     builder
-      .addCase(logInUser.pending, (state) => {
-        console.log(state.user);
+      .addCase(signInUser.pending, (state) => {
         state.status = ACTION_STATUS.PENDING;
       })
-      .addCase(logInUser.fulfilled, (state, action) => {
+      .addCase(signInUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.status = ACTION_STATUS.SUCCEEDED;
+        state.isSignInPopupOpen = false;
       })
-      .addCase(logInUser.rejected, (state, action) => {
+      .addCase(signInUser.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(signOutUser.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+      })
+      .addCase(signOutUser.fulfilled, (state) => {
+        state.user = null;
+        state.status = ACTION_STATUS.SUCCEEDED;
+      })
+      .addCase(signOutUser.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });
@@ -44,5 +68,8 @@ export const userSlice = createSlice({
 export const getCurrentUser = (state) => state.user.user;
 export const getUserStatus = (state) => state.user.status;
 export const getUserError = (state) => state.user.error;
+export const getIsSignInPopupOpen = (state) => state.user.isSignInPopupOpen;
+
+export const { openSignInPopup } = userSlice.actions;
 
 export default userSlice.reducer;

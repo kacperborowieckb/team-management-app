@@ -31,7 +31,7 @@ export const db = getFirestore();
 
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
 
-export const signOutUser = async () => await signOut(auth);
+export const signOutCurrentUser = async () => await signOut(auth);
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
   if (!userAuth) return;

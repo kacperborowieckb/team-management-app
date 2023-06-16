@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import InputField from '../input-field/InputField';
 import Button from '../button/Button';
 import './sign-in-popup.scss';
-import { logInUser } from '../../features/user/userSlice';
+import { signInUser } from '../../features/user/userSlice';
 import { Link } from 'react-router-dom';
 
 const SignInPopup = () => {
@@ -16,7 +16,7 @@ const SignInPopup = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      dispatch(logInUser());
+      dispatch(signInUser());
     } catch (err) {
       console.error(err.message);
     }

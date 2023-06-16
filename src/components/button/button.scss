@@ -26,3 +26,8 @@
     box-shadow: var(--button-box-shadow) var(--clr-error);
   }
 }
+
+.button__sign-in {
+  background-color: transparent;
+  color: var(--clr-font-body-black);
+}
