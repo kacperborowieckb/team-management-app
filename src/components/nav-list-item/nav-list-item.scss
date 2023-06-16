@@ -1,0 +1,21 @@
+.nav-list-item {
+  user-select: none;
+
+  & &__title {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-medium);
+  }
+
+  & &__dropdown-icon {
+    transition: rotate 0.1s linear;
+  }
+
+  & &__sub-list {
+    cursor: pointer;
+    overflow: hidden;
+    padding-left: 1rem;
+  }
+}

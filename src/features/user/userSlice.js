@@ -16,8 +16,8 @@ export const signInUser = createAsyncThunk('user/signInUser', async () => {
     } = await signInWithGooglePopup();
 
     return { uid, displayName, email };
-  } catch (err) {
-    return err.message;
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
 });
 
@@ -25,7 +25,7 @@ export const signOutUser = createAsyncThunk('user/signOutUser', async () => {
   try {
     await signOutCurrentUser();
   } catch (error) {
-    return err.message;
+    return rejectWithValue(error.message);
   }
 });
 

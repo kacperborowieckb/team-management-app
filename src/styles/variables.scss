@@ -12,9 +12,9 @@
   --clr-main-300: hsl(227, 100%, 80%);
   --clr-main-500: hsl(232, 100%, 74%);
   --clr-main-700: hsl(234, 100%, 66%);
-  --clr-font-white: hsl(0, 0%, 94%);
+  --clr-font-white: hsl(0, 0%, 100%);
   --clr-font-black: hsl(0, 0%, 8%);
-  --clr-font-body-white: hsl(0, 0%, 94%);
+  --clr-font-body-white: hsl(0, 0%, 100%);
   --clr-font-body-black: hsl(0, 0%, 8%);
   --clr-black: hsl(0, 0%, 0%);
   --clr-black-transparent: hsla(0, 0%, 0%, 0.5);
@@ -27,7 +27,8 @@
   --fs-body: 18px;
   --fs-heading: 2rem;
   --fs-small: 14px;
-  --fs-large: 1.5rem
+  --fs-medium: 1.25rem;
+  --fs-large: 1.5rem;
 
   --border-radius-small: 6px;
   --border-radius-medium: 12px;
@@ -36,6 +37,6 @@
 
 [data-theme='dark'] {
   --clr-font-body-white: hsl(0, 0%, 8%);
-  --clr-font-body-black: hsl(0, 0%, 94%);
+  --clr-font-body-black: hsl(0, 0%, 100%);
   --clr-bg: #242424;
 }
