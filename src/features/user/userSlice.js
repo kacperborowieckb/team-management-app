@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { signInWithGooglePopup } from '../../utils/firebase/firebase';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
   user: null,
-  status: 'idle', // 'pending' / 'succeeded' / 'failed',
+  status: ACTION_STATUS.IDLE,
   error: null,
 };
 
@@ -27,14 +28,14 @@ export const userSlice = createSlice({
     builder
       .addCase(logInUser.pending, (state) => {
         console.log(state.user);
-        state.status = 'pending';
+        state.status = ACTION_STATUS.PENDING;
       })
       .addCase(logInUser.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.status = 'succeeded';
+        state.status = ACTION_STATUS.SUCCEEDED;
       })
       .addCase(logInUser.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });
   },

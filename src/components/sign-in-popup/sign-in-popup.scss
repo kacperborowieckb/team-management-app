@@ -1,5 +1,6 @@
 .sign-in {
   --popup-padding: 2.5rem;
+  --form-gap: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,6 +29,10 @@
   & &__form {
     display: flex;
     flex-direction: column;
-    gap: var(--popup-padding);
+    gap: var(--form-gap);
+  }
+
+  & &__form > div:not(:last-of-type) {
+    margin-bottom: var(--form-gap);
   }
 }

@@ -4,6 +4,7 @@ import InputField from '../input-field/InputField';
 import Button from '../button/Button';
 import './sign-in-popup.scss';
 import { logInUser } from '../../features/user/userSlice';
+import { Link } from 'react-router-dom';
 
 const SignInPopup = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,10 @@ const SignInPopup = () => {
             value={password}
             onChange={handlePasswordChange}
           />
+          <p className="sign-in__create-account">
+            Don't have an account?
+            <Link to={'/'}>Sign Up.</Link>
+          </p>
           <Button>Sign In</Button>
         </form>
         <Button

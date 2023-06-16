@@ -2,3 +2,7 @@ body {
   background-color: var(--clr-bg);
   color: var(--clr-font-body-black);
 }
+
+#root {
+  display: flex;
+}

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { createUserDocumentFromAuth, onAuthStateChangedListener } from './utils/firebase/firebase';
-import SignInPopup from './components/sign-in-popup/SignInPopup';
-import { useSelector } from 'react-redux';
-import { getCurrentUser } from './features/user/userSlice';
+import { Routes, Route } from 'react-router';
+import Layout from './components/layout/Layout';
+import Home from './routes/home/Home';
 
 function App() {
   useEffect(() => {
@@ -16,9 +16,13 @@ function App() {
   }, []);
 
   return (
-    <>
-      <SignInPopup />
-    </>
+    <Routes>
+      <Route>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
 

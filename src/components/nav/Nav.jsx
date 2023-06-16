@@ -1,7 +1,11 @@
 import './nav.scss';
 
 const Nav = () => {
-  return <div>Nav</div>;
+  return (
+    <aside className="nav">
+      <nav>nav</nav>
+    </aside>
+  );
 };
 
 export default Nav;
