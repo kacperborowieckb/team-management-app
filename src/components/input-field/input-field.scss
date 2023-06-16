@@ -27,7 +27,7 @@
 
   & &__input:focus ~ &__label,
   & &__label-focused {
-    bottom: var(--popup-padding);
     left: calc(var(--left-offside) * -1);
+    bottom: 90%;
   }
 }

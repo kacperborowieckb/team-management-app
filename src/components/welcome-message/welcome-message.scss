@@ -1,0 +1,36 @@
+.welcome-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75%;
+
+  & &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 280px;
+  }
+
+  & &__heading {
+    font-size: calc(var(--fs-heading) * 2);
+    color: var(--clr-main-700);
+    font-weight: var(--fw-bold);
+    text-align: center;
+    line-height: 100%;
+  }
+
+  & &__paragraph {
+    font-size: var(--fs-medium);
+    text-align: center;
+  }
+
+  & &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  & &__buttons > * {
+    flex-basis: 100%;
+  }
+}

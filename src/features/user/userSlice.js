@@ -17,7 +17,7 @@ export const signInUser = createAsyncThunk('user/signInUser', async () => {
 
     return { uid, displayName, email };
   } catch (error) {
-    return rejectWithValue(error.message);
+    return rejectWithValue(error);
   }
 });
 
@@ -25,7 +25,7 @@ export const signOutUser = createAsyncThunk('user/signOutUser', async () => {
   try {
     await signOutCurrentUser();
   } catch (error) {
-    return rejectWithValue(error.message);
+    return rejectWithValue(error);
   }
 });
 
@@ -33,14 +33,18 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    openSignInPopup: (state) => {
-      state.isSignInPopupOpen = true;
+    toogleSignInPopup: (state, action) => {
+      state.isSignInPopupOpen = action.payload;
+    },
+    setCurrentUser: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers(builder) {
     builder
       .addCase(signInUser.pending, (state) => {
         state.status = ACTION_STATUS.PENDING;
+        state.error = null;
       })
       .addCase(signInUser.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -49,10 +53,11 @@ export const userSlice = createSlice({
       })
       .addCase(signInUser.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
-        state.error = action.payload;
+        state.error = action.error.name;
       })
       .addCase(signOutUser.pending, (state) => {
         state.status = ACTION_STATUS.PENDING;
+        state.error = null;
       })
       .addCase(signOutUser.fulfilled, (state) => {
         state.user = null;
@@ -70,6 +75,6 @@ export const getUserStatus = (state) => state.user.status;
 export const getUserError = (state) => state.user.error;
 export const getIsSignInPopupOpen = (state) => state.user.isSignInPopupOpen;
 
-export const { openSignInPopup } = userSlice.actions;
+export const { toogleSignInPopup, setCurrentUser } = userSlice.actions;
 
 export default userSlice.reducer;

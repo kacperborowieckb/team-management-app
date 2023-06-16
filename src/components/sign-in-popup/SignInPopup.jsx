@@ -1,31 +1,30 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InputField from '../input-field/InputField';
 import Button from '../button/Button';
 import './sign-in-popup.scss';
-import { signInUser } from '../../features/user/userSlice';
+import { getUserError, signInUser, toogleSignInPopup } from '../../features/user/userSlice';
 import { Link } from 'react-router-dom';
+import { AiOutlineClose } from 'react-icons/Ai';
 
 const SignInPopup = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const error = useSelector(getUserError);
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-  const handleGoogleSignIn = async () => {
-    try {
-      dispatch(signInUser());
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+  const handleGoogleSignIn = () => dispatch(signInUser());
+
+  const handleCloseSignInPopup = () => dispatch(toogleSignInPopup(false));
 
   return (
     <section className="sign-in">
       <section className="sign-in__popup">
         <h2 className="sign-in__heading">Sign In</h2>
+        {error && <p className="sign-in__error">Error: {error}</p>}
         <form className="sign-in__form">
           <InputField
             label="E-mail"
@@ -43,7 +42,9 @@ const SignInPopup = () => {
           />
           <p className="sign-in__create-account">
             Don't have an account?
-            <Link to={'/'}>Sign Up.</Link>
+            <Link to={'/sign-up'} className="sign-in__sign-up-link">
+              Sign Up.
+            </Link>
           </p>
           <Button>Sign In</Button>
         </form>
@@ -54,6 +55,7 @@ const SignInPopup = () => {
         >
           Sign In With Google
         </Button>
+        <AiOutlineClose className="sign-in__close" onClick={handleCloseSignInPopup} />
       </section>
     </section>
   );

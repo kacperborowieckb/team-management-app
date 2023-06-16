@@ -7,8 +7,10 @@
   position: absolute;
   inset: 0px;
   background-color: var(--clr-black-transparent);
+  z-index: 1;
 
   & &__popup {
+    position: relative;
     box-shadow: 0px 0px 18px var(--clr-font-body-black);
     padding: var(--popup-padding);
     padding-top: 0rem;
@@ -25,6 +27,13 @@
     text-shadow: 0px 0px 8px var(--clr-main-100);
   }
 
+  & &__error {
+    text-align: center;
+    color: var(--clr-error);
+    margin-top: -1.75rem;
+    margin-bottom: 1.75rem;
+  }
+
   & &__form {
     display: flex;
     flex-direction: column;
@@ -33,5 +42,24 @@
 
   & &__form > div:not(:last-of-type) {
     margin-bottom: var(--form-gap);
+  }
+
+  & &__sign-up-link {
+    padding-left: 0.25rem;
+    font-weight: var(--fw-semi-bold);
+    font-style: italic;
+    color: var(--clr-main-700);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  & &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
   }
 }

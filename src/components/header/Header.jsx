@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import {
   getCurrentUser,
   getIsSignInPopupOpen,
-  openSignInPopup,
+  toogleSignInPopup,
   signOutUser,
 } from '../../features/user/userSlice';
 import Button from '../button/Button';
@@ -16,7 +16,7 @@ const Header = () => {
   const isSignInPopupOpen = useSelector(getIsSignInPopupOpen);
   const user = useSelector(getCurrentUser);
 
-  const handleOpenSignInPopup = () => dispatch(openSignInPopup());
+  const handleOpenSignInPopup = () => dispatch(toogleSignInPopup(true));
 
   const handleSignOut = () => dispatch(signOutUser());
 
