@@ -3,20 +3,23 @@ import { useEffect } from 'react';
 import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
-  signInWithGooglePopup,
   signOutUser,
 } from './utils/firebase/firebase';
-import { logInUser } from './features/user/userSlice';
+import SignInPopup from './components/sign-in-popup/SignInPopup';
 
 function App() {
   const dispatch = useDispatch();
+
   const handleGoogleSignUp = async () => {
-    dispatch(logInUser());
+    try {
+      dispatch(logInUser());
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
-      console.log(user);
       if (user) {
         createUserDocumentFromAuth(user);
       }
@@ -31,7 +34,7 @@ function App() {
 
   return (
     <>
-      <div>cos</div>
+      <SignInPopup />
       <button onClick={handleGoogleSignUp} style={{ backgroundColor: 'red' }}>
         GOOGLE
       </button>

@@ -1,0 +1,33 @@
+.input-field {
+  --input-padding: 0.25rem 0.75rem;
+  --left-offside: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  & &__input {
+    background-color: var(--clr-main-100);
+    border-radius: 6px;
+    padding: var(--input-padding);
+  }
+
+  & &__label {
+    position: absolute;
+    padding: var(--input-padding);
+    bottom: 0px;
+    left: 0px;
+    transition: all 0.5s ease;
+  }
+
+  & &__input:focus,
+  & &__input-text {
+    outline: 2px solid var(--clr-main-300);
+    box-shadow: 0px 0px 4px 2px var(--clr-main-300);
+  }
+
+  & &__input:focus ~ &__label,
+  & &__label-focused {
+    bottom: var(--popup-padding);
+    left: calc(var(--left-offside) * -1);
+  }
+}

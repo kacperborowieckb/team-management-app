@@ -13,15 +13,21 @@
   --clr-main-500: hsl(232, 100%, 74%);
   --clr-main-700: hsl(234, 100%, 66%);
   --clr-font-white: hsl(0, 0%, 94%);
-  --clr-font-black: #141414;
+  --clr-font-black: hsl(0, 0%, 8%);
   --clr-font-body-white: hsl(0, 0%, 94%);
-  --clr-font-body-black: ;
+  --clr-font-body-black: hsl(0, 0%, 8%);
+  --clr-black: hsl(0, 0%, 0%);
+  --clr-white: hsl(0, 0%, 100%);
 
   --fw-normal: 400;
   --fw-semi-bold: 600;
   --fw-bold: 700;
 
   --fs-body: 18px;
+
+  --border-radius-small: 6px;
+  --border-radius-medium: 12px;
+  --border-radius-large: 24px;
 }
 
 [data-theme='dark'] {

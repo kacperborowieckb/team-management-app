@@ -1,0 +1,23 @@
+.sign-in {
+  --popup-padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: var(--clr-black);
+  opacity: 0.8;
+
+  & &__popup {
+    padding: var(--popup-padding);
+    border-radius: var(--border-radius-medium);
+    background-color: var(--clr-bg);
+  }
+
+  & &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--popup-padding);
+  }
+}
