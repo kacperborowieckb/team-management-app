@@ -1,13 +1,13 @@
 .input-field {
-  --input-padding: 0.25rem 0.75rem;
-  --left-offside: 0.75rem;
+  --input-padding: 0.5rem 1rem;
+  --left-offside: 1rem;
   display: flex;
   flex-direction: column;
   position: relative;
 
   & &__input {
     background-color: var(--clr-main-100);
-    border-radius: 6px;
+    border-radius: var(--border-radius-medium);
     padding: var(--input-padding);
   }
 

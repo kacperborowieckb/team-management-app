@@ -1,18 +1,28 @@
 .sign-in {
-  --popup-padding: 2rem;
+  --popup-padding: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: var(--clr-black);
-  opacity: 0.8;
+  background-color: var(--clr-black-transparent);
 
   & &__popup {
+    box-shadow: 0px 0px 18px var(--clr-font-body-black);
     padding: var(--popup-padding);
+    padding-top: 0rem;
     border-radius: var(--border-radius-medium);
     background-color: var(--clr-bg);
+  }
+
+  & &__heading {
+    text-align: center;
+    font-size: var(--fs-heading);
+    color: var(--clr-main-700);
+    margin: 1.25rem;
+    margin-bottom: 1.65rem;
+    text-shadow: 0px 0px 8px var(--clr-main-100);
   }
 
   & &__form {

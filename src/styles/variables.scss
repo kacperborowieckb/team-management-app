@@ -17,6 +17,7 @@
   --clr-font-body-white: hsl(0, 0%, 94%);
   --clr-font-body-black: hsl(0, 0%, 8%);
   --clr-black: hsl(0, 0%, 0%);
+  --clr-black-transparent: hsla(0, 0%, 0%, 0.5);
   --clr-white: hsl(0, 0%, 100%);
 
   --fw-normal: 400;
@@ -24,6 +25,9 @@
   --fw-bold: 700;
 
   --fs-body: 18px;
+  --fs-heading: 2rem;
+  --fs-small: 14px;
+  --fs-large: 1.5rem
 
   --border-radius-small: 6px;
   --border-radius-medium: 12px;
