@@ -3,12 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import InputField from '../input-field/InputField';
 import Button from '../button/Button';
 import './sign-in-popup.scss';
-import { getUserError, signInUser, toogleSignInPopup } from '../../features/user/userSlice';
-import { Link } from 'react-router-dom';
+import {
+  getUserError,
+  signInUser,
+  signInUserWithEmailAndPassword,
+  toogleSignInPopup,
+} from '../../features/user/userSlice';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/Ai';
 
 const SignInPopup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const error = useSelector(getUserError);
@@ -16,16 +22,23 @@ const SignInPopup = () => {
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-  const handleGoogleSignIn = () => dispatch(signInUser());
+  const handleGoogleSignIn = () => {
+    dispatch(signInUser(() => navigate('/')));
+  };
 
   const handleCloseSignInPopup = () => dispatch(toogleSignInPopup(false));
+
+  const handleSignInWithEmailAndPassowrd = (e) => {
+    e.preventDefault();
+    dispatch(signInUserWithEmailAndPassword({ email, password }));
+  };
 
   return (
     <section className="sign-in">
       <section className="sign-in__popup">
         <h2 className="sign-in__heading">Sign In</h2>
         {error && <p className="sign-in__error">Error: {error}</p>}
-        <form className="sign-in__form">
+        <form className="sign-in__form" onSubmit={handleSignInWithEmailAndPassowrd}>
           <InputField
             label="E-mail"
             labelFor="email"
@@ -49,7 +62,7 @@ const SignInPopup = () => {
           <Button>Sign In</Button>
         </form>
         <Button
-          type="google"
+          buttonType="google"
           handleOnClick={handleGoogleSignIn}
           style={{ marginTop: '1rem', width: '100%' }}
         >

@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { signInWithGooglePopup, signOutCurrentUser } from '../../utils/firebase/firebase';
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+  signInAuthUserWithEmailAndPassword,
+  signInWithGooglePopup,
+  signOutCurrentUser,
+} from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
@@ -9,23 +15,51 @@ const initialState = {
   isSignInPopupOpen: false,
 };
 
-export const signInUser = createAsyncThunk('user/signInUser', async () => {
-  try {
-    const {
-      user: { uid, displayName, email },
-    } = await signInWithGooglePopup();
-
-    return { uid, displayName, email };
-  } catch (error) {
-    return rejectWithValue(error);
+export const signInUser = createAsyncThunk(
+  'user/signInUser',
+  async (navigateToHomePage, { rejectWithValue }) => {
+    try {
+      const {
+        user: { displayName, email, uid },
+      } = await signInWithGooglePopup();
+      navigateToHomePage();
+      return { displayName, email, uid };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
-export const signOutUser = createAsyncThunk('user/signOutUser', async () => {
+export const signUpUser = createAsyncThunk(
+  'user/signUpUser',
+  async ({ email, displayName, password, navigateToHomePage }, { rejectWithValue }) => {
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword(email, password);
+      await createUserDocumentFromAuth(user, { displayName });
+      navigateToHomePage();
+      return displayName;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const signInUserWithEmailAndPassword = createAsyncThunk(
+  'user/signInWithEmailAndPassword',
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      await signInAuthUserWithEmailAndPassword(email, password);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const signOutUser = createAsyncThunk('user/signOutUser', async (_, { rejectWithValue }) => {
   try {
     await signOutCurrentUser();
   } catch (error) {
-    return rejectWithValue(error);
+    return rejectWithValue(error.message);
   }
 });
 
@@ -46,14 +80,37 @@ export const userSlice = createSlice({
         state.status = ACTION_STATUS.PENDING;
         state.error = null;
       })
-      .addCase(signInUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+      .addCase(signInUser.fulfilled, (state) => {
         state.status = ACTION_STATUS.SUCCEEDED;
         state.isSignInPopupOpen = false;
       })
       .addCase(signInUser.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
-        state.error = action.error.name;
+        state.error = action.payload;
+      })
+      .addCase(signInUserWithEmailAndPassword.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(signInUserWithEmailAndPassword.fulfilled, (state) => {
+        state.status = ACTION_STATUS.SUCCEEDED;
+        state.isSignInPopupOpen = false;
+      })
+      .addCase(signInUserWithEmailAndPassword.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(signUpUser.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(signUpUser.fulfilled, (state, action) => {
+        state.status = ACTION_STATUS.SUCCEEDED;
+        state.user.displayName = action.payload;
+      })
+      .addCase(signUpUser.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
       })
       .addCase(signOutUser.pending, (state) => {
         state.status = ACTION_STATUS.PENDING;

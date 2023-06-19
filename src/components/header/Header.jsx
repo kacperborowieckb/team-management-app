@@ -23,12 +23,12 @@ const Header = () => {
   return (
     <header className="header">
       {user ? (
-        <Button type="signIn" handleOnClick={handleSignOut}>
+        <Button buttonType="signIn" handleOnClick={handleSignOut}>
           Sign Out
         </Button>
       ) : (
         <Button
-          type="signIn"
+          buttonType="signIn"
           handleOnClick={handleOpenSignInPopup}
           style={{ paddingRight: '2rem' }}
         >

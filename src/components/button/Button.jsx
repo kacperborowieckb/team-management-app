@@ -6,9 +6,13 @@ const BUTTON_TYPES = {
   signIn: 'button__sign-in',
 };
 
-const Button = ({ type = 'default', handleOnClick, children, ...otherProps }) => {
+const Button = ({ buttonType = 'default', handleOnClick, children, ...otherProps }) => {
   return (
-    <button className={`button ${BUTTON_TYPES[type]}`} onClick={handleOnClick} {...otherProps}>
+    <button
+      className={`button ${BUTTON_TYPES[buttonType]}`}
+      onClick={handleOnClick}
+      {...otherProps}
+    >
       {children}
     </button>
   );

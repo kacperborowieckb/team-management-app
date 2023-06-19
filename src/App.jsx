@@ -15,7 +15,11 @@ function App() {
       if (user) {
         createUserDocumentFromAuth(user);
       }
-      dispatch(setCurrentUser(user));
+      dispatch(
+        setCurrentUser(
+          user === null ? null : { displayName: user.displayName, email: user.email, uid: user.uid }
+        )
+      );
     });
 
     return unsubscribe;
