@@ -23,9 +23,12 @@ const Header = () => {
   return (
     <header className="header">
       {user ? (
-        <Button buttonType="signIn" handleOnClick={handleSignOut}>
-          Sign Out
-        </Button>
+        <>
+          <Button buttonType="signIn" handleOnClick={handleSignOut}>
+            Sign Out
+          </Button>
+          <p className="header__user-name">{user.displayName}</p>
+        </>
       ) : (
         <Button
           buttonType="signIn"

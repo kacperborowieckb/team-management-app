@@ -1,4 +1,4 @@
-import NavListItem from '../nav-list-item/NavListItem';
+import GroupsList from '../groups-list/GroupsList';
 import './nav.scss';
 
 const Nav = () => {
@@ -6,9 +6,7 @@ const Nav = () => {
     <aside>
       <nav className="nav">
         <ul className="nav__list">
-          <NavListItem content={'tasks'} />
-          <NavListItem content={'calendar'} />
-          <NavListItem content={'chat'} />
+          <GroupsList content={'Your groups'} />
         </ul>
       </nav>
     </aside>

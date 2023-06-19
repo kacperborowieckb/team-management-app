@@ -131,6 +131,7 @@ export const getCurrentUser = (state) => state.user.user;
 export const getUserStatus = (state) => state.user.status;
 export const getUserError = (state) => state.user.error;
 export const getIsSignInPopupOpen = (state) => state.user.isSignInPopupOpen;
+export const getUserUid = (state) => state.user.user.uid;
 
 export const { toogleSignInPopup, setCurrentUser } = userSlice.actions;
 

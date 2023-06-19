@@ -51,6 +51,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
         displayName,
         email,
         createdAt,
+        groups: [],
         ...additionalInformation,
       });
     } catch (error) {
@@ -70,3 +71,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+
+export const getDocumentRef = (collection, document) => {
+  return doc(db, collection, document);
+};
