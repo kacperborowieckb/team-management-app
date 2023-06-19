@@ -5,7 +5,7 @@ import './home.scss';
 
 const Home = () => {
   const user = useSelector(getCurrentUser);
-  return <main className="home">{!user && <WelcomeMessage />}</main>;
+  return <main className="home">{user === null ? <WelcomeMessage /> : <h2>Pick group</h2>}</main>;
 };
 
 export default Home;

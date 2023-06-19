@@ -1,19 +1,24 @@
 import { useEffect } from 'react';
 import { createUserDocumentFromAuth, onAuthStateChangedListener } from './utils/firebase/firebase';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useNavigate } from 'react-router';
 import Layout from './components/layout/Layout';
 import Home from './routes/home/Home';
-import { useDispatch } from 'react-redux';
-import { setCurrentUser } from './features/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser, setCurrentUser } from './features/user/userSlice';
 import SignUp from './routes/sign-up/SignUp';
+import GroupPage from './routes/group-page/GroupPage';
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(getCurrentUser);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
         createUserDocumentFromAuth(user);
+      } else {
+        navigate('/');
       }
       dispatch(
         setCurrentUser(
@@ -26,14 +31,21 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="sign-up" element={<SignUp />} />
-        </Route>
-      </Route>
-    </Routes>
+    <>
+      {user === undefined ? (
+        <p>LOADING</p>
+      ) : (
+        <Routes>
+          <Route>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="sign-up" element={<SignUp />} />
+              <Route path="groups/:groupId/*" element={<GroupPage />} />
+            </Route>
+          </Route>
+        </Routes>
+      )}
+    </>
   );
 }
 

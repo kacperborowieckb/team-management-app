@@ -9,7 +9,7 @@ import {
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
-  user: null,
+  user: undefined,
   status: ACTION_STATUS.IDLE,
   error: null,
   isSignInPopupOpen: false,

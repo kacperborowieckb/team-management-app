@@ -1,0 +1,18 @@
+.group-nav {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+
+  & &__link {
+    font-size: var(--fs-medium);
+    font-weight: var(--fw-semi-bold);
+    border-radius: var(--border-radius-medium);
+    padding: 0.1rem 0.8rem;
+  }
+
+  & &__link:hover,
+  & &__link-active {
+    color: var(--clr-font-white);
+    background-color: var(--clr-main-500);
+  }
+}

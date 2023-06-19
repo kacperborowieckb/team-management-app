@@ -7,12 +7,13 @@ import { getUserUid } from '../../features/user/userSlice';
 import { getDocumentRef } from '../../utils/firebase/firebase';
 import { useEffect } from 'react';
 import { setUserGroups } from '../../features/groups/groupsSlice';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const GroupsList = ({ content }) => {
   const dispatch = useDispatch();
   const userUid = useSelector(getUserUid);
-  const [isListOpen, setIsListOpen] = useState(false);
+  const { groupId } = useParams();
+  const [isListOpen, setIsListOpen] = useState(groupId ? true : false);
   const [groups, loading, error] = useDocument(getDocumentRef('users', userUid));
 
   useEffect(() => {
@@ -35,13 +36,21 @@ const GroupsList = ({ content }) => {
       </div>
       {isListOpen && (
         <ul className="groups-list__sub-list">
-          {groups.data().groups.map((group, i) => (
-            <li className="groups-list__sub-list-item" key={i}>
-              <Link to={`/groups/${group.id}`}>
-                {group.name.length > 10 ? group.name.slice(0, 15) + '...' : group.name}
-              </Link>
-            </li>
-          ))}
+          {error && <p>error</p>}
+          {loading && <p>loading</p>}
+          {groups &&
+            groups.data().groups.map((group, i) => (
+              <li
+                className={`groups-list__sub-list-item ${
+                  group.id === groupId && 'groups-list__sub-list-item-active'
+                }`}
+                key={i}
+              >
+                <Link to={`/groups/${group.id}`}>
+                  {group.name.length > 10 ? group.name.slice(0, 15) + '...' : group.name}
+                </Link>
+              </li>
+            ))}
         </ul>
       )}
     </li>

@@ -36,6 +36,7 @@
 
   & &__sub-list-item > a:hover,
   & &__title:hover,
+  & &__sub-list-item-active > a,
   & &__title-active {
     background-color: var(--clr-main-700);
   }
