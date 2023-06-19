@@ -40,4 +40,21 @@
   & &__title-active {
     background-color: var(--clr-main-700);
   }
+
+  & &__create-new {
+    display: flex;
+    align-items: center;
+    background-color: var(--clr-main-300);
+    padding: 0.2rem 0.4rem;
+    padding-right: 0.7rem;
+    border-radius: var(--border-radius-medium);
+
+    &:hover {
+      background-color: var(--clr-main-700);
+    }
+  }
+
+  & &__create-new > * {
+    font-size: var(--fs-large);
+  }
 }

@@ -8,6 +8,7 @@ import { getDocumentRef } from '../../utils/firebase/firebase';
 import { useEffect } from 'react';
 import { setUserGroups } from '../../features/groups/groupsSlice';
 import { Link, useParams } from 'react-router-dom';
+import { BsPlus } from 'react-icons/bs';
 
 const GroupsList = ({ content }) => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const GroupsList = ({ content }) => {
   const { groupId } = useParams();
   const [isListOpen, setIsListOpen] = useState(groupId ? true : false);
   const [groups, loading, error] = useDocument(getDocumentRef('users', userUid));
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     if (groups) dispatch(setUserGroups(groups.data().groups));
@@ -51,6 +53,10 @@ const GroupsList = ({ content }) => {
                 </Link>
               </li>
             ))}
+          <li className="groups-list__create-new">
+            <BsPlus />
+            Create new group
+          </li>
         </ul>
       )}
     </li>
