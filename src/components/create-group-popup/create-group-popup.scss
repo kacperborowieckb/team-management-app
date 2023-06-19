@@ -1,0 +1,39 @@
+.create-group-popup {
+  position: absolute;
+  inset: 0px 0px 0px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--clr-black-transparent);
+
+  & &__container {
+    position: relative;
+    box-shadow: 0px 0px 18px var(--clr-font-body-black);
+    max-width: 340px;
+    background-color: var(--clr-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius-large);
+  }
+
+  & &__heading {
+    text-align: center;
+    font-size: var(--fs-heading);
+    color: var(--clr-main-700);
+    margin-bottom: 1.5rem;
+    text-shadow: 0px 0px 8px var(--clr-main-100);
+  }
+
+  & &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  & &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+  }
+}

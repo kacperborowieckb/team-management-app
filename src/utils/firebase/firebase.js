@@ -8,7 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDkv22CKnc3yf4KkNGqJXM4qVaDTsn9iFk',
@@ -74,4 +74,17 @@ export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth,
 
 export const getDocumentRef = (collection, document) => {
   return doc(db, collection, document);
+};
+
+export const createNewGroup = async (groupData, groupId) => {
+  const groupDocRef = doc(db, 'groups', groupId);
+  const userDocRef = doc(db, 'users', groupData.users[0].uid);
+  try {
+    await setDoc(groupDocRef, groupData);
+    await updateDoc(userDocRef, {
+      groups: arrayUnion({ id: groupId, name: groupData.name }),
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
 };
