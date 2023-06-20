@@ -1,7 +1,14 @@
 .group-nav {
   display: flex;
-  justify-content: center;
-  gap: 3rem;
+
+  & &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: 3rem;
+    position: relative;
+  }
 
   & &__link {
     font-size: var(--fs-medium);
