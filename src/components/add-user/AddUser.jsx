@@ -40,7 +40,6 @@ const AddUser = () => {
         user,
         groupId: group.id,
         groupName: group.name,
-        new: true,
       })
     );
   };

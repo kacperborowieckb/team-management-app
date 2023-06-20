@@ -17,6 +17,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  runTransaction,
   setDoc,
   updateDoc,
   where,
@@ -110,11 +111,15 @@ export const createNewGroup = async (groupData, groupId) => {
 };
 
 export const getReceiver = async (email) => {
-  const q = query(collection(db, 'users'), where('email', '==', email));
-  const querySnapshot = await getDocs(q);
-  let receiver;
-  querySnapshot.forEach((doc) => (receiver = doc.data()));
-  return receiver.uid;
+  try {
+    const q = query(collection(db, 'users'), where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+    let receiver;
+    querySnapshot.forEach((doc) => (receiver = doc.data()));
+    return receiver.uid;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const addNotification = async (uid, user, groupId, groupName) => {
@@ -125,6 +130,7 @@ export const addNotification = async (uid, user, groupId, groupName) => {
         from: { name: user.displayName, email: user.email },
         groupId,
         groupName,
+        new: true,
       }),
     });
   } catch (error) {
@@ -133,7 +139,21 @@ export const addNotification = async (uid, user, groupId, groupName) => {
 };
 
 export const getUserNotifications = async (uid) => {
-  const userDocRef = doc(db, 'users', uid);
-  const docSnap = await getDoc(userDocRef);
-  return docSnap.data().notifications;
+  try {
+    const userDocRef = doc(db, 'users', uid);
+    const docSnap = await getDoc(userDocRef);
+    return docSnap.data().notifications;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+export const setUserNotifications = async (uid, newNotifications) => {
+  try {
+    await runTransaction(db, async (transaction) => {
+      transaction.update(doc(db, 'users', uid), { notifications: newNotifications });
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
 };

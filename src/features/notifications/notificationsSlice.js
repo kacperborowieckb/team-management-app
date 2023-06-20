@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getUserNotifications } from '../../utils/firebase/firebase';
+import { getUserNotifications, setUserNotifications } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
@@ -14,6 +14,21 @@ export const fetchNotifications = createAsyncThunk(
     try {
       const notifications = await getUserNotifications(uid);
       return notifications;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const setNotificationsToOld = createAsyncThunk(
+  'notifications/setNotificationsToOld',
+  async ({ uid, notifications }, { rejectWithValue }) => {
+    try {
+      const newNotifications = notifications.map((notification) => {
+        if (notification.new) return { ...notification, new: false };
+      });
+      await setUserNotifications(uid, newNotifications);
+      return newNotifications;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -37,12 +52,25 @@ export const notificationSlice = createSlice({
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
+      })
+      .addCase(setNotificationsToOld.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(setNotificationsToOld.fulfilled, (state, action) => {
+        state.notifications = action.payload;
+        state.status = ACTION_STATUS.IDLE;
+      })
+      .addCase(setNotificationsToOld.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
       });
   },
 });
 
 export const getNotifications = (state) => state.notifications.notifications;
 export const getNotificationsError = (state) => state.notifications.error;
+export const getCurrentNotificationsStatus = (state) => state.notifications.status;
 
 export const {} = notificationSlice.actions;
 

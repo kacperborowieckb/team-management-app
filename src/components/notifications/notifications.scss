@@ -1,10 +1,28 @@
 .notifications {
-  display: flex;
-  align-items: center;
   position: relative;
 
-  & > svg {
+  & &__container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  & &__container > svg {
     font-size: 1.5rem;
+  }
+
+  & &__new {
+    width: 20px;
+    aspect-ratio: 1/1;
+    position: absolute;
+    top: -30%;
+    right: -30%;
+    font-size: var(--fs-small);
+    font-weight: var(--fw-bold);
+    text-align: center;
+    background-color: var(--clr-red);
+    border-radius: 50%;
+    color: var(--clr-font-white);
   }
 
   & &__popup {
@@ -16,7 +34,6 @@
     top: 120%;
     translate: -60%;
     width: 280px;
-    min-height: 100px;
     max-height: 320px;
     overflow-y: scroll;
     padding: 1rem;
