@@ -9,7 +9,18 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { arrayUnion, doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDkv22CKnc3yf4KkNGqJXM4qVaDTsn9iFk',
@@ -47,15 +58,17 @@ export const createUserDocumentFromAuth = async (userAuth) => {
   const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
-    const { email } = userAuth;
+    const { displayName, email } = userAuth;
     const createdAt = new Date();
 
     try {
       await setDoc(userDocRef, {
-        displayName: null,
+        displayName,
         email,
         createdAt,
+        uid: userAuth.uid,
         groups: [],
+        notifications: [],
       });
     } catch (error) {
       console.log('Error creating the user ', error.message);
@@ -90,6 +103,28 @@ export const createNewGroup = async (groupData, groupId) => {
     await setDoc(groupDocRef, groupData);
     await updateDoc(userDocRef, {
       groups: arrayUnion({ id: groupId, name: groupData.name }),
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+export const getReceiver = async (email) => {
+  const q = query(collection(db, 'users'), where('email', '==', email));
+  const querySnapshot = await getDocs(q);
+  let receiver;
+  querySnapshot.forEach((doc) => (receiver = doc.data()));
+  return receiver.uid;
+};
+
+export const addNotification = async (uid, user, groupId) => {
+  const userDocRef = doc(db, 'users', uid);
+  try {
+    await updateDoc(userDocRef, {
+      notifications: arrayUnion({
+        from: { name: user.displayName, email: user.email },
+        groupId: groupId,
+      }),
     });
   } catch (error) {
     console.error(error.message);

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 import { nanoid } from '@reduxjs/toolkit';
-import { createNewGroup } from '../../utils/firebase/firebase';
+import { addNotification, createNewGroup, getReceiver } from '../../utils/firebase/firebase';
 
 const initialState = {
   groups: [],
@@ -29,9 +29,17 @@ export const createNewGroupDoc = createAsyncThunk(
   }
 );
 
-export const inviteUserToGroup = createAsyncThunk(
-  'groups/inviteUserToGroup',
-  async ({ _ }, { rejectWithValue }) => {}
+export const addUserToGroup = createAsyncThunk(
+  'groups/addUserToGroup',
+  async ({ email, user, groupId }, { rejectWithValue }) => {
+    try {
+      const receiverId = await getReceiver(email);
+      const response = await addNotification(receiverId, user, groupId);
+      console.log(response);
+    } catch (error) {
+      return rejectWithValue();
+    }
+  }
 );
 
 export const groupsSlice = createSlice({
@@ -40,6 +48,9 @@ export const groupsSlice = createSlice({
   reducers: {
     setUserGroups: (state, action) => {
       state.groups = action.payload;
+    },
+    setGroupsError: (state, action) => {
+      state.error = action.payload;
     },
   },
   extraReducers(builder) {
@@ -54,12 +65,24 @@ export const groupsSlice = createSlice({
       .addCase(createNewGroupDoc.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
+      })
+      .addCase(addUserToGroup.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(addUserToGroup.fulfilled, (state) => {
+        state.status = ACTION_STATUS.IDLE;
+      })
+      .addCase(addUserToGroup.rejected, (state) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = 'Cannot find a user.';
       });
   },
 });
 
 export const getUserGroups = (state) => state.groups.groups;
+export const getGroupsError = (state) => state.groups.error;
 
-export const { setUserGroups } = groupsSlice.actions;
+export const { setUserGroups, setGroupsError } = groupsSlice.actions;
 
 export default groupsSlice.reducer;

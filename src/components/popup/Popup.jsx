@@ -6,7 +6,7 @@ const Popup = ({ heading, handleClosePopUp, error, onSubmit, children }) => {
     <section className="popup">
       <section className="popup__container">
         <h2 className="popup__heading">{heading}</h2>
-        {error && <p>{error}</p>}
+        {error && <p className="popup__error">{error}</p>}
         <form className="popup__form" onSubmit={onSubmit}>
           {children}
         </form>
