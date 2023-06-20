@@ -4,7 +4,12 @@ import Popup from '../popup/Popup';
 import InputField from '../input-field/InputField';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { addUserToGroup, getGroupsError, setGroupsError } from '../../features/groups/groupsSlice';
+import {
+  addUserToGroup,
+  getGroupsError,
+  getUserGroups,
+  setGroupsError,
+} from '../../features/groups/groupsSlice';
 import { getCurrentUser } from '../../features/user/userSlice';
 import { useParams } from 'react-router';
 
@@ -13,8 +18,11 @@ const AddUser = () => {
   const { groupId } = useParams();
   const user = useSelector(getCurrentUser);
   const error = useSelector(getGroupsError);
+  const groups = useSelector(getUserGroups);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [searchUserByEmailValue, setSearchUserByEmailValue] = useState('');
+
+  const group = groups.find(({ id }) => id === groupId);
 
   const toogleAddUserPopup = () => setIsPopUpOpen(!isPopUpOpen);
 
@@ -22,11 +30,19 @@ const AddUser = () => {
 
   const handleAddUser = (e) => {
     e.preventDefault();
-    if (searchUserByEmailValue === user.email) {
+    if (searchUserByEmailValue === user.email && group) {
       dispatch(setGroupsError(`You can't add yourself.`));
       return;
     }
-    dispatch(addUserToGroup({ email: searchUserByEmailValue, user, groupId }));
+    dispatch(
+      addUserToGroup({
+        email: searchUserByEmailValue,
+        user,
+        groupId: group.id,
+        groupName: group.name,
+        new: true,
+      })
+    );
   };
   return (
     <>

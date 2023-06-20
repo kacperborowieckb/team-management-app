@@ -31,3 +31,19 @@
   background-color: transparent;
   color: var(--clr-font-body-black);
 }
+
+.button__accept {
+  background-color: var(--clr-success);
+
+  &:hover {
+    box-shadow: var(--button-box-shadow) var(--clr-success);
+  }
+}
+
+.button__decline {
+  background-color: var(--clr-red);
+
+  &:hover {
+    box-shadow: var(--button-box-shadow) var(--clr-red);
+  }
+}

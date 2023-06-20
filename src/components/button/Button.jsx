@@ -4,6 +4,8 @@ const BUTTON_TYPES = {
   default: 'button__default',
   google: 'button__google',
   signIn: 'button__sign-in',
+  accept: 'button__accept',
+  decline: 'button__decline',
 };
 
 const Button = ({ buttonType = 'default', handleOnClick, children, ...otherProps }) => {

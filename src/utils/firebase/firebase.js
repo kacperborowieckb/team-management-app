@@ -117,16 +117,23 @@ export const getReceiver = async (email) => {
   return receiver.uid;
 };
 
-export const addNotification = async (uid, user, groupId) => {
+export const addNotification = async (uid, user, groupId, groupName) => {
   const userDocRef = doc(db, 'users', uid);
   try {
     await updateDoc(userDocRef, {
       notifications: arrayUnion({
         from: { name: user.displayName, email: user.email },
-        groupId: groupId,
+        groupId,
+        groupName,
       }),
     });
   } catch (error) {
     console.error(error.message);
   }
+};
+
+export const getUserNotifications = async (uid) => {
+  const userDocRef = doc(db, 'users', uid);
+  const docSnap = await getDoc(userDocRef);
+  return docSnap.data().notifications;
 };

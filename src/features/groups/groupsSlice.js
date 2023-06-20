@@ -31,10 +31,10 @@ export const createNewGroupDoc = createAsyncThunk(
 
 export const addUserToGroup = createAsyncThunk(
   'groups/addUserToGroup',
-  async ({ email, user, groupId }, { rejectWithValue }) => {
+  async ({ email, user, groupId, groupName }, { rejectWithValue }) => {
     try {
       const receiverId = await getReceiver(email);
-      const response = await addNotification(receiverId, user, groupId);
+      const response = await addNotification(receiverId, user, groupId, groupName);
       console.log(response);
     } catch (error) {
       return rejectWithValue();

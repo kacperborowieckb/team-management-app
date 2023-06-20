@@ -6,3 +6,17 @@ body {
 #root {
   display: flex;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--clr-main-300);
+  margin: 20px 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--clr-main-700);
+  border-radius: 20px;
+}

@@ -10,6 +10,7 @@ import SignInPopup from '../sign-in-popup/SignInPopup';
 import './header.scss';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Notifications from '../notifications/Notifications';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -40,9 +41,12 @@ const Header = () => {
       )}
       {isSignInPopupOpen && <SignInPopup />}
       {user && (
-        <Link to={'/'} className="header_img">
-          <img src="/profile-picture.png" alt="profile-picture" />
-        </Link>
+        <>
+          <Notifications />
+          <Link to={'/'} className="header_img">
+            <img src="/profile-picture.png" alt="profile-picture" />
+          </Link>
+        </>
       )}
     </header>
   );
