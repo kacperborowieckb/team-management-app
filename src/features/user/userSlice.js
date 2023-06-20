@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
+  createUserDocDisplayName,
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
   signOutCurrentUser,
+  updataDisplayName,
 } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
@@ -35,7 +36,8 @@ export const signUpUser = createAsyncThunk(
   async ({ email, displayName, password, navigateToHomePage }, { rejectWithValue }) => {
     try {
       const { user } = await createAuthUserWithEmailAndPassword(email, password);
-      await createUserDocumentFromAuth(user, { displayName });
+      await updataDisplayName(displayName);
+      await createUserDocDisplayName(user, displayName);
       navigateToHomePage();
       return displayName;
     } catch (error) {
@@ -72,6 +74,9 @@ export const userSlice = createSlice({
     },
     setCurrentUser: (state, action) => {
       state.user = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     },
   },
   extraReducers(builder) {
@@ -133,6 +138,6 @@ export const getUserError = (state) => state.user.error;
 export const getIsSignInPopupOpen = (state) => state.user.isSignInPopupOpen;
 export const getUserUid = (state) => state.user.user.uid;
 
-export const { toogleSignInPopup, setCurrentUser } = userSlice.actions;
+export const { toogleSignInPopup, setCurrentUser, setError } = userSlice.actions;
 
 export default userSlice.reducer;

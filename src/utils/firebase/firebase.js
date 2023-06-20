@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth';
 import { arrayUnion, doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
 
@@ -35,24 +36,26 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 
 export const signOutCurrentUser = async () => await signOut(auth);
 
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
-  if (!userAuth) return;
+export const createUserDocDisplayName = async (user, displayName) => {
+  await setDoc(doc(db, 'users', user.uid), { displayName }, { merge: true });
+};
 
+export const createUserDocumentFromAuth = async (userAuth) => {
+  if (!userAuth) return;
   const userDocRef = doc(db, 'users', userAuth.uid);
 
   const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
-    const { displayName, email } = userAuth;
+    const { email } = userAuth;
     const createdAt = new Date();
 
     try {
       await setDoc(userDocRef, {
-        displayName,
+        displayName: null,
         email,
         createdAt,
         groups: [],
-        ...additionalInformation,
       });
     } catch (error) {
       console.log('Error creating the user ', error.message);
@@ -64,6 +67,10 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const updataDisplayName = async (name) => {
+  await updateProfile(auth.currentUser, { displayName: name }).catch((err) => console.log(err));
 };
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {

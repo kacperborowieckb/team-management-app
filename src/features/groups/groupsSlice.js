@@ -17,7 +17,7 @@ export const createNewGroupDoc = createAsyncThunk(
       await createNewGroup(
         {
           name: groupName,
-          users: [user],
+          users: [{ ...user, admin: true }],
           groupId: id,
         },
         id

@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import Button from '../../components/button/Button';
 import InputField from '../../components/input-field/InputField';
 import {
   getIsSignInPopupOpen,
   getUserError,
+  setError,
   signUpUser,
   toogleSignInPopup,
 } from '../../features/user/userSlice';
@@ -40,6 +41,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (isPopUpOpen) dispatch(toogleSignInPopup(false));
+    if (error) dispatch(setError(null));
   }, []);
 
   return (
