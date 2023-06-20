@@ -1,0 +1,51 @@
+.popup {
+  --popup-padding: 2.5rem;
+  --form-gap: 1rem;
+  position: absolute;
+  inset: 0px 0px 0px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--clr-black-transparent);
+  z-index: 1;
+
+  & &__container {
+    position: relative;
+    box-shadow: 0px 0px 18px var(--clr-font-body-black);
+    padding: var(--popup-padding);
+    padding-top: 0rem;
+    border-radius: var(--border-radius-medium);
+    background-color: var(--clr-bg);
+    width: 340px;
+  }
+
+  & &__heading {
+    text-align: center;
+    font-size: var(--fs-heading);
+    color: var(--clr-main-700);
+    margin: 1.25rem;
+    margin-bottom: 1.65rem;
+    text-shadow: 0px 0px 8px var(--clr-main-100);
+  }
+
+  & &__error {
+    text-align: center;
+    color: var(--clr-error);
+    margin-top: -1.75rem;
+    margin-bottom: 1.75rem;
+  }
+
+  & &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--form-gap);
+  }
+
+  & &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+  }
+}

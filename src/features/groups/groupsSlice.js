@@ -29,6 +29,11 @@ export const createNewGroupDoc = createAsyncThunk(
   }
 );
 
+export const inviteUserToGroup = createAsyncThunk(
+  'groups/inviteUserToGroup',
+  async ({ _ }, { rejectWithValue }) => {}
+);
+
 export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
