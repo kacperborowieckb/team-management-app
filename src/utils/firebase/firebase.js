@@ -61,19 +61,14 @@ export const createUserDocumentFromAuth = async (userAuth) => {
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
-
-    try {
-      await setDoc(userDocRef, {
-        displayName,
-        email,
-        createdAt,
-        uid: userAuth.uid,
-        groups: [],
-        notifications: [],
-      });
-    } catch (error) {
-      console.log('Error creating the user ', error.message);
-    }
+    await setDoc(userDocRef, {
+      displayName,
+      email,
+      createdAt,
+      uid: userAuth.uid,
+      groups: [],
+      notifications: [],
+    });
   }
 
   return userDocRef;
@@ -100,60 +95,66 @@ export const getDocumentRef = (collection, document) => {
 export const createNewGroup = async (groupData, groupId) => {
   const groupDocRef = doc(db, 'groups', groupId);
   const userDocRef = doc(db, 'users', groupData.users[0].uid);
-  try {
-    await setDoc(groupDocRef, groupData);
-    await updateDoc(userDocRef, {
-      groups: arrayUnion({ id: groupId, name: groupData.name }),
-    });
-  } catch (error) {
-    console.error(error.message);
-  }
+  await setDoc(groupDocRef, groupData);
+  await updateDoc(userDocRef, {
+    groups: arrayUnion({ id: groupId, name: groupData.name, admin: true }),
+  });
 };
 
 export const getReceiver = async (email) => {
-  try {
-    const q = query(collection(db, 'users'), where('email', '==', email));
-    const querySnapshot = await getDocs(q);
-    let receiver;
-    querySnapshot.forEach((doc) => (receiver = doc.data()));
-    return receiver.uid;
-  } catch (error) {
-    console.error(error);
-  }
+  const q = query(collection(db, 'users'), where('email', '==', email));
+  const querySnapshot = await getDocs(q);
+  let receiver;
+  querySnapshot.forEach((doc) => (receiver = doc.data()));
+  if (!receiver) throw 'Cannot find a user';
+  return receiver.uid;
 };
 
 export const addNotification = async (uid, user, groupId, groupName) => {
   const userDocRef = doc(db, 'users', uid);
-  try {
-    await updateDoc(userDocRef, {
-      notifications: arrayUnion({
-        from: { name: user.displayName, email: user.email },
-        groupId,
-        groupName,
-        new: true,
-      }),
-    });
-  } catch (error) {
-    console.error(error.message);
-  }
+  await updateDoc(userDocRef, {
+    notifications: arrayUnion({
+      from: { name: user.displayName, email: user.email },
+      groupId,
+      groupName,
+      new: true,
+    }),
+  });
 };
 
 export const getUserNotifications = async (uid) => {
-  try {
-    const userDocRef = doc(db, 'users', uid);
-    const docSnap = await getDoc(userDocRef);
+  const userDocRef = doc(db, 'users', uid);
+  const docSnap = await getDoc(userDocRef);
+  if (docSnap.exists()) {
     return docSnap.data().notifications;
-  } catch (error) {
-    console.error(error.message);
   }
+  return [];
 };
 
 export const setUserNotifications = async (uid, newNotifications) => {
-  try {
-    await runTransaction(db, async (transaction) => {
-      transaction.update(doc(db, 'users', uid), { notifications: newNotifications });
-    });
-  } catch (error) {
-    console.error(error.message);
-  }
+  await runTransaction(db, async (transaction) => {
+    transaction.update(doc(db, 'users', uid), { notifications: newNotifications });
+  });
+};
+
+export const addUserToGroup = async (user, groupId, groupName) => {
+  const { displayName, email, uid } = user;
+  const userDocRef = doc(db, 'users', uid);
+  const groupsDocRef = doc(db, 'groups', groupId);
+
+  await updateDoc(userDocRef, {
+    groups: arrayUnion({
+      id: groupId,
+      name: groupName,
+      admin: false,
+    }),
+  });
+  await updateDoc(groupsDocRef, {
+    users: arrayUnion({
+      admin: false,
+      displayName,
+      email,
+      uid,
+    }),
+  });
 };

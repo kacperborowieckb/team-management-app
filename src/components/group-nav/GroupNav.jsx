@@ -1,10 +1,12 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 import './group-nav.scss';
 import AddUser from '../add-user/AddUser';
+import { useSelector } from 'react-redux';
 
 const GroupNav = () => {
   const { groupId } = useParams();
   const { pathname } = useLocation();
+  const currentGroup = useSelector((state) => state.groups.groups.find(({ id }) => id === groupId));
   const activePage = pathname.split('/').at(-1) || null;
 
   return (
@@ -29,7 +31,7 @@ const GroupNav = () => {
           Chat
         </Link>
       </section>
-      <AddUser />
+      {currentGroup && currentGroup.admin === true && <AddUser />}
     </section>
   );
 };

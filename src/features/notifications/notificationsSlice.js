@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getUserNotifications, setUserNotifications } from '../../utils/firebase/firebase';
+import {
+  addUserToGroup,
+  getUserNotifications,
+  setUserNotifications,
+} from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
@@ -35,6 +39,33 @@ export const setNotificationsToOld = createAsyncThunk(
   }
 );
 
+export const removeNotification = createAsyncThunk(
+  'notification/removeNotification',
+  async ({ uid, groupId }, { getState, rejectWithValue }) => {
+    try {
+      const { notifications } = getState();
+      const newNotifications = notifications.notifications.filter(
+        (notification) => notification.groupId !== groupId
+      );
+      await setUserNotifications(uid, newNotifications);
+      return newNotifications;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const acceptInvitationToGroup = createAsyncThunk(
+  'notification/acceptInvitationToGroup',
+  async ({ user, groupId, groupName }, { rejectWithValue }) => {
+    try {
+      await addUserToGroup(user, groupId, groupName);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const notificationSlice = createSlice({
   name: 'notifications',
   initialState,
@@ -62,6 +93,29 @@ export const notificationSlice = createSlice({
         state.status = ACTION_STATUS.IDLE;
       })
       .addCase(setNotificationsToOld.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(removeNotification.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(removeNotification.fulfilled, (state, action) => {
+        state.notifications = action.payload;
+        state.status = ACTION_STATUS.IDLE;
+      })
+      .addCase(removeNotification.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(acceptInvitationToGroup.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(acceptInvitationToGroup.fulfilled, (state) => {
+        state.status = ACTION_STATUS.IDLE;
+      })
+      .addCase(acceptInvitationToGroup.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });

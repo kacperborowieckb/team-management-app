@@ -40,6 +40,7 @@ const AddUser = () => {
         user,
         groupId: group.id,
         groupName: group.name,
+        closePopup: () => setIsPopUpOpen(false),
       })
     );
   };
