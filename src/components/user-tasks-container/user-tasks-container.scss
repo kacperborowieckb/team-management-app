@@ -1,0 +1,46 @@
+.user-tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem;
+  background-color: var(--clr-main-100);
+  border-radius: var(--border-radius-large);
+  max-width: 300px;
+  height: 502px;
+
+  & &__user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  & &__img {
+    width: 75px;
+  }
+
+  & &__username {
+    max-width: 80%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background-color: var(--clr-main-700);
+    font-weight: var(--fw-semi-bold);
+    color: var(--clr-font-white);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius-medium);
+  }
+
+  & &__tasks-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    padding-top: 0rem;
+    max-height: 100%;
+    overflow-y: scroll;
+    &::-webkit-scrollbar-track {
+      margin-top: 0px;
+    }
+  }
+}

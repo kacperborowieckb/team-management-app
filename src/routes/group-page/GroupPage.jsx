@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router';
-import Calendar from '../../components/calendar/Calendar';
-import Chat from '../../components/chat/Chat';
 import GroupNav from '../../components/group-nav/GroupNav';
-import Tasks from '../../components/tasks/Tasks';
+import Calendar from '../calendar/Calendar';
+import Chat from '../chat/Chat';
+import Tasks from '../tasks/Tasks';
 import './group-page.scss';
 
 const GroupPage = () => {

@@ -11,7 +11,7 @@ const Layout = () => {
   return (
     <>
       {user && <Nav />}
-      <section style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+      <section className="layout">
         <Header />
         <Outlet />
       </section>

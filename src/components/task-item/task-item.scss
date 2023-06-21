@@ -1,0 +1,23 @@
+.task-item {
+  background-color: var(--clr-orange);
+  border-radius: var(--border-radius-medium);
+  max-width: 100%;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+
+  & &__title {
+    text-align: center;
+    color: var(--clr-font-white);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-medium);
+  }
+
+  & &__content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--clr-font-white);
+    font-style: italic;
+    font-weight: var(--fw-semi-bold);
+  }
+}

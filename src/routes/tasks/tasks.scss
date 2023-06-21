@@ -1,0 +1,11 @@
+.tasks {
+  overflow: scroll hidden;
+  display: flex;
+  gap: 2rem;
+  padding: 3rem;
+
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+}
