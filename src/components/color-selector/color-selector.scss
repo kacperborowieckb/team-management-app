@@ -1,0 +1,13 @@
+.color-selector {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  & &__color {
+    aspect-ratio: 1/1;
+    width: 20px;
+    border-radius: var(--border-radius-small);
+    outline: 1px solid var(--clr-black);
+    cursor: pointer;
+  }
+}

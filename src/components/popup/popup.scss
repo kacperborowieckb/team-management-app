@@ -41,6 +41,10 @@
     gap: var(--form-gap);
   }
 
+  & &__form > .input-field {
+    margin: 0.5rem 0;
+  }
+
   & &__close {
     cursor: pointer;
     position: absolute;

@@ -167,3 +167,16 @@ export const getGroupUsers = async (groupId) => {
   }
   return [];
 };
+
+export const addTask = async (groupId, uid, task) => {
+  const tasksDocRef = doc(db, 'tasks', groupId);
+  const tasksSnapshot = await getDoc(tasksDocRef);
+
+  if (tasksSnapshot.exists()) {
+    await updateDoc(tasksDocRef, {
+      [uid]: arrayUnion(task),
+    });
+  } else {
+    await setDoc(tasksDocRef, { [uid]: [task] });
+  }
+};

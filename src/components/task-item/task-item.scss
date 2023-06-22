@@ -1,5 +1,5 @@
 .task-item {
-  background-color: var(--clr-orange);
+  background-color: var(--clr-main-700);
   border-radius: var(--border-radius-medium);
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -16,6 +16,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
     color: var(--clr-font-white);
     font-style: italic;
     font-weight: var(--fw-semi-bold);

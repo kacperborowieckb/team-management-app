@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
+import { addTask } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
@@ -7,12 +8,20 @@ const initialState = {
   error: null,
 };
 
-export const fetchGroupTasks = createAsyncThunk(
-  'tasks/fetchGroupTasks',
-  async ({ groupId }, { rejectWithValue }) => {
+export const addNewTask = createAsyncThunk(
+  'tasks/addNewTask',
+  async ({ groupId, uid, title, content, taskColor, toogleAddTaskPopUp }, { rejectWithValue }) => {
     try {
+      const task = {
+        color: taskColor,
+        title,
+        content,
+        taskId: nanoid(),
+      };
+      await addTask(groupId, uid, task);
+      toogleAddTaskPopUp();
     } catch (error) {
-      return error.message;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -23,15 +32,14 @@ const tasksSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchGroupTasks.pending, (state) => {
+      .addCase(addNewTask.pending, (state) => {
         state.status = ACTION_STATUS.PENDING;
         state.error = null;
       })
-      .addCase(fetchGroupTasks.fulfilled, (state, action) => {
+      .addCase(addNewTask.fulfilled, (state) => {
         state.status = ACTION_STATUS.IDLE;
-        state.tasks = action.payload;
       })
-      .addCase(fetchGroupTasks.rejected, (state, action) => {
+      .addCase(addNewTask.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });
