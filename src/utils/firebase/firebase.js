@@ -158,3 +158,12 @@ export const addUserToGroup = async (user, groupId, groupName) => {
     }),
   });
 };
+
+export const getGroupUsers = async (groupId) => {
+  const groupDocRef = getDocumentRef('groups', groupId);
+  const groupSnap = await getDoc(groupDocRef);
+  if (groupSnap.exists()) {
+    return groupSnap.data().users;
+  }
+  return [];
+};

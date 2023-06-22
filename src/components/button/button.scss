@@ -10,7 +10,8 @@
   transition: all 0.2s ease;
 }
 
-.button__default {
+.button__default,
+.button__add-task {
   background-color: var(--clr-main-700);
 
   &:hover {
@@ -46,4 +47,9 @@
   &:hover {
     box-shadow: var(--button-box-shadow) var(--clr-red);
   }
+}
+
+.button__add-task {
+  margin: 1rem;
+  margin-top: 0rem;
 }

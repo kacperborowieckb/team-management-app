@@ -1,9 +1,9 @@
 .task-item {
   background-color: var(--clr-orange);
   border-radius: var(--border-radius-medium);
-  max-width: 100%;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  width: var(--width-item);
 
   & &__title {
     text-align: center;

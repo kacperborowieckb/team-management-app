@@ -1,10 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 import { nanoid } from '@reduxjs/toolkit';
-import { addNotification, createNewGroup, getReceiver } from '../../utils/firebase/firebase';
+import {
+  addNotification,
+  createNewGroup,
+  getGroupUsers,
+  getReceiver,
+} from '../../utils/firebase/firebase';
 
 const initialState = {
   groups: [],
+  currentGroupUsers: [],
   status: ACTION_STATUS.IDLE,
   error: null,
 };
@@ -38,6 +44,18 @@ export const addUserToGroup = createAsyncThunk(
       closePopup();
     } catch (error) {
       return rejectWithValue();
+    }
+  }
+);
+
+export const fetchCurrentGroupUsers = createAsyncThunk(
+  'groups/fetchCurrentGroupUsers',
+  async ({ groupId }, { rejectWithValue }) => {
+    try {
+      const groupUsers = await getGroupUsers(groupId);
+      return groupUsers;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -76,12 +94,26 @@ export const groupsSlice = createSlice({
       .addCase(addUserToGroup.rejected, (state) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = 'Cannot find a user.';
+      })
+      .addCase(fetchCurrentGroupUsers.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(fetchCurrentGroupUsers.fulfilled, (state, action) => {
+        state.status = ACTION_STATUS.IDLE;
+        state.currentGroupUsers = action.payload;
+      })
+      .addCase(fetchCurrentGroupUsers.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
       });
   },
 });
 
 export const getUserGroups = (state) => state.groups.groups;
 export const getGroupsError = (state) => state.groups.error;
+export const getCurrentGroupUsers = (state) => state.groups.currentGroupUsers;
+export const getGroupsStatus = (state) => state.groups.status;
 
 export const { setUserGroups, setGroupsError } = groupsSlice.actions;
 

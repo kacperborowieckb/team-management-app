@@ -6,6 +6,7 @@ const BUTTON_TYPES = {
   signIn: 'button__sign-in',
   accept: 'button__accept',
   decline: 'button__decline',
+  'add-task': 'button__add-task',
 };
 
 const Button = ({ buttonType = 'default', handleOnClick, children, ...otherProps }) => {
