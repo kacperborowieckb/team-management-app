@@ -1,0 +1,56 @@
+.task-popup {
+  position: absolute;
+  inset: 0px 0px 0px 0px;
+  background-color: var(--clr-black-transparent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & &__container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 340px;
+    background-color: var(--clr-main-500);
+    border-radius: var(--border-radius-large);
+    padding: 2rem;
+  }
+
+  & &__backdrop {
+    position: absolute;
+    border-radius: var(--border-radius-large);
+    inset: 0px 0px 0px 0px;
+    backdrop-filter: brightness(80%);
+  }
+
+  & &__title-section,
+  & &__content-section {
+    z-index: 1;
+    text-align: center;
+    padding: 1rem;
+    border-radius: var(--border-radius-large);
+    background-color: var(--clr-main-700);
+  }
+  & &__title {
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-medium);
+    color: var(--clr-font-white);
+  }
+
+  & &__content {
+    font-weight: var(--fw-semi-bold);
+    color: var(--clr-font-white);
+    text-align: left;
+  }
+
+  & &__close {
+    position: absolute;
+    color: var(--clr-white);
+    font-size: var(--fs-medium);
+    margin-left: auto;
+    cursor: pointer;
+    top: 1rem;
+    right: 1rem;
+  }
+}
