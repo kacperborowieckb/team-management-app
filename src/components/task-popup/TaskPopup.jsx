@@ -1,12 +1,14 @@
 import { AiOutlineClose } from 'react-icons/Ai';
 import { BsTrash3 } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 import { removeExistingTask } from '../../features/tasks/tasksSlice';
 import './task-popup.scss';
 
 const TaskPopup = ({ title, content, closePopup, color, taskId, uid }) => {
   const dispatch = useDispatch();
-  const handleRemoveTask = () => dispatch(removeExistingTask({ taskId, closePopup, uid }));
+  const { groupId } = useParams();
+  const handleRemoveTask = () => dispatch(removeExistingTask({ taskId, closePopup, uid, groupId }));
 
   return (
     <section className="task-popup">

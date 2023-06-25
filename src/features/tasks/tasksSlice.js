@@ -28,13 +28,11 @@ export const addNewTask = createAsyncThunk(
 
 export const removeExistingTask = createAsyncThunk(
   'tasks/removeTask',
-  async ({ taskId, closePopup, uid }, { rejectWithValue, getState }) => {
+  async ({ taskId, closePopup, uid, groupId }, { rejectWithValue, getState }) => {
     try {
       const tasks = getState().tasks.tasks;
-      console.log(tasks[uid]);
-      tasks[uid].map((task) => console.log(task));
-
-      await updateTasks();
+      const newTasks = tasks[uid].filter((task) => task.taskId !== taskId);
+      await updateTasks(groupId, uid, newTasks);
       closePopup();
     } catch (error) {
       return rejectWithValue(error.message);

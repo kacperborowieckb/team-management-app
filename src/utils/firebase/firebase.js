@@ -181,6 +181,8 @@ export const addTask = async (groupId, uid, task) => {
   }
 };
 
-export const updateTasks = async () => {
-  return;
+export const updateTasks = async (groupId, uid, newTasks) => {
+  await runTransaction(db, async (transaction) => {
+    transaction.update(doc(db, 'tasks', groupId), { [uid]: newTasks });
+  });
 };
