@@ -40,7 +40,14 @@ const UserTasksContainer = ({ displayName, tasks, uid }) => {
       <section className="user-tasks-container__tasks-section">
         {tasks.length > 0 ? (
           tasks.map(({ title, content, color, taskId }) => (
-            <TaskItem title={title} content={content} color={color} key={taskId} />
+            <TaskItem
+              title={title}
+              content={content}
+              color={color}
+              key={taskId}
+              taskId={taskId}
+              uid={uid}
+            />
           ))
         ) : (
           <h3 className="user-tasks-container__no-tasks">Empty here..</h3>

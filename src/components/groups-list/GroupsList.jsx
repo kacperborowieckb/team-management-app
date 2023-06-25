@@ -7,7 +7,7 @@ import { getUserUid } from '../../features/user/userSlice';
 import { getDocumentRef } from '../../utils/firebase/firebase';
 import { useEffect } from 'react';
 import { setUserGroups } from '../../features/groups/groupsSlice';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { BsPlus } from 'react-icons/bs';
 import CreateGroupPopup from '../create-group-popup/CreateGroupPopup';
 
@@ -15,6 +15,9 @@ const GroupsList = ({ content }) => {
   const dispatch = useDispatch();
   const userUid = useSelector(getUserUid);
   const { groupId } = useParams();
+  const { pathname } = useLocation();
+  const currentGroupPage = pathname.split('/').at(-1) || null;
+  const canNavigate = Boolean(currentGroupPage && currentGroupPage !== groupId);
   const [isListOpen, setIsListOpen] = useState(groupId ? true : false);
   const [groups, loading, error] = useDocument(getDocumentRef('users', userUid));
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -52,7 +55,11 @@ const GroupsList = ({ content }) => {
                   }`}
                   key={i}
                 >
-                  <Link to={`/groups/${group.id}`}>
+                  <Link
+                    to={`/groups/${canNavigate ? `${group.id}/${currentGroupPage}` : `${group.id}`}
+                     
+                  `}
+                  >
                     {group.name && group.name.length > 10
                       ? group.name.slice(0, 15) + '...'
                       : group.name}

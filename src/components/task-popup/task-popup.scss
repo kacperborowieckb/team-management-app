@@ -7,6 +7,7 @@
   align-items: center;
 
   & &__container {
+    width: 340px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -15,6 +16,7 @@
     background-color: var(--clr-main-500);
     border-radius: var(--border-radius-large);
     padding: 2rem;
+    padding-bottom: 1rem;
   }
 
   & &__backdrop {
@@ -52,5 +54,25 @@
     cursor: pointer;
     top: 1rem;
     right: 1rem;
+  }
+
+  & &__info {
+    text-align: center;
+    font-size: var(--fs-small);
+    color: var(--clr-font-white);
+  }
+
+  & &__delete {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--clr-font-white);
+    cursor: pointer;
+    transition: 0.2s all;
+
+    &:hover {
+      transform: scale(1.08);
+    }
   }
 }

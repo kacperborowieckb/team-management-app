@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
-import { addTask } from '../../utils/firebase/firebase';
+import { addTask, updateTasks } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
@@ -26,10 +26,30 @@ export const addNewTask = createAsyncThunk(
   }
 );
 
+export const removeExistingTask = createAsyncThunk(
+  'tasks/removeTask',
+  async ({ taskId, closePopup, uid }, { rejectWithValue, getState }) => {
+    try {
+      const tasks = getState().tasks.tasks;
+      console.log(tasks[uid]);
+      tasks[uid].map((task) => console.log(task));
+
+      await updateTasks();
+      closePopup();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
-  reducers: {},
+  reducers: {
+    setTasks: (state, action) => {
+      state.tasks = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(addNewTask.pending, (state) => {
@@ -42,8 +62,21 @@ const tasksSlice = createSlice({
       .addCase(addNewTask.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
+      })
+      .addCase(removeExistingTask.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(removeExistingTask.fulfilled, (state) => {
+        state.status = ACTION_STATUS.IDLE;
+      })
+      .addCase(removeExistingTask.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
       });
   },
 });
+
+export const { setTasks } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

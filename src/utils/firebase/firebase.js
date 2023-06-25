@@ -180,3 +180,7 @@ export const addTask = async (groupId, uid, task) => {
     await setDoc(tasksDocRef, { [uid]: [task] });
   }
 };
+
+export const updateTasks = async () => {
+  return;
+};

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TaskPopup from '../task-popup/TaskPopup';
 import './task-item.scss';
 
-const TaskItem = ({ title, content, color }) => {
+const TaskItem = ({ title, content, color, taskId, uid }) => {
   const [isTaskPopupOpen, setIsTaskPopUpOpen] = useState(false);
 
   const toogleTaskPopup = () => setIsTaskPopUpOpen(!isTaskPopupOpen);
@@ -14,7 +14,14 @@ const TaskItem = ({ title, content, color }) => {
         <p className="task-item__content">{content}</p>
       </section>
       {isTaskPopupOpen && (
-        <TaskPopup title={title} content={content} closePopup={toogleTaskPopup} color={color} />
+        <TaskPopup
+          title={title}
+          content={content}
+          closePopup={toogleTaskPopup}
+          color={color}
+          taskId={taskId}
+          uid={uid}
+        />
       )}
     </>
   );
