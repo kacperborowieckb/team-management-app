@@ -16,7 +16,7 @@ const Tasks = () => {
 
   useEffect(() => {
     dispatch(fetchCurrentGroupUsers({ groupId }));
-  }, []);
+  }, [groupId]);
 
   useEffect(() => {
     dispatch(setTasks(tasks));
