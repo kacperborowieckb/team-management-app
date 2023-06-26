@@ -1,3 +1,26 @@
 .home {
   height: 100%;
+
+  & .groups-list {
+    color: var(--clr-font-white);
+
+    &__dropdown-icon {
+      transform: rotate(90deg);
+    }
+
+    &__sub-list-item {
+      background-color: var(--clr-main-300);
+      border-radius: var(--border-radius-medium);
+    }
+
+    &__title {
+      background-color: var(--clr-main-700);
+      font-size: var(--fs-large);
+    }
+    &__create-new {
+      background-color: var(--clr-main-700);
+      font-size: var(--fs-medium);
+      font-weight: var(--fw-semi-bold);
+    }
+  }
 }

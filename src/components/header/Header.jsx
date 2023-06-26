@@ -23,6 +23,12 @@ const Header = () => {
 
   return (
     <header className="header">
+      <section className="header__logo-container">
+        <Link to={'/'}>
+          <h1 className="header__logo">TM</h1>
+        </Link>
+      </section>
+
       {user ? (
         <>
           <Button buttonType="signIn" handleOnClick={handleSignOut}>

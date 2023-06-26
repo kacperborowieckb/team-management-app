@@ -4,6 +4,14 @@
   gap: 2rem;
   padding: 3rem;
 
+  & &__loading {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &::-webkit-scrollbar-track,
   &::-webkit-scrollbar-thumb {
     display: none;

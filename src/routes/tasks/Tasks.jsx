@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { ImSpinner2 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import UserTasksContainer from '../../components/user-tasks-container/UserTasksContainer';
@@ -24,7 +25,11 @@ const Tasks = () => {
 
   return (
     <section className="tasks">
-      {loading && <section>LOADING</section>}
+      {loading && (
+        <section className="tasks__loading">
+          <ImSpinner2 className="spinner" />
+        </section>
+      )}
       {tasks &&
         !loading &&
         groupUsers.map(({ displayName, uid }) => {

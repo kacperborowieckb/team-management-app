@@ -1,5 +1,6 @@
 .group-nav {
   display: flex;
+  color: var(--clr-font-white);
 
   & &__container {
     display: flex;
@@ -10,6 +11,7 @@
   }
 
   & &__link {
+    background-color: var(--clr-main-300);
     font-size: var(--fs-medium);
     font-weight: var(--fw-semi-bold);
     border-radius: var(--border-radius-medium);
@@ -18,7 +20,7 @@
 
   & &__link:hover,
   & &__link-active {
-    color: var(--clr-font-white);
-    background-color: var(--clr-main-500);
+    background-color: var(--clr-main-700);
+    box-shadow: 0px 0px 8px var(--clr-main-700);
   }
 }

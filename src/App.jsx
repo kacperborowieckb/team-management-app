@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser, setCurrentUser } from './features/user/userSlice';
 import SignUp from './routes/sign-up/SignUp';
 import GroupPage from './routes/group-page/GroupPage';
+import { ImSpinner2 } from 'react-icons/im';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ function App() {
   return (
     <>
       {user === undefined ? (
-        <p>LOADING</p>
+        <ImSpinner2 className="spinner" />
       ) : (
         <Routes>
           <Route>

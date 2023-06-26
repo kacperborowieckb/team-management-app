@@ -10,8 +10,9 @@ import { setUserGroups } from '../../features/groups/groupsSlice';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { BsPlus } from 'react-icons/bs';
 import CreateGroupPopup from '../create-group-popup/CreateGroupPopup';
+import { ImSpinner2 } from 'react-icons/im';
 
-const GroupsList = ({ content }) => {
+const GroupsList = ({ content, forceOpen = false }) => {
   const dispatch = useDispatch();
   const userUid = useSelector(getUserUid);
   const { groupId } = useParams();
@@ -35,7 +36,7 @@ const GroupsList = ({ content }) => {
       <li className="groups-list">
         <div
           className={`groups-list__title ${isListOpen && 'groups-list__title-active'}`}
-          onClick={handleOpenList}
+          onClick={!forceOpen && handleOpenList}
         >
           {content.charAt(0).toUpperCase() + content.slice(1)}
           <IoMdArrowDropdown
@@ -43,10 +44,10 @@ const GroupsList = ({ content }) => {
             style={{ rotate: !isListOpen && '-90deg' }}
           />
         </div>
-        {isListOpen && (
+        {(isListOpen || forceOpen) && (
           <ul className="groups-list__sub-list">
             {error && <p>error</p>}
-            {loading && <p>loading</p>}
+            {loading && <ImSpinner2 className="spinner" />}
             {groups &&
               groups.data().groups.map((group, i) => (
                 <li
@@ -60,7 +61,7 @@ const GroupsList = ({ content }) => {
                      
                   `}
                   >
-                    {group.name && group.name.length > 10
+                    {group.name && group.name.length > 15
                       ? group.name.slice(0, 15) + '...'
                       : group.name}
                   </Link>
