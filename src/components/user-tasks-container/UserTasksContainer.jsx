@@ -24,7 +24,8 @@ const UserTasksContainer = ({ displayName, tasks, uid }) => {
 
   const handleAddTask = (e) => {
     e.preventDefault();
-    dispatch(addNewTask({ groupId, uid, title, content, taskColor, toogleAddTaskPopUp }));
+    if (title && content)
+      dispatch(addNewTask({ groupId, uid, title, content, taskColor, toogleAddTaskPopUp }));
   };
 
   return (
@@ -39,7 +40,7 @@ const UserTasksContainer = ({ displayName, tasks, uid }) => {
       </section>
       <section className="user-tasks-container__tasks-section">
         {tasks.length > 0 ? (
-          tasks.map(({ title, content, color, taskId }) => (
+          tasks.map(({ title, content, color, taskId, createdAt, createdBy }) => (
             <TaskItem
               title={title}
               content={content}
@@ -47,6 +48,8 @@ const UserTasksContainer = ({ displayName, tasks, uid }) => {
               key={taskId}
               taskId={taskId}
               uid={uid}
+              createdAt={createdAt}
+              createdBy={createdBy}
             />
           ))
         ) : (
@@ -68,12 +71,14 @@ const UserTasksContainer = ({ displayName, tasks, uid }) => {
             labelFor="task-title"
             value={title}
             onChange={handleTitleChange}
+            required
           />
           <InputField
             label="Task Content"
             labelFor="task-content"
             value={content}
             onChange={handleContentChange}
+            required
           />
           <ColorSelector taskColor={taskColor} setTaskColor={setTaskColor} />
           <h5 style={{ fontWeight: 'var(--fw-semi-bold)' }}>Preview:</h5>

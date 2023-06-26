@@ -10,13 +10,25 @@ const initialState = {
 
 export const addNewTask = createAsyncThunk(
   'tasks/addNewTask',
-  async ({ groupId, uid, title, content, taskColor, toogleAddTaskPopUp }, { rejectWithValue }) => {
+  async (
+    { groupId, uid, title, content, taskColor, toogleAddTaskPopUp },
+    { rejectWithValue, getState }
+  ) => {
+    const date = new Date();
+    const createdAt = String(date).split(' ').slice(1, 4).join(' ');
+    const {
+      user: {
+        user: { displayName },
+      },
+    } = getState();
     try {
       const task = {
         color: taskColor,
         title,
         content,
         taskId: nanoid(),
+        createdAt,
+        createdBy: displayName,
       };
       await addTask(groupId, uid, task);
       toogleAddTaskPopUp();

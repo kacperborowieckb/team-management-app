@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import { removeExistingTask } from '../../features/tasks/tasksSlice';
 import './task-popup.scss';
 
-const TaskPopup = ({ title, content, closePopup, color, taskId, uid }) => {
+const TaskPopup = ({ title, content, closePopup, color, taskId, uid, createdAt, createdBy }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const handleRemoveTask = () => dispatch(removeExistingTask({ taskId, closePopup, uid, groupId }));
@@ -22,8 +22,8 @@ const TaskPopup = ({ title, content, closePopup, color, taskId, uid }) => {
           <p className="task-popup__content">{content}</p>
         </section>
         <section className="task-popup__info">
-          <p className="task-popup__time">Created at: 14 May 2023</p>
-          <p className="task-popup__author">Created by: Kacper</p>
+          <p className="task-popup__time">Created at: {createdAt}</p>
+          <p className="task-popup__author">Created by: {createdBy}</p>
         </section>
         <BsTrash3 className="task-popup__delete" onClick={handleRemoveTask} />
       </section>
