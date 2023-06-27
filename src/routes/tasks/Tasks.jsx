@@ -32,12 +32,13 @@ const Tasks = () => {
       )}
       {tasks &&
         !loading &&
-        groupUsers.map(({ displayName, uid }) => {
+        groupUsers.map(({ displayName, uid, admin }) => {
           return (
             <UserTasksContainer
               displayName={displayName}
               tasks={tasks[uid] || []}
               uid={uid}
+              admin={admin}
               key={uid}
             />
           );

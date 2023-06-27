@@ -6,6 +6,8 @@ import {
   createNewGroup,
   getGroupUsers,
   getReceiver,
+  getUserGroupsFromFirestore,
+  removeUser,
 } from '../../utils/firebase/firebase';
 
 const initialState = {
@@ -60,6 +62,24 @@ export const fetchCurrentGroupUsers = createAsyncThunk(
   }
 );
 
+export const removeUserFromGroup = createAsyncThunk(
+  'groups/removeUserFromGroup',
+  async ({ groupId, uid }, { rejectWithValue, getState }) => {
+    try {
+      const groups = await getUserGroupsFromFirestore(uid);
+      const newGroups = groups.filter(({ id }) => id !== groupId);
+      const groupUsers = getState().groups.currentGroupUsers;
+      const newGroupUsers = groupUsers.filter((user) => user.uid !== uid);
+
+      await removeUser(groupId, uid, newGroupUsers, newGroups);
+
+      return newGroupUsers;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
@@ -104,6 +124,18 @@ export const groupsSlice = createSlice({
         state.currentGroupUsers = action.payload;
       })
       .addCase(fetchCurrentGroupUsers.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(removeUserFromGroup.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(removeUserFromGroup.fulfilled, (state, action) => {
+        state.status = ACTION_STATUS.IDLE;
+        state.currentGroupUsers = action.payload;
+      })
+      .addCase(removeUserFromGroup.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });

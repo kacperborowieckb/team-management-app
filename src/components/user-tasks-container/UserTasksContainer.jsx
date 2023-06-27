@@ -2,17 +2,17 @@ import TaskItem from '../task-item/TaskItem';
 import Button from '../button/Button';
 import './user-tasks-container.scss';
 import { useState } from 'react';
-import Popup from '../popup/Popup';
-import InputField from '../input-field/InputField';
-import ColorSelector from '../color-selector/ColorSelector';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewTask } from '../../features/tasks/tasksSlice';
 import { useParams } from 'react-router';
 import AddTaskPopup from '../add-task-popup/AddTaskPopup';
+import { removeUserFromGroup } from '../../features/groups/groupsSlice';
+import { getCurrentUser } from '../../features/user/userSlice';
 
-const UserTasksContainer = ({ displayName, tasks, uid }) => {
+const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
+  const user = useSelector(getCurrentUser) || null;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -29,8 +29,16 @@ const UserTasksContainer = ({ displayName, tasks, uid }) => {
       dispatch(addNewTask({ groupId, uid, title, content, taskColor, toogleAddTaskPopUp }));
   };
 
+  const canRemoveUser = !admin && user.uid !== uid;
+
+  const handleRemoveUser = () => dispatch(removeUserFromGroup({ groupId, uid }));
+  // IMPORTANT !!!
+  // if want to quit group => new admin or delete whole group
   return (
     <section className="user-tasks-container">
+      {canRemoveUser && <p onClick={handleRemoveUser}>remove user</p>}
+      {user.uid === uid && <p onClick={handleRemoveUser}>Quit Group</p>}
+
       <section className="user-tasks-container__user">
         <img
           className="user-tasks-container__img"

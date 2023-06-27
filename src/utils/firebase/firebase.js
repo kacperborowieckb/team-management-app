@@ -12,6 +12,7 @@ import {
 import {
   arrayUnion,
   collection,
+  deleteField,
   doc,
   getDoc,
   getDocs,
@@ -185,4 +186,25 @@ export const updateTasks = async (groupId, uid, newTasks) => {
   await runTransaction(db, async (transaction) => {
     transaction.update(doc(db, 'tasks', groupId), { [uid]: newTasks });
   });
+};
+
+export const removeUser = async (groupId, uid, newUsers, newGroups) => {
+  await runTransaction(db, async (transaction) => {
+    transaction.update(doc(db, 'groups', groupId), { users: newUsers });
+  });
+  await runTransaction(db, async (transaction) => {
+    transaction.update(doc(db, 'users', uid), { groups: newGroups });
+  });
+  await updateDoc(doc(db, 'tasks', groupId), {
+    [uid]: deleteField(),
+  });
+};
+
+export const getUserGroupsFromFirestore = async (uid) => {
+  const userDocRef = getDocumentRef('users', uid);
+  const userSnap = await getDoc(userDocRef);
+  if (userSnap.exists()) {
+    return userSnap.data().groups;
+  }
+  return [];
 };
