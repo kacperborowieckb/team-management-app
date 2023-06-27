@@ -11,6 +11,8 @@ import {
 } from '../../features/user/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/Ai';
+import { useRef } from 'react';
+import { useClickToClose } from '../../hooks/useClickToClose';
 
 const SignInPopup = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const SignInPopup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const error = useSelector(getUserError);
+  const popup = useRef();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -28,13 +31,15 @@ const SignInPopup = () => {
 
   const handleCloseSignInPopup = () => dispatch(toogleSignInPopup(false));
 
+  useClickToClose(popup, handleCloseSignInPopup);
+
   const handleSignInWithEmailAndPassowrd = (e) => {
     e.preventDefault();
     dispatch(signInUserWithEmailAndPassword({ email, password }));
   };
 
   return (
-    <section className="sign-in">
+    <section className="sign-in" ref={popup}>
       <section className="sign-in__popup">
         <h2 className="sign-in__heading">Sign In</h2>
         {error && <p className="sign-in__error">Error: {error}</p>}
