@@ -4,6 +4,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import {
   addNotification,
   createNewGroup,
+  deleteGroup,
   getGroupUsers,
   getReceiver,
   getUserGroupsFromFirestore,
@@ -80,6 +81,27 @@ export const removeUserFromGroup = createAsyncThunk(
   }
 );
 
+export const deleteUserGroup = createAsyncThunk(
+  'groups/deleteUserGroup',
+  async ({ groupId, navigateToHome }, { rejectWithValue, getState }) => {
+    try {
+      const groupUsers = getState().groups.currentGroupUsers;
+      let filteredUserGroups = [];
+      for (const user of groupUsers) {
+        const userGroups = await getUserGroupsFromFirestore(user.uid);
+        filteredUserGroups.push({
+          uid: user.uid,
+          groups: userGroups.filter(({ id }) => id !== groupId),
+        });
+      }
+      await deleteGroup(groupId, filteredUserGroups);
+      navigateToHome();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
@@ -136,6 +158,17 @@ export const groupsSlice = createSlice({
         state.currentGroupUsers = action.payload;
       })
       .addCase(removeUserFromGroup.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(deleteUserGroup.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(deleteUserGroup.fulfilled, (state) => {
+        state.status = ACTION_STATUS.IDLE;
+      })
+      .addCase(deleteUserGroup.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });

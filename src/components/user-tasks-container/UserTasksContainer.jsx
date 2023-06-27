@@ -12,7 +12,7 @@ import { getCurrentUser } from '../../features/user/userSlice';
 const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
-  const user = useSelector(getCurrentUser) || null;
+  const user = useSelector(getCurrentUser);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -29,15 +29,15 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
       dispatch(addNewTask({ groupId, uid, title, content, taskColor, toogleAddTaskPopUp }));
   };
 
-  const canRemoveUser = !admin && user.uid !== uid;
+  const canRemoveUser = !admin && (user ? user.uid : undefined) !== uid;
 
   const handleRemoveUser = () => dispatch(removeUserFromGroup({ groupId, uid }));
   // IMPORTANT !!!
-  // if want to quit group => new admin or delete whole group
+  // if want to quit group when admin => new admin or delete whole group
   return (
     <section className="user-tasks-container">
       {canRemoveUser && <p onClick={handleRemoveUser}>remove user</p>}
-      {user.uid === uid && <p onClick={handleRemoveUser}>Quit Group</p>}
+      {(user ? user.uid : undefined) === uid && <p onClick={handleRemoveUser}>Quit Group</p>}
 
       <section className="user-tasks-container__user">
         <img

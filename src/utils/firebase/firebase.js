@@ -12,6 +12,7 @@ import {
 import {
   arrayUnion,
   collection,
+  deleteDoc,
   deleteField,
   doc,
   getDoc,
@@ -207,4 +208,14 @@ export const getUserGroupsFromFirestore = async (uid) => {
     return userSnap.data().groups;
   }
   return [];
+};
+
+export const deleteGroup = async (groupId, filteredUserGroups) => {
+  await deleteDoc(doc(db, 'groups', groupId));
+  await deleteDoc(doc(db, 'tasks', groupId));
+  for (const user of filteredUserGroups) {
+    await runTransaction(db, async (transaction) => {
+      transaction.update(doc(db, 'users', user.uid), { groups: user.groups });
+    });
+  }
 };

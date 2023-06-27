@@ -1,13 +1,20 @@
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import './group-nav.scss';
 import AddUser from '../add-user/AddUser';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteUserGroup } from '../../features/groups/groupsSlice';
 
 const GroupNav = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { groupId } = useParams();
   const { pathname } = useLocation();
   const currentGroup = useSelector((state) => state.groups.groups.find(({ id }) => id === groupId));
   const activePage = pathname.split('/').at(-1) || null;
+
+  const navigateToHome = () => navigate('/');
+
+  const handleDeleteGroup = () => dispatch(deleteUserGroup({ groupId, navigateToHome }));
 
   return (
     <>
@@ -32,7 +39,14 @@ const GroupNav = () => {
             Chat
           </Link>
         </section>
-        {currentGroup && currentGroup.admin === true && <AddUser />}
+        {currentGroup && currentGroup.admin === true && (
+          <>
+            <AddUser />
+            <div onClick={handleDeleteGroup} style={{ color: 'black' }}>
+              DeleteGroup
+            </div>
+          </>
+        )}
       </section>
       <Outlet />
     </>

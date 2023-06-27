@@ -16,10 +16,6 @@ const Tasks = () => {
   const [tasks = [], loading, error] = useDocumentData(getDocumentRef('tasks', groupId));
 
   useEffect(() => {
-    dispatch(fetchCurrentGroupUsers({ groupId }));
-  }, [groupId]);
-
-  useEffect(() => {
     dispatch(setTasks(tasks));
   }, [tasks]);
 
