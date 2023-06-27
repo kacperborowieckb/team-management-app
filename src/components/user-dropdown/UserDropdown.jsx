@@ -6,11 +6,14 @@ import './user-dropdown.scss';
 
 const UserDropdown = ({ setIsUserDropdownOpen, profilePictureRef }) => {
   const dispatch = useDispatch();
-  const handleSignOut = () => dispatch(signOutUser());
   const user = useSelector(getCurrentUser);
   const dropdown = useRef();
 
   const closeDropdown = () => setIsUserDropdownOpen(false);
+  const handleSignOut = () => {
+    dispatch(signOutUser());
+    closeDropdown();
+  };
 
   useEffect(() => {
     const handleClick = (e) => {

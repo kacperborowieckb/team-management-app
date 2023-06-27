@@ -1,6 +1,6 @@
 import './notifications.scss';
 import { MdNotifications } from 'react-icons/Md';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../../features/user/userSlice';
@@ -22,8 +22,10 @@ const Notifications = () => {
   const status = useSelector(getCurrentNotificationsStatus);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newNotifications, setNewNotifications] = useState(0);
+  const notificationsRef = useRef();
 
   const tooglePopUp = () => setIsPopupOpen(!isPopupOpen);
+  const handleClosePopup = () => setIsPopupOpen(false);
 
   const declineInvitation = (groupId) => {
     dispatch(removeNotification({ uid: user.uid, groupId }));
@@ -54,8 +56,20 @@ const Notifications = () => {
     }
   }, [notifications]);
 
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (!notificationsRef.current.contains(e.target)) {
+        handleClosePopup();
+      }
+    };
+
+    window.addEventListener('click', handleClick);
+
+    return () => window.removeEventListener('click', handleClick);
+  }, []);
+
   return (
-    <section className="notifications">
+    <section className="notifications" ref={notificationsRef}>
       <section className="notifications__container" onClick={tooglePopUp}>
         <MdNotifications />
         {newNotifications !== 0 && (
