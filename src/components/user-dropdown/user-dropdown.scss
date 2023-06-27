@@ -1,0 +1,31 @@
+.user-dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0%;
+  width: 200px;
+  background-color: var(--clr-main-500);
+  color: var(--clr-font-white);
+  border-radius: var(--border-radius-large);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  z-index: 1;
+
+  & &__username {
+    font-weight: var(--fw-semi-bold);
+    font-size: var(--fs-medium);
+  }
+
+  & &__email {
+    font-weight: var(--fw-semi-bold);
+  }
+
+  & &__username,
+  & &__email {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

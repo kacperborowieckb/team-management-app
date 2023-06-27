@@ -36,7 +36,7 @@ const GroupsList = ({ content, forceOpen = false }) => {
       <li className="groups-list">
         <div
           className={`groups-list__title ${isListOpen && 'groups-list__title-active'}`}
-          onClick={!forceOpen && handleOpenList}
+          onClick={!forceOpen ? handleOpenList : undefined}
         >
           {content.charAt(0).toUpperCase() + content.slice(1)}
           <IoMdArrowDropdown

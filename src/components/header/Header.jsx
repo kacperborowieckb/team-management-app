@@ -3,7 +3,6 @@ import {
   getCurrentUser,
   getIsSignInPopupOpen,
   toogleSignInPopup,
-  signOutUser,
 } from '../../features/user/userSlice';
 import Button from '../button/Button';
 import SignInPopup from '../sign-in-popup/SignInPopup';
@@ -11,15 +10,18 @@ import './header.scss';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Notifications from '../notifications/Notifications';
+import { useRef, useState } from 'react';
+import UserDropdown from '../user-dropdown/UserDropdown';
 
 const Header = () => {
   const dispatch = useDispatch();
   const isSignInPopupOpen = useSelector(getIsSignInPopupOpen);
   const user = useSelector(getCurrentUser);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const profilePicture = useRef();
 
   const handleOpenSignInPopup = () => dispatch(toogleSignInPopup(true));
-
-  const handleSignOut = () => dispatch(signOutUser());
+  const handleToogleUserDropdown = () => setIsUserDropdownOpen(!isUserDropdownOpen);
 
   return (
     <header className="header">
@@ -31,10 +33,23 @@ const Header = () => {
 
       {user ? (
         <>
-          <Button buttonType="signIn" handleOnClick={handleSignOut}>
-            Sign Out
-          </Button>
+          <Notifications />
           <p className="header__user-name">{user.displayName}</p>
+          <section className="header__profile-picture-container">
+            <img
+              src="/profile-picture.png"
+              alt="profile-picture"
+              className="header__profile-picture"
+              onClick={handleToogleUserDropdown}
+              ref={profilePicture}
+            />
+            {isUserDropdownOpen && (
+              <UserDropdown
+                setIsUserDropdownOpen={setIsUserDropdownOpen}
+                profilePictureRef={profilePicture.current}
+              />
+            )}
+          </section>
         </>
       ) : (
         <Button
@@ -46,14 +61,6 @@ const Header = () => {
         </Button>
       )}
       {isSignInPopupOpen && <SignInPopup />}
-      {user && (
-        <>
-          <Notifications />
-          <Link to={'/'} className="header_img">
-            <img src="/profile-picture.png" alt="profile-picture" />
-          </Link>
-        </>
-      )}
     </header>
   );
 };
