@@ -11,6 +11,7 @@
   flex-direction: column;
   gap: 0.5rem;
   text-align: center;
+  z-index: 1;
 
   & &__username {
     font-weight: var(--fw-semi-bold);

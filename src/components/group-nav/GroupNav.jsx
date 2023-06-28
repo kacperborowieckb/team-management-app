@@ -3,6 +3,10 @@ import './group-nav.scss';
 import AddUser from '../add-user/AddUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUserGroup } from '../../features/groups/groupsSlice';
+import Button from '../button/Button';
+import OptionsPopup from '../options-popup/OptionsPopup';
+import AddUserPopup from '../add-user-popup/AddUserPopup';
+import { useState } from 'react';
 
 const GroupNav = () => {
   const dispatch = useDispatch();
@@ -11,6 +15,9 @@ const GroupNav = () => {
   const { pathname } = useLocation();
   const currentGroup = useSelector((state) => state.groups.groups.find(({ id }) => id === groupId));
   const activePage = pathname.split('/').at(-1) || null;
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+
+  const toogleAddUserPopup = () => setIsPopUpOpen(!isPopUpOpen);
 
   const navigateToHome = () => navigate('/');
 
@@ -40,12 +47,15 @@ const GroupNav = () => {
           </Link>
         </section>
         {currentGroup && currentGroup.admin === true && (
-          <>
-            <AddUser />
-            <div onClick={handleDeleteGroup} style={{ color: 'black' }}>
+          <OptionsPopup className="group-nav__options" style={{ top: '0', right: '150%' }}>
+            <AddUser toogleAddUserPopup={toogleAddUserPopup} />
+            <Button onClick={handleDeleteGroup} buttonType="option-with-accept">
               DeleteGroup
-            </div>
-          </>
+            </Button>
+          </OptionsPopup>
+        )}
+        {isPopUpOpen && (
+          <AddUserPopup toogleAddUserPopup={toogleAddUserPopup} setIsPopUpOpen={setIsPopUpOpen} />
         )}
       </section>
       <Outlet />

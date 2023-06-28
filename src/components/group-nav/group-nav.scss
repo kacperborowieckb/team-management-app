@@ -23,4 +23,11 @@
     background-color: var(--clr-main-700);
     box-shadow: 0px 0px 8px var(--clr-main-700);
   }
+
+  & &__options {
+    position: relative;
+    color: var(--clr-font-body-black);
+    font-size: var(--fs-heading);
+    margin-right: 2rem;
+  }
 }

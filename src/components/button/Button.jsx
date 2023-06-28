@@ -7,6 +7,8 @@ const BUTTON_TYPES = {
   accept: 'button__accept',
   decline: 'button__decline',
   'add-task': 'button__add-task',
+  option: 'button__option',
+  'option-with-accept': 'button__option-with-accept',
 };
 
 const Button = ({ buttonType = 'default', handleOnClick, children, ...otherProps }) => {

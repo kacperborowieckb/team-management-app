@@ -11,6 +11,7 @@
 }
 
 .button__default,
+.button__option,
 .button__add-task {
   background-color: var(--clr-main-700);
 
@@ -52,4 +53,17 @@
 .button__add-task {
   margin: 1rem;
   margin-top: 0rem;
+}
+
+.button__option,
+.button__option-with-accept {
+  font-size: var(--fs-body);
+}
+
+.button__option-with-accept {
+  background-color: var(--clr-error);
+
+  &:hover {
+    box-shadow: var(--button-box-shadow) var(--clr-error);
+  }
 }

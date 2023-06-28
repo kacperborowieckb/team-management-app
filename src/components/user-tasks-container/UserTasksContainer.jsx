@@ -8,6 +8,7 @@ import { useParams } from 'react-router';
 import AddTaskPopup from '../add-task-popup/AddTaskPopup';
 import { removeUserFromGroup } from '../../features/groups/groupsSlice';
 import { getCurrentUser } from '../../features/user/userSlice';
+import OptionsPopup from '../options-popup/OptionsPopup';
 
 const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const dispatch = useDispatch();
@@ -36,8 +37,29 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   // if want to quit group when admin => new admin or delete whole group
   return (
     <section className="user-tasks-container">
-      {canRemoveUser && <p onClick={handleRemoveUser}>remove user</p>}
-      {(user ? user.uid : undefined) === uid && <p onClick={handleRemoveUser}>Quit Group</p>}
+      {canRemoveUser && (
+        <>
+          <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
+            <Button buttonType="option" handleOnClick={handleRemoveUser}>
+              Set as Admin
+            </Button>
+            <Button buttonType="option-with-accept" handleOnClick={handleRemoveUser}>
+              Remove User
+            </Button>
+          </OptionsPopup>
+        </>
+      )}
+      {(user ? user.uid : undefined) === uid && (
+        <>
+          <>
+            <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
+              <Button buttonType="option" handleOnClick={handleRemoveUser}>
+                Quit Group
+              </Button>
+            </OptionsPopup>
+          </>
+        </>
+      )}
 
       <section className="user-tasks-container__user">
         <img
