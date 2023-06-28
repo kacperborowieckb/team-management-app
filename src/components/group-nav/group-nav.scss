@@ -30,4 +30,22 @@
     font-size: var(--fs-heading);
     margin-right: 2rem;
   }
+
+  & &__accept-popup-paragraph {
+    font-weight: var(--fw-semi-bold);
+    font-style: italic;
+    text-align: center;
+    margin-top: -1.25rem;
+    color: var(--clr-font-body-black);
+  }
+
+  & &__accept-popup-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    & > * {
+      flex-basis: 100%;
+    }
+  }
 }

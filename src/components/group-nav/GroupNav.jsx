@@ -7,6 +7,7 @@ import Button from '../button/Button';
 import OptionsPopup from '../options-popup/OptionsPopup';
 import AddUserPopup from '../add-user-popup/AddUserPopup';
 import { useState } from 'react';
+import Popup from '../popup/Popup';
 
 const GroupNav = () => {
   const dispatch = useDispatch();
@@ -16,11 +17,12 @@ const GroupNav = () => {
   const currentGroup = useSelector((state) => state.groups.groups.find(({ id }) => id === groupId));
   const activePage = pathname.split('/').at(-1) || null;
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [isAcceptDeleteGroupOpen, setIsAcceptDeleteGroupOpen] = useState(false);
 
   const toogleAddUserPopup = () => setIsPopUpOpen(!isPopUpOpen);
 
   const navigateToHome = () => navigate('/');
-
+  const toogleAcceptDeleteGroup = () => setIsAcceptDeleteGroupOpen(!isAcceptDeleteGroupOpen);
   const handleDeleteGroup = () => dispatch(deleteUserGroup({ groupId, navigateToHome }));
 
   return (
@@ -49,10 +51,26 @@ const GroupNav = () => {
         {currentGroup && currentGroup.admin === true && (
           <OptionsPopup className="group-nav__options" style={{ top: '0', right: '150%' }}>
             <AddUser toogleAddUserPopup={toogleAddUserPopup} />
-            <Button onClick={handleDeleteGroup} buttonType="option-with-accept">
+            <Button onClick={toogleAcceptDeleteGroup} buttonType="option-with-accept">
               DeleteGroup
             </Button>
           </OptionsPopup>
+        )}
+        {isAcceptDeleteGroupOpen && (
+          <Popup heading="Delete group" handleClosePopUp={toogleAcceptDeleteGroup}>
+            <p className="group-nav__accept-popup-paragraph">
+              Are you sure you want to delete this group?
+              {console.log(currentGroup)}
+            </p>
+            <section className="group-nav__accept-popup-buttons">
+              <Button buttonType="decline" handleOnClick={toogleAcceptDeleteGroup}>
+                No
+              </Button>
+              <Button buttonType="accept" handleOnClick={handleDeleteGroup}>
+                Yes
+              </Button>
+            </section>
+          </Popup>
         )}
         {isPopUpOpen && (
           <AddUserPopup toogleAddUserPopup={toogleAddUserPopup} setIsPopUpOpen={setIsPopUpOpen} />
