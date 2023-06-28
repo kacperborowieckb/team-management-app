@@ -65,8 +65,16 @@ export const fetchCurrentGroupUsers = createAsyncThunk(
 
 export const removeUserFromGroup = createAsyncThunk(
   'groups/removeUserFromGroup',
-  async ({ groupId, uid }, { rejectWithValue, getState }) => {
+  async ({ groupId, uid, admin }, { rejectWithValue, getState }) => {
     try {
+      if (admin) {
+        const groupUsers = await getGroupUsers(groupId);
+        const filteredGroupUsers = groupUsers.filter((user) => user.uid !== uid && !admin);
+
+        if (filteredGroupUsers.length === 0)
+          return rejectWithValue('Before quitting your group give someone Admin permissions.');
+      }
+
       const groups = await getUserGroupsFromFirestore(uid);
       const newGroups = groups.filter(({ id }) => id !== groupId);
       const groupUsers = getState().groups.currentGroupUsers;
