@@ -1,0 +1,15 @@
+.options-popup__container {
+  position: absolute;
+  width: 175px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: var(--border-radius-medium);
+  background-color: var(--clr-main-500);
+  padding: 0.5rem;
+  z-index: 1;
+}
+
+.options-popup__dots {
+  cursor: pointer;
+}
