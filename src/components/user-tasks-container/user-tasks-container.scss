@@ -9,23 +9,6 @@
   --width-item: 260px;
   box-shadow: 0px 0px 8px var(--clr-main-500);
 
-  & &__accept-popup-paragraph {
-    font-weight: var(--fw-semi-bold);
-    font-style: italic;
-    text-align: center;
-    margin-top: -1.25rem;
-  }
-
-  & &__accept-popup-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-
-    & > * {
-      flex-basis: 100%;
-    }
-  }
-
   & &__dots {
     position: absolute;
     top: 0.5rem;

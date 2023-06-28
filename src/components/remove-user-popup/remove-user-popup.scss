@@ -1,0 +1,16 @@
+.remove-user-popup__accept-popup-paragraph {
+  font-weight: var(--fw-semi-bold);
+  font-style: italic;
+  text-align: center;
+  margin-top: -1.25rem;
+}
+
+.remove-user-popup__accept-popup-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  & > * {
+    flex-basis: 100%;
+  }
+}

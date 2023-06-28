@@ -13,7 +13,7 @@ import {
 import { getCurrentUser } from '../../features/user/userSlice';
 import OptionsPopup from '../options-popup/OptionsPopup';
 import UserTasks from '../user-tasks/UserTasks';
-import Popup from '../popup/Popup';
+import RemoveUserPopup from '../remove-user-popup/RemoveUserPopup';
 
 const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const [content, setContent] = useState('');
   const [taskColor, setTaskColor] = useState('var(--clr-main-700)');
   const [isRemoveUserPopupOpen, setIsRemoveUserPopupOpen] = useState(false);
-  const [isQuitGroupPopupOpen, setIsQuitGroupPopupOpen] = useState();
+  const [isQuitGroupPopupOpen, setIsQuitGroupPopupOpen] = useState(false);
 
   const toogleAddTaskPopUp = () => setIsPopupOpen(!isPopupOpen);
   const toogleAcceptRemoveUser = () => setIsRemoveUserPopupOpen(!isRemoveUserPopupOpen);
@@ -59,28 +59,14 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   return (
     <section className="user-tasks-container">
       {(isQuitGroupPopupOpen || isRemoveUserPopupOpen) && (
-        <Popup
-          heading={isQuitGroupPopupOpen ? 'Quit group' : 'Remove user'}
-          handleClosePopUp={isQuitGroupPopupOpen ? toogleAcceptQuitGroup : toogleAcceptRemoveUser}
+        <RemoveUserPopup
+          isQuitGroupPopupOpen={isQuitGroupPopupOpen}
+          toogleAcceptQuitGroup={toogleAcceptQuitGroup}
+          toogleAcceptRemoveUser={toogleAcceptRemoveUser}
           error={error}
-        >
-          <p className="user-tasks-container__accept-popup-paragraph">
-            {isQuitGroupPopupOpen
-              ? 'Are you sure you want to quit?'
-              : `Are you sure you want remove ${displayName} from group?`}
-          </p>
-          <section className="user-tasks-container__accept-popup-buttons">
-            <Button
-              buttonType="decline"
-              handleOnClick={isQuitGroupPopupOpen ? toogleAcceptQuitGroup : toogleAcceptRemoveUser}
-            >
-              No
-            </Button>
-            <Button buttonType="accept" handleOnClick={handleRemoveUser}>
-              Yes
-            </Button>
-          </section>
-        </Popup>
+          displayName={displayName}
+          handleRemoveUser={handleRemoveUser}
+        />
       )}
       <section className="user-tasks-container__user">
         {canRemoveUser && (
