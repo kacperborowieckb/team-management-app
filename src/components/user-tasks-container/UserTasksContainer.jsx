@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNewTask } from '../../features/tasks/tasksSlice';
 import { useParams } from 'react-router';
 import AddTaskPopup from '../add-task-popup/AddTaskPopup';
-import { getGroupsError, removeUserFromGroup } from '../../features/groups/groupsSlice';
+import {
+  getCurrentGroupUsers,
+  getGroupsError,
+  removeUserFromGroup,
+} from '../../features/groups/groupsSlice';
 import { getCurrentUser } from '../../features/user/userSlice';
 import OptionsPopup from '../options-popup/OptionsPopup';
 import UserTasks from '../user-tasks/UserTasks';
@@ -15,6 +19,7 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const user = useSelector(getCurrentUser);
+  const currentGroupUsers = useSelector(getCurrentGroupUsers);
   const error = useSelector(getGroupsError);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [title, setTitle] = useState('');
@@ -45,8 +50,10 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   };
 
   const handleRemoveUser = () => dispatch(removeUserFromGroup({ groupId, uid, admin }));
-
-  const canRemoveUser = !admin && (user ? user.uid : undefined) !== uid;
+  const canRemoveUser =
+    !admin &&
+    (user ? user.uid : undefined) !== uid &&
+    (currentGroupUsers ? currentGroupUsers[0].uid : undefined) === (user ? user.uid : undefined);
 
   return (
     <section className="user-tasks-container">
