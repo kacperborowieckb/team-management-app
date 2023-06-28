@@ -51,9 +51,10 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
 
   const handleRemoveUser = () => dispatch(removeUserFromGroup({ groupId, uid, admin }));
   const canRemoveUser =
-    !admin &&
     (user ? user.uid : undefined) !== uid &&
     (currentGroupUsers ? currentGroupUsers[0].uid : undefined) === (user ? user.uid : undefined);
+  const canRemoveAdmin =
+    (user ? user.uid : null) === (currentGroupUsers ? currentGroupUsers[0].uid : undefined);
 
   return (
     <section className="user-tasks-container">
@@ -84,7 +85,8 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
       <section className="user-tasks-container__user">
         {canRemoveUser && (
           <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
-            <Button buttonType="option">Set as Admin</Button>
+            {!admin && <Button buttonType="option">Set as Admin</Button>}
+            {admin && canRemoveAdmin && <Button buttonType="option">Remove Admin</Button>}
             <Button buttonType="option-with-accept" handleOnClick={toogleAcceptRemoveUser}>
               Remove User
             </Button>
