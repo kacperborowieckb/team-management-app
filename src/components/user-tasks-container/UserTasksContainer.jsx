@@ -53,7 +53,7 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
         <>
           <>
             <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
-              <Button buttonType="option" handleOnClick={handleRemoveUser}>
+              <Button buttonType="option-with-accept" handleOnClick={handleRemoveUser}>
                 Quit Group
               </Button>
             </OptionsPopup>
