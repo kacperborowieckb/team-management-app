@@ -11,7 +11,7 @@ const initialState = {
 export const addNewTask = createAsyncThunk(
   'tasks/addNewTask',
   async (
-    { groupId, uid, title, content, taskColor, toogleAddTaskPopUp },
+    { groupId, uid, title, content, taskColor, toogleAddTaskPopUp, clearInputs },
     { rejectWithValue, getState }
   ) => {
     const date = new Date();
@@ -32,6 +32,7 @@ export const addNewTask = createAsyncThunk(
       };
       await addTask(groupId, uid, task);
       toogleAddTaskPopUp();
+      clearInputs();
     } catch (error) {
       return rejectWithValue(error.message);
     }

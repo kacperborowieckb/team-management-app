@@ -9,6 +9,7 @@ import AddTaskPopup from '../add-task-popup/AddTaskPopup';
 import { removeUserFromGroup } from '../../features/groups/groupsSlice';
 import { getCurrentUser } from '../../features/user/userSlice';
 import OptionsPopup from '../options-popup/OptionsPopup';
+import UserTasks from '../user-tasks/UserTasks';
 
 const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const dispatch = useDispatch();
@@ -24,10 +25,18 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleContentChange = (e) => setContent(e.target.value);
 
+  const clearInputs = () => {
+    setTitle('');
+    setContent('');
+    setTaskColor('var(--clr-main-700)');
+  };
+
   const handleAddTask = (e) => {
     e.preventDefault();
     if (title && content)
-      dispatch(addNewTask({ groupId, uid, title, content, taskColor, toogleAddTaskPopUp }));
+      dispatch(
+        addNewTask({ groupId, uid, title, content, taskColor, toogleAddTaskPopUp, clearInputs })
+      );
   };
 
   const canRemoveUser = !admin && (user ? user.uid : undefined) !== uid;
@@ -37,20 +46,20 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   // if want to quit group when admin => new admin or delete whole group
   return (
     <section className="user-tasks-container">
-      {canRemoveUser && (
-        <>
-          <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
-            <Button buttonType="option" handleOnClick={handleRemoveUser}>
-              Set as Admin
-            </Button>
-            <Button buttonType="option-with-accept" handleOnClick={handleRemoveUser}>
-              Remove User
-            </Button>
-          </OptionsPopup>
-        </>
-      )}
-      {(user ? user.uid : undefined) === uid && (
-        <>
+      <section className="user-tasks-container__user">
+        {canRemoveUser && (
+          <>
+            <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
+              <Button buttonType="option" handleOnClick={handleRemoveUser}>
+                Set as Admin
+              </Button>
+              <Button buttonType="option-with-accept" handleOnClick={handleRemoveUser}>
+                Remove User
+              </Button>
+            </OptionsPopup>
+          </>
+        )}
+        {(user ? user.uid : undefined) === uid && (
           <>
             <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
               <Button buttonType="option-with-accept" handleOnClick={handleRemoveUser}>
@@ -58,10 +67,7 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
               </Button>
             </OptionsPopup>
           </>
-        </>
-      )}
-
-      <section className="user-tasks-container__user">
+        )}
         <img
           className="user-tasks-container__img"
           src="/profile-picture.png"
@@ -69,27 +75,7 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
         />
         <h2 className="user-tasks-container__username">{displayName}</h2>
       </section>
-      <section className="user-tasks-container__tasks-section">
-        {tasks.length > 0 ? (
-          tasks.map(({ title, content, color, taskId, createdAt, createdBy }) => (
-            <TaskItem
-              title={title}
-              content={content}
-              color={color}
-              key={taskId}
-              taskId={taskId}
-              uid={uid}
-              createdAt={createdAt}
-              createdBy={createdBy}
-            />
-          ))
-        ) : (
-          <h3 className="user-tasks-container__no-tasks">Empty here..</h3>
-        )}
-      </section>
-      <Button buttonType="add-task" handleOnClick={toogleAddTaskPopUp}>
-        Add Task
-      </Button>
+      <UserTasks tasks={tasks} uid={uid} toogleAddTaskPopUp={toogleAddTaskPopUp} />
       {isPopupOpen && (
         <AddTaskPopup
           toogleAddTaskPopUp={toogleAddTaskPopUp}
