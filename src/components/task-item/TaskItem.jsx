@@ -9,7 +9,11 @@ const TaskItem = ({ title, content, color, taskId, uid, createdAt, createdBy }) 
 
   return (
     <>
-      <section className="task-item" style={{ backgroundColor: color }} onClick={toogleTaskPopup}>
+      <section
+        className="task-item"
+        style={{ backgroundColor: color, cursor: taskId && 'pointer' }}
+        onClick={taskId ? toogleTaskPopup : undefined}
+      >
         <h4 className="task-item__title">{title}</h4>
         <p className="task-item__content">{content}</p>
       </section>
