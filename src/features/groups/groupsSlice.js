@@ -9,6 +9,7 @@ import {
   getReceiver,
   getUserGroupsFromFirestore,
   removeUser,
+  updateAdminPermissions,
 } from '../../utils/firebase/firebase';
 
 const initialState = {
@@ -104,6 +105,25 @@ export const deleteUserGroup = createAsyncThunk(
       }
       await deleteGroup(groupId, filteredUserGroups);
       navigateToHome();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const setAdminPermissions = createAsyncThunk(
+  'groups/setAdminPermissions',
+  async ({ groupId, uid, currentGroupUsers, permission }, { rejectWithValue }) => {
+    try {
+      const newGroupUsers = currentGroupUsers.map((user) =>
+        user.uid === uid ? { ...user, admin: permission } : user
+      );
+      const userGroups = await getUserGroupsFromFirestore(uid);
+      const newUserGroups = userGroups.map((group) =>
+        group.id === groupId ? { ...group, admin: permission } : group
+      );
+      await updateAdminPermissions(groupId, uid, newGroupUsers, newUserGroups, permission);
+      return;
     } catch (error) {
       return rejectWithValue(error.message);
     }

@@ -219,3 +219,12 @@ export const deleteGroup = async (groupId, filteredUserGroups) => {
     });
   }
 };
+
+export const updateAdminPermissions = async (groupId, uid, newGroupUsers, newUserGroups) => {
+  await runTransaction(db, async (transaction) => {
+    transaction.update(doc(db, 'groups', groupId), { users: newGroupUsers });
+  });
+  await runTransaction(db, async (transaction) => {
+    transaction.update(doc(db, 'users', uid), { groups: newUserGroups });
+  });
+};

@@ -9,6 +9,7 @@ import {
   getCurrentGroupUsers,
   getGroupsError,
   removeUserFromGroup,
+  setAdminPermissions,
 } from '../../features/groups/groupsSlice';
 import { getCurrentUser } from '../../features/user/userSlice';
 import OptionsPopup from '../options-popup/OptionsPopup';
@@ -50,9 +51,15 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   };
 
   const handleRemoveUser = () => dispatch(removeUserFromGroup({ groupId, uid, admin }));
+  const handleSetAsAdmin = () =>
+    dispatch(setAdminPermissions({ groupId, uid, currentGroupUsers, permission: true }));
+  const handleRemoveAdmin = () =>
+    dispatch(setAdminPermissions({ groupId, uid, currentGroupUsers, permission: false }));
+
   const canRemoveUser =
     (user ? user.uid : undefined) !== uid &&
     (currentGroupUsers ? currentGroupUsers[0].uid : undefined) === (user ? user.uid : undefined);
+
   const canRemoveAdmin =
     (user ? user.uid : null) === (currentGroupUsers ? currentGroupUsers[0].uid : undefined);
 
@@ -71,8 +78,16 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
       <section className="user-tasks-container__user">
         {canRemoveUser && (
           <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
-            {!admin && <Button buttonType="option">Set as Admin</Button>}
-            {admin && canRemoveAdmin && <Button buttonType="option">Remove Admin</Button>}
+            {!admin && (
+              <Button buttonType="option" handleOnClick={handleSetAsAdmin}>
+                Set as Admin
+              </Button>
+            )}
+            {admin && canRemoveAdmin && (
+              <Button buttonType="option" handleOnClick={handleRemoveAdmin}>
+                Remove Admin
+              </Button>
+            )}
             <Button buttonType="option-with-accept" handleOnClick={toogleAcceptRemoveUser}>
               Remove User
             </Button>
