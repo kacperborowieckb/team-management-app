@@ -7,16 +7,20 @@ import InputField from '../../components/input-field/InputField';
 import {
   getIsSignInPopupOpen,
   getUserError,
+  getUserStatus,
   setError,
   signUpUser,
   toogleSignInPopup,
 } from '../../features/user/userSlice';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
+import { ImSpinner2 } from 'react-icons/im';
 import './sign-up.scss';
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const error = useSelector(getUserError);
+  const status = useSelector(getUserStatus);
   const isPopUpOpen = useSelector(getIsSignInPopupOpen);
 
   const [email, setEmail] = useState('');
@@ -78,7 +82,13 @@ const SignUp = () => {
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
           />
-          <Button type="submit">Sign Up</Button>
+          {status === ACTION_STATUS.PENDING ? (
+            <Button disabled>
+              <ImSpinner2 className="spinner" />
+            </Button>
+          ) : (
+            <Button>Sign Up</Button>
+          )}
         </form>
       </section>
     </section>

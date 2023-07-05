@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import {
   addUserToGroup,
   getGroupsError,
+  getGroupsStatus,
   getUserGroups,
   setGroupsError,
 } from '../../features/groups/groupsSlice';
@@ -11,12 +12,15 @@ import { getCurrentUser } from '../../features/user/userSlice';
 import Popup from '../popup/Popup';
 import InputField from '../input-field/InputField';
 import Button from '../button/Button';
+import { ImSpinner2 } from 'react-icons/im';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const AddUserPopup = ({ setIsPopUpOpen, toogleAddUserPopup }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const user = useSelector(getCurrentUser);
   const error = useSelector(getGroupsError);
+  const status = useSelector(getGroupsStatus);
   const groups = useSelector(getUserGroups);
   const [searchUserByEmailValue, setSearchUserByEmailValue] = useState('');
 
@@ -53,7 +57,13 @@ const AddUserPopup = ({ setIsPopUpOpen, toogleAddUserPopup }) => {
         value={searchUserByEmailValue}
         onChange={setEmailValue}
       />
-      <Button type="submit">Add User</Button>
+      {status === ACTION_STATUS.PENDING ? (
+        <Button disabled>
+          <ImSpinner2 className="spinner" />
+        </Button>
+      ) : (
+        <Button>Add User</Button>
+      )}
     </Popup>
   );
 };

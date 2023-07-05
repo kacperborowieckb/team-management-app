@@ -5,6 +5,7 @@ import Button from '../button/Button';
 import './sign-in-popup.scss';
 import {
   getUserError,
+  getUserStatus,
   signInUser,
   signInUserWithEmailAndPassword,
   toogleSignInPopup,
@@ -13,6 +14,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/Ai';
 import { useRef } from 'react';
 import { useClickToClose } from '../../hooks/useClickToClose';
+import { ImSpinner2 } from 'react-icons/im';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const SignInPopup = () => {
   const dispatch = useDispatch();
@@ -20,6 +23,7 @@ const SignInPopup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const error = useSelector(getUserError);
+  const status = useSelector(getUserStatus);
   const popup = useRef();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -64,7 +68,14 @@ const SignInPopup = () => {
               Sign Up.
             </Link>
           </p>
-          <Button>Sign In</Button>
+          {status === ACTION_STATUS.PENDING ? (
+            <Button disabled>
+              {' '}
+              <ImSpinner2 className="spinner" />
+            </Button>
+          ) : (
+            <Button>Sign In</Button>
+          )}
         </form>
         <Button
           buttonType="google"

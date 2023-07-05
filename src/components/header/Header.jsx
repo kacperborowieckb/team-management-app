@@ -30,7 +30,6 @@ const Header = () => {
           <h1 className="header__logo">TM</h1>
         </Link>
       </section>
-
       {user ? (
         <>
           <Notifications />

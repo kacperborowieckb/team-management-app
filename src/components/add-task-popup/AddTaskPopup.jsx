@@ -1,3 +1,7 @@
+import { ImSpinner2 } from 'react-icons/im';
+import { useSelector } from 'react-redux';
+import { getTasksStatus } from '../../features/tasks/tasksSlice';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 import Button from '../button/Button';
 import ColorSelector from '../color-selector/ColorSelector';
 import InputField from '../input-field/InputField';
@@ -14,6 +18,7 @@ const AddTaskPopup = ({
   taskColor,
   setTaskColor,
 }) => {
+  const status = useSelector(getTasksStatus);
   return (
     <Popup
       heading="Add Task"
@@ -42,7 +47,13 @@ const AddTaskPopup = ({
         content={content ? content : 'Your very long Task Description'}
         color={taskColor}
       />
-      <Button>Add Task</Button>
+      {status === ACTION_STATUS.PENDING ? (
+        <Button disabled>
+          <ImSpinner2 className="spinner" />
+        </Button>
+      ) : (
+        <Button>Add Task</Button>
+      )}
     </Popup>
   );
 };

@@ -8,6 +8,7 @@
   height: 522px;
   --width-item: 260px;
   box-shadow: 0px 0px 8px var(--clr-main-500);
+  font-size: var(--fs-body);
 
   & &__dots {
     position: absolute;

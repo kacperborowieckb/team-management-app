@@ -8,6 +8,7 @@ import AddTaskPopup from '../add-task-popup/AddTaskPopup';
 import {
   getCurrentGroupUsers,
   getGroupsError,
+  getGroupsStatus,
   removeUserFromGroup,
   setAdminPermissions,
 } from '../../features/groups/groupsSlice';
@@ -15,17 +16,20 @@ import { getCurrentUser } from '../../features/user/userSlice';
 import OptionsPopup from '../options-popup/OptionsPopup';
 import UserTasks from '../user-tasks/UserTasks';
 import RemoveUserPopup from '../remove-user-popup/RemoveUserPopup';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
+import { ImSpinner2 } from 'react-icons/im';
 
 const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const user = useSelector(getCurrentUser);
   const currentGroupUsers = useSelector(getCurrentGroupUsers);
+  const status = useSelector(getGroupsStatus);
   const error = useSelector(getGroupsError);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [taskColor, setTaskColor] = useState('var(--clr-main-700)');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isRemoveUserPopupOpen, setIsRemoveUserPopupOpen] = useState(false);
   const [isQuitGroupPopupOpen, setIsQuitGroupPopupOpen] = useState(false);
 
@@ -80,12 +84,20 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
           <OptionsPopup className="user-tasks-container__dots" style={{ top: '0', left: '150%' }}>
             {!admin && (
               <Button buttonType="option" handleOnClick={handleSetAsAdmin}>
-                Set as Admin
+                {status === ACTION_STATUS.PENDING ? (
+                  <ImSpinner2 className="spinner" />
+                ) : (
+                  'Set as Admin'
+                )}
               </Button>
             )}
             {admin && canRemoveAdmin && (
               <Button buttonType="option" handleOnClick={handleRemoveAdmin}>
-                Remove Admin
+                {status === ACTION_STATUS.PENDING ? (
+                  <ImSpinner2 className="spinner" />
+                ) : (
+                  'Remove Admin'
+                )}
               </Button>
             )}
             <Button buttonType="option-with-accept" handleOnClick={toogleAcceptRemoveUser}>

@@ -126,6 +126,4 @@ export const getNotifications = (state) => state.notifications.notifications;
 export const getNotificationsError = (state) => state.notifications.error;
 export const getCurrentNotificationsStatus = (state) => state.notifications.status;
 
-export const {} = notificationSlice.actions;
-
 export default notificationSlice.reducer;

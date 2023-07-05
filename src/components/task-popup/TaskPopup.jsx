@@ -1,16 +1,19 @@
 import { useRef } from 'react';
 import { AiOutlineClose } from 'react-icons/Ai';
 import { BsTrash3 } from 'react-icons/bs';
-import { useDispatch } from 'react-redux';
+import { ImSpinner2 } from 'react-icons/im';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { removeExistingTask } from '../../features/tasks/tasksSlice';
+import { getTasksStatus, removeExistingTask } from '../../features/tasks/tasksSlice';
 import { useClickToClose } from '../../hooks/useClickToClose';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 import './task-popup.scss';
 
 const TaskPopup = ({ title, content, closePopup, color, taskId, uid, createdAt, createdBy }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const popup = useRef();
+  const status = useSelector(getTasksStatus);
   useClickToClose(popup, closePopup);
 
   const handleRemoveTask = () => dispatch(removeExistingTask({ taskId, closePopup, uid, groupId }));
@@ -30,7 +33,11 @@ const TaskPopup = ({ title, content, closePopup, color, taskId, uid, createdAt, 
           <p className="task-popup__time">Created at: {createdAt}</p>
           <p className="task-popup__author">Created by: {createdBy}</p>
         </section>
-        <BsTrash3 className="task-popup__delete" onClick={handleRemoveTask} />
+        {status === ACTION_STATUS.PENDING ? (
+          <ImSpinner2 className="spinner task-popup__delete" />
+        ) : (
+          <BsTrash3 className="task-popup__delete" onClick={handleRemoveTask} />
+        )}
       </section>
     </section>
   );

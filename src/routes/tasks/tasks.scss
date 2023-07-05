@@ -3,6 +3,7 @@
   display: flex;
   gap: 2rem;
   padding: 3rem;
+  font-size: var(--fs-heading);
 
   & &__loading {
     height: 100%;

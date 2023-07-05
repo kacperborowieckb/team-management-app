@@ -123,7 +123,7 @@ export const setAdminPermissions = createAsyncThunk(
         group.id === groupId ? { ...group, admin: permission } : group
       );
       await updateAdminPermissions(groupId, uid, newGroupUsers, newUserGroups, permission);
-      return;
+      return newGroupUsers;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -197,6 +197,18 @@ export const groupsSlice = createSlice({
         state.status = ACTION_STATUS.IDLE;
       })
       .addCase(deleteUserGroup.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(setAdminPermissions.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(setAdminPermissions.fulfilled, (state, action) => {
+        state.status = ACTION_STATUS.IDLE;
+        state.currentGroupUsers = action.payload;
+      })
+      .addCase(setAdminPermissions.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });

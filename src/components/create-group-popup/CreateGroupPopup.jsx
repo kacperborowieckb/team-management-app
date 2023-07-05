@@ -1,10 +1,12 @@
 import { useRef } from 'react';
 import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/Ai';
+import { ImSpinner2 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewGroupDoc } from '../../features/groups/groupsSlice';
+import { createNewGroupDoc, getGroupsStatus } from '../../features/groups/groupsSlice';
 import { getCurrentUser } from '../../features/user/userSlice';
 import { useClickToClose } from '../../hooks/useClickToClose';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 import Button from '../button/Button';
 import InputField from '../input-field/InputField';
 import './create-group-popup.scss';
@@ -12,6 +14,7 @@ import './create-group-popup.scss';
 const CreateGroupPopup = ({ handleTooglePopup }) => {
   const dispatch = useDispatch();
   const user = useSelector(getCurrentUser);
+  const status = useSelector(getGroupsStatus);
   const [groupName, setGroupName] = useState('');
   const popup = useRef();
   useClickToClose(popup, handleTooglePopup);
@@ -34,7 +37,13 @@ const CreateGroupPopup = ({ handleTooglePopup }) => {
             value={groupName}
             onChange={handleNameChange}
           />
-          <Button type="submit">Create New Group</Button>
+          {status === ACTION_STATUS.PENDING ? (
+            <Button type="submit" disabled>
+              <ImSpinner2 className="spinner" />
+            </Button>
+          ) : (
+            <Button type="submit">Create New Group</Button>
+          )}
         </form>
         <AiOutlineClose className="create-group-popup__close" onClick={handleTooglePopup} />
       </section>

@@ -1,6 +1,10 @@
+import { useSelector } from 'react-redux';
+import { getGroupsStatus } from '../../features/groups/groupsSlice';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 import Button from '../button/Button';
 import Popup from '../popup/Popup';
 import './remove-user-popup.scss';
+import { ImSpinner2 } from 'react-icons/im';
 
 const RemoveUserPopup = ({
   isQuitGroupPopupOpen,
@@ -10,6 +14,7 @@ const RemoveUserPopup = ({
   displayName,
   handleRemoveUser,
 }) => {
+  const status = useSelector(getGroupsStatus);
   return (
     <Popup
       heading={isQuitGroupPopupOpen ? 'Quit group' : 'Remove user'}
@@ -28,9 +33,15 @@ const RemoveUserPopup = ({
         >
           No
         </Button>
-        <Button buttonType="accept" handleOnClick={handleRemoveUser}>
-          Yes
-        </Button>
+        {status === ACTION_STATUS.PENDING ? (
+          <Button buttonType="accept" disabled>
+            <ImSpinner2 className="spinner" />
+          </Button>
+        ) : (
+          <Button buttonType="accept" handleOnClick={handleRemoveUser}>
+            Yes
+          </Button>
+        )}
       </section>
     </Popup>
   );

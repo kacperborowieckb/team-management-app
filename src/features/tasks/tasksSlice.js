@@ -88,6 +88,8 @@ const tasksSlice = createSlice({
   },
 });
 
+export const getTasksStatus = (state) => state.tasks.status;
+
 export const { setTasks } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

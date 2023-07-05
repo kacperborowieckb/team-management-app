@@ -2,16 +2,19 @@ import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-
 import './group-nav.scss';
 import AddUser from '../add-user/AddUser';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUserGroup } from '../../features/groups/groupsSlice';
+import { deleteUserGroup, getGroupsStatus } from '../../features/groups/groupsSlice';
 import Button from '../button/Button';
 import OptionsPopup from '../options-popup/OptionsPopup';
 import AddUserPopup from '../add-user-popup/AddUserPopup';
 import { useState } from 'react';
 import Popup from '../popup/Popup';
+import { ImSpinner2 } from 'react-icons/im';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const GroupNav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const status = useSelector(getGroupsStatus);
   const { groupId } = useParams();
   const { pathname } = useLocation();
   const currentGroup = useSelector((state) => state.groups.groups.find(({ id }) => id === groupId));
@@ -60,15 +63,20 @@ const GroupNav = () => {
           <Popup heading="Delete group" handleClosePopUp={toogleAcceptDeleteGroup}>
             <p className="group-nav__accept-popup-paragraph">
               Are you sure you want to delete this group?
-              {console.log(currentGroup)}
             </p>
             <section className="group-nav__accept-popup-buttons">
               <Button buttonType="decline" handleOnClick={toogleAcceptDeleteGroup}>
                 No
               </Button>
-              <Button buttonType="accept" handleOnClick={handleDeleteGroup}>
-                Yes
-              </Button>
+              {status === ACTION_STATUS.PENDING ? (
+                <Button buttonType="accept">
+                  <ImSpinner2 className="spinner" />
+                </Button>
+              ) : (
+                <Button buttonType="accept" handleOnClick={handleDeleteGroup}>
+                  Yes
+                </Button>
+              )}
             </section>
           </Popup>
         )}

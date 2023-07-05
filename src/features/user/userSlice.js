@@ -57,13 +57,17 @@ export const signInUserWithEmailAndPassword = createAsyncThunk(
   }
 );
 
-export const signOutUser = createAsyncThunk('user/signOutUser', async (_, { rejectWithValue }) => {
-  try {
-    await signOutCurrentUser();
-  } catch (error) {
-    return rejectWithValue(error.message);
+export const signOutUser = createAsyncThunk(
+  'user/signOutUser',
+  async ({ closeDropdown }, { rejectWithValue }) => {
+    try {
+      await signOutCurrentUser();
+      closeDropdown();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
 export const userSlice = createSlice({
   name: 'user',

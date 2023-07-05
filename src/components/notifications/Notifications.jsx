@@ -14,6 +14,7 @@ import {
 } from '../../features/notifications/notificationsSlice';
 import Button from '../button/Button';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
+import { ImSpinner2 } from 'react-icons/im';
 
 const Notifications = () => {
   const dispatch = useDispatch();
@@ -27,9 +28,7 @@ const Notifications = () => {
   const tooglePopUp = () => setIsPopupOpen(!isPopupOpen);
   const handleClosePopup = () => setIsPopupOpen(false);
 
-  const declineInvitation = (groupId) => {
-    dispatch(removeNotification({ uid: user.uid, groupId }));
-  };
+  const declineInvitation = (groupId) => dispatch(removeNotification({ uid: user.uid, groupId }));
 
   const acceptInvitation = (groupId, groupName) => {
     dispatch(removeNotification({ uid: user.uid, groupId }));
@@ -58,7 +57,7 @@ const Notifications = () => {
 
   useEffect(() => {
     const handleClick = (e) => {
-      if (!notificationsRef.current.contains(e.target)) {
+      if (!notificationsRef.current.contains(e.target) && e.target.type !== 'submit') {
         handleClosePopup();
       }
     };
@@ -86,15 +85,21 @@ const Notifications = () => {
                 </h3>
                 <h4 className="notifications__group-name">{groupName}</h4>
                 <section className="notifications__buttons">
-                  <Button buttonType="decline" handleOnClick={() => declineInvitation(groupId)}>
-                    Decline
-                  </Button>
-                  <Button
-                    buttonType="accept"
-                    handleOnClick={() => acceptInvitation(groupId, groupName)}
-                  >
-                    Join
-                  </Button>
+                  {status === ACTION_STATUS.PENDING ? (
+                    <ImSpinner2 className="spinner" style={{ margin: 'auto' }} />
+                  ) : (
+                    <>
+                      <Button buttonType="decline" handleOnClick={() => declineInvitation(groupId)}>
+                        Decline
+                      </Button>
+                      <Button
+                        buttonType="accept"
+                        handleOnClick={() => acceptInvitation(groupId, groupName)}
+                      >
+                        Join
+                      </Button>
+                    </>
+                  )}
                 </section>
               </section>
             ))

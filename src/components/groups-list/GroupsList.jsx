@@ -44,7 +44,7 @@ const GroupsList = ({ content, forceOpen = false }) => {
             style={{ rotate: !isListOpen && '-90deg' }}
           />
         </div>
-        {(isListOpen || forceOpen) && (
+        {isListOpen && (
           <ul className="groups-list__sub-list">
             {error && <p>error</p>}
             {loading && <ImSpinner2 className="spinner" />}
