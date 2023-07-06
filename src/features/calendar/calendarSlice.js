@@ -3,7 +3,7 @@ import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
   events: [],
-  currentDate: null,
+  currentDate: {},
   status: ACTION_STATUS.IDLE,
   error: null,
 };
@@ -22,8 +22,13 @@ export const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    setDate: (state, action) => {
-      state.currentDate = action.payload;
+    setDate: {
+      reducer: (state, action) => {
+        state.currentDate = action.payload;
+      },
+      prepare: (day, month, year, daysInMonth) => {
+        return { payload: { day, month, year, daysInMonth } };
+      },
     },
   },
   //   extraReducers(builder) {
