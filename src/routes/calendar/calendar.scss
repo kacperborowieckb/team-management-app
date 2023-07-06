@@ -14,5 +14,7 @@
   & &__container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    max-width: 800px;
+    margin: 0 auto;
   }
 }
