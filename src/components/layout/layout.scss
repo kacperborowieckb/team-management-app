@@ -1,4 +1,8 @@
 .layout {
   flex-grow: 1;
-  overflow: hidden;
+  overflow: hidden auto;
+
+  &::-webkit-scrollbar-track {
+    margin: 0;
+  }
 }
