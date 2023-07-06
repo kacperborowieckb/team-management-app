@@ -28,6 +28,9 @@
     position: relative;
     color: var(--clr-font-body-black);
     font-size: var(--fs-heading);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-right: 2rem;
   }
 

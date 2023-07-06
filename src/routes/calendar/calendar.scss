@@ -1,10 +1,12 @@
 .calendar {
+  margin: 0 1rem;
+
   & &__heading-container {
-    padding: 1.5rem;
+    padding: 0.8rem;
   }
 
   & &__heading {
-    font-size: var(--fs-heading);
+    font-size: var(--fs-large);
     color: var(--clr-main-700);
     font-weight: var(--fw-bold);
     text-align: center;
@@ -14,7 +16,11 @@
   & &__container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    max-width: 800px;
+    max-width: 1000px;
+    background-color: var(--clr-main-700);
+    border: 6px solid var(--clr-main-700);
+    grid-gap: 6px;
     margin: 0 auto;
+    border-radius: var(--border-radius-small);
   }
 }

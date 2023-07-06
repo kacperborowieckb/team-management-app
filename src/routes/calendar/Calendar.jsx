@@ -33,7 +33,12 @@ const Calendar = () => {
           </section>
           <section className="calendar__container">
             {generateMonthArray(currentDate).map((date, i) => (
-              <CalendarItem key={i} currentMonth={date.currentMonth} day={date.day} />
+              <CalendarItem
+                key={i}
+                currentMonth={date.currentMonth}
+                day={date.day}
+                isSunday={(i + 1) % 7 === 0}
+              />
             ))}
           </section>
         </>
