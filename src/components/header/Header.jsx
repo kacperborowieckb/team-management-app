@@ -8,7 +8,7 @@ import Button from '../button/Button';
 import SignInPopup from '../sign-in-popup/SignInPopup';
 import './header.scss';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Notifications from '../notifications/Notifications';
 import { useRef, useState } from 'react';
 import UserDropdown from '../user-dropdown/UserDropdown';
@@ -17,6 +17,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const isSignInPopupOpen = useSelector(getIsSignInPopupOpen);
   const user = useSelector(getCurrentUser);
+  const { groupId } = useParams();
+  const currentGroup = useSelector((state) => state.groups.groups.find(({ id }) => id === groupId));
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const profilePicture = useRef();
 
@@ -30,8 +32,13 @@ const Header = () => {
           <h1 className="header__logo">TM</h1>
         </Link>
       </section>
+      {currentGroup && (
+        <section className="header__group-name-container">
+          <h1 className="header__group-name">{currentGroup.name}</h1>
+        </section>
+      )}
       {user ? (
-        <>
+        <section className="header__user-section">
           <Notifications />
           <p className="header__user-name">{user.displayName}</p>
           <section className="header__profile-picture-container">
@@ -49,7 +56,7 @@ const Header = () => {
               />
             )}
           </section>
-        </>
+        </section>
       ) : (
         <Button
           buttonType="signIn"

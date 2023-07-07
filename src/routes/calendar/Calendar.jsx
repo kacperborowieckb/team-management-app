@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 import CalendarItem from '../../components/calendar-item/CalendarItem';
 import { getCurrentDate, setDate } from '../../features/calendar/calendarSlice';
 import { generateMonthArray, getDaysInMonth } from '../../utils/calendar/calendar.utils';
@@ -9,8 +8,6 @@ import './calendar.scss';
 const Calendar = () => {
   const dispatch = useDispatch();
   const currentDate = useSelector(getCurrentDate);
-  const { groupId } = useParams();
-  const currentGroup = useSelector((state) => state.groups.groups.find(({ id }) => id === groupId));
 
   useEffect(() => {
     const today = new Date();
@@ -26,11 +23,11 @@ const Calendar = () => {
 
   return (
     <section className="calendar">
-      {currentDate && currentGroup ? (
+      {currentDate ? (
         <>
-          <section className="calendar__heading-container">
+          {/* <section className="calendar__heading-container">
             <h1 className="calendar__heading">{currentGroup.name + ' Calendar'}</h1>
-          </section>
+          </section> */}
           <section className="calendar__container">
             {generateMonthArray(currentDate).map((date, i) => (
               <CalendarItem

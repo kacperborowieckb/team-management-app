@@ -2,17 +2,25 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 1rem;
   padding: 1rem;
   user-select: none;
 
-  & &__logo-container {
+  & &__group-name-container {
     flex-grow: 1;
+  }
 
-    & > a {
-      display: block;
-      width: fit-content;
-    }
+  & &__group-name {
+    text-align: center;
+    font-size: var(--fs-large);
+    color: var(--clr-main-700);
+    font-weight: var(--fw-bold);
+    text-shadow: 0px 0px 8px var(--clr-main-100);
+  }
+
+  & &__user-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   & &__logo {
