@@ -30,6 +30,22 @@ export const calendarSlice = createSlice({
         return { payload: { day, month, year, daysInMonth } };
       },
     },
+    increaseMonth: (state) => {
+      if (state.currentDate.month === 12) {
+        state.currentDate.month = 1;
+        state.currentDate.year++;
+      } else {
+        state.currentDate.month++;
+      }
+    },
+    decreaseMonth: (state) => {
+      if (state.currentDate.month === 1) {
+        state.currentDate.month = 12;
+        state.currentDate.year--;
+      } else {
+        state.currentDate.month--;
+      }
+    },
   },
   //   extraReducers(builder) {
   //     builder
@@ -50,6 +66,6 @@ export const calendarSlice = createSlice({
 
 export const getCurrentDate = (state) => state.calendar.currentDate;
 
-export const { setDate } = calendarSlice.actions;
+export const { setDate, increaseMonth, decreaseMonth } = calendarSlice.actions;
 
 export default calendarSlice.reducer;

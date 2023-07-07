@@ -1,6 +1,40 @@
 .calendar {
   margin: 0 1rem;
 
+  & &__nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+  }
+
+  & &__previous {
+    rotate: 180deg;
+  }
+
+  & &__previous,
+  & &__next {
+    font-size: var(--fs-large);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover > polyline {
+      stroke: var(--clr-main-700);
+    }
+
+    &:hover {
+      transform: scale(1.2);
+      filter: drop-shadow(0px 0px 4px var(--clr-main-300));
+    }
+  }
+
+  & &__current-date {
+    width: 180px;
+    text-align: center;
+    user-select: none;
+  }
+
   & &__container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
