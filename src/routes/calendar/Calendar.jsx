@@ -49,6 +49,9 @@ const Calendar = () => {
                 currentMonth={date.currentMonth}
                 day={date.day}
                 isSunday={(i + 1) % 7 === 0}
+                isToday={
+                  date.day === currentDate.day && currentDate.month === new Date().getMonth() + 1
+                }
               />
             ))}
           </section>

@@ -16,6 +16,7 @@ export const generateMonthArray = ({ month, year, daysInMonth }) => {
   }
   const emptySpaces = MAX_DAYS - monthArray.length;
   for (let i = 1; i <= emptySpaces; i++) {
+    if (monthArray.length % 7 === 0) break;
     monthArray.push({ currentMonth: false, day: i });
   }
   return monthArray;
