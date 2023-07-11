@@ -8,8 +8,8 @@ export const generateMonthArray = ({ month, year, daysInMonth }) => {
   const previousMonthDays =
     month === 1 ? getDaysInMonth(12, year - 1) : getDaysInMonth(month - 1, year);
   const monthArray = [];
-  for (let i = firstDayOfMonth - 1; i > 0; i--) {
-    monthArray.push({ currentMonth: false, day: previousMonthDays - i - 1 });
+  for (let i = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1; i > 0; i--) {
+    monthArray.push({ currentMonth: false, day: previousMonthDays - i + 1 });
   }
   for (let i = 1; i <= daysInMonth; i++) {
     monthArray.push({ currentMonth: true, day: i });

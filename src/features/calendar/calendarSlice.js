@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getDaysInMonth } from '../../utils/calendar/calendar.utils';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
@@ -37,6 +38,10 @@ export const calendarSlice = createSlice({
       } else {
         state.currentDate.month++;
       }
+      state.currentDate.daysInMonth = getDaysInMonth(
+        state.currentDate.month,
+        state.currentDate.year
+      );
     },
     decreaseMonth: (state) => {
       if (state.currentDate.month === 1) {
@@ -45,6 +50,10 @@ export const calendarSlice = createSlice({
       } else {
         state.currentDate.month--;
       }
+      state.currentDate.daysInMonth = getDaysInMonth(
+        state.currentDate.month,
+        state.currentDate.year
+      );
     },
   },
   //   extraReducers(builder) {
