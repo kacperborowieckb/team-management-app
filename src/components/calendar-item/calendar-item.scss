@@ -1,9 +1,16 @@
 .calendar-item {
+  display: grid;
   aspect-ratio: 3/2;
   background-color: var(--clr-bg);
   border-radius: var(--border-radius-small);
   padding: 0 0.25rem;
   position: relative;
+  overflow: hidden;
+
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
 
   &__selected {
     background-color: var(--clr-white);
@@ -21,5 +28,15 @@
 
   &:hover > &__add-event {
     display: block;
+  }
+
+  & &__events {
+    overflow-y: auto;
+    border-radius: var(--border-radius-small);
+
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-thumb {
+      display: none;
+    }
   }
 }

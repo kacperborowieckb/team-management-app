@@ -1,0 +1,11 @@
+.calendar-event {
+  border-radius: var(--border-radius-small);
+  padding: 0.15rem 0.4rem;
+  color: var(--clr-font-white);
+  font-weight: var(--fw-semi-bold);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+}

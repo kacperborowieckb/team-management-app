@@ -52,6 +52,7 @@ const Calendar = () => {
                 isToday={
                   date.day === currentDate.day && currentDate.month === new Date().getMonth() + 1
                 }
+                events={[]}
               />
             ))}
           </section>
