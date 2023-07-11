@@ -15,8 +15,17 @@ export const fetchCalendarEvents = createAsyncThunk(
   async ({ groupId }, { rejectWithValue }) => {
     try {
       const events = await getEvents(groupId);
-      console.log(events);
       return events;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const addNewTask = createAsyncThunk(
+  'calendar/addNewTask',
+  async (_, { rejectWithValue }) => {
+    try {
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -71,6 +80,17 @@ export const calendarSlice = createSlice({
         state.status = ACTION_STATUS.IDLE;
       })
       .addCase(fetchCalendarEvents.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(addNewTask.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(addNewTask.fulfilled, (state) => {
+        state.status = ACTION_STATUS.IDLE;
+      })
+      .addCase(addNewTask.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });
