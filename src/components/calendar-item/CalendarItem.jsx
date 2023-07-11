@@ -25,11 +25,13 @@ const CalendarItem = ({ currentMonth, day, isSunday, isToday, events }) => {
         <p style={{ color: isSunday && 'var(--clr-red)' }}>{day}</p>
         {currentMonth && <AiOutlinePlus className="calendar-item__add-event" onClick={openPopup} />}
       </section>
-      <section className="calendar-item__events">
-        <CalendarEvent />
-        <CalendarEvent />
-        <CalendarEvent />
-      </section>
+      {events.length > 0 && (
+        <section className="calendar-item__events">
+          {events.map((event, i) => (
+            <CalendarEvent color="red" content={event.content} key={i} />
+          ))}
+        </section>
+      )}
       {isPopupOpen && (
         <AddEventPopup
           closePopup={closePopup}

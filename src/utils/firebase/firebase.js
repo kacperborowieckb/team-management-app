@@ -228,3 +228,12 @@ export const updateAdminPermissions = async (groupId, uid, newGroupUsers, newUse
     transaction.update(doc(db, 'users', uid), { groups: newUserGroups });
   });
 };
+
+export const getEvents = async (groupId) => {
+  const eventsDocRef = getDocumentRef('events', groupId);
+  const eventsSnap = await getDoc(eventsDocRef);
+  if (eventsSnap.exists()) {
+    return eventsSnap.data();
+  }
+  return {};
+};

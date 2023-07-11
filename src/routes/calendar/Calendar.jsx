@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import CalendarItem from '../../components/calendar-item/CalendarItem';
 import {
   decreaseMonth,
+  fetchCalendarEvents,
   getCurrentDate,
+  getCurrentEvents,
   increaseMonth,
   setDate,
 } from '../../features/calendar/calendarSlice';
@@ -11,13 +13,21 @@ import { generateMonthArray, getDaysInMonth } from '../../utils/calendar/calenda
 import { GrFormNext } from 'react-icons/Gr';
 import { MONTHS } from '../../helpers/months';
 import './calendar.scss';
+import { useParams } from 'react-router';
 
 const Calendar = () => {
   const dispatch = useDispatch();
+  const { groupId } = useParams();
   const currentDate = useSelector(getCurrentDate);
+  const yearAndMonth = `${currentDate.year}/${currentDate.month}`;
+  const events = useSelector((state) => getCurrentEvents(state, yearAndMonth));
 
   const handleIncreaseMonth = () => dispatch(increaseMonth());
   const handleDecreaseMonth = () => dispatch(decreaseMonth());
+
+  useEffect(() => {
+    dispatch(fetchCalendarEvents({ groupId }));
+  }, []);
 
   useEffect(() => {
     const today = new Date();
@@ -52,7 +62,11 @@ const Calendar = () => {
                 isToday={
                   date.day === currentDate.day && currentDate.month === new Date().getMonth() + 1
                 }
-                events={[]}
+                events={
+                  events.hasOwnProperty(yearAndMonth) && events[yearAndMonth][date.day]
+                    ? events[yearAndMonth][date.day]
+                    : []
+                }
               />
             ))}
           </section>
