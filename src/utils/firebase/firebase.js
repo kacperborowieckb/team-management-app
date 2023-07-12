@@ -237,3 +237,16 @@ export const getEvents = async (groupId) => {
   }
   return {};
 };
+
+export const updateTaskCollection = async (newEvents, groupId, date) => {
+  const eventsDocRef = doc(db, 'events', groupId);
+  const eventsSnapshot = await getDoc(eventsDocRef);
+
+  if (eventsSnapshot.exists()) {
+    await updateDoc(eventsDocRef, {
+      [date]: newEvents,
+    });
+  } else {
+    await setDoc(eventsDocRef, { [date]: newEvents });
+  }
+};

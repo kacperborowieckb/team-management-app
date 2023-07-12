@@ -19,15 +19,15 @@ const Calendar = () => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const currentDate = useSelector(getCurrentDate);
-  const yearAndMonth = `${currentDate.year}/${currentDate.month}`;
-  const events = useSelector((state) => getCurrentEvents(state, yearAndMonth));
+  const yearAndMonth = `${currentDate.year}${currentDate.month}`;
+  const events = useSelector(getCurrentEvents);
 
   const handleIncreaseMonth = () => dispatch(increaseMonth());
   const handleDecreaseMonth = () => dispatch(decreaseMonth());
 
   useEffect(() => {
     dispatch(fetchCalendarEvents({ groupId }));
-  }, []);
+  }, [groupId]);
 
   useEffect(() => {
     const today = new Date();
@@ -56,6 +56,7 @@ const Calendar = () => {
             {generateMonthArray(currentDate).map((date, i) => (
               <CalendarItem
                 key={i}
+                currentDate={currentDate}
                 currentMonth={date.currentMonth}
                 day={date.day}
                 isSunday={(i + 1) % 7 === 0}

@@ -1,9 +1,9 @@
 import './calendar-event.scss';
 
-const CalendarEvent = ({ color = 'red', content = 'event content' }) => {
+const CalendarEvent = ({ color, name, description }) => {
   return (
     <div className="calendar-event" style={{ backgroundColor: color }}>
-      {content}
+      {name}
     </div>
   );
 };

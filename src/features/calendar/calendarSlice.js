@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getDaysInMonth } from '../../utils/calendar/calendar.utils';
-import { getEvents } from '../../utils/firebase/firebase';
+import { getEvents, updateTaskCollection } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
@@ -22,10 +22,32 @@ export const fetchCalendarEvents = createAsyncThunk(
   }
 );
 
-export const addNewTask = createAsyncThunk(
-  'calendar/addNewTask',
-  async (_, { rejectWithValue }) => {
+export const addNewEvent = createAsyncThunk(
+  'calendar/addNewEvent',
+  async (
+    { eventName, eventDescription, eventColor, date, day, groupId },
+    { rejectWithValue, getState }
+  ) => {
     try {
+      const {
+        calendar: { events: events },
+      } = getState();
+
+      const newEvents = {
+        ...events[date],
+        [day]: [
+          ...(events[date] !== undefined && events[date][day] !== undefined
+            ? events[date][day]
+            : []),
+          {
+            color: eventColor,
+            description: eventDescription,
+            name: eventName,
+          },
+        ],
+      };
+
+      await updateTaskCollection(newEvents, groupId, date);
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -83,14 +105,14 @@ export const calendarSlice = createSlice({
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       })
-      .addCase(addNewTask.pending, (state) => {
+      .addCase(addNewEvent.pending, (state) => {
         state.status = ACTION_STATUS.PENDING;
         state.error = null;
       })
-      .addCase(addNewTask.fulfilled, (state) => {
+      .addCase(addNewEvent.fulfilled, (state) => {
         state.status = ACTION_STATUS.IDLE;
       })
-      .addCase(addNewTask.rejected, (state, action) => {
+      .addCase(addNewEvent.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });
@@ -98,7 +120,7 @@ export const calendarSlice = createSlice({
 });
 
 export const getCurrentDate = (state) => state.calendar.currentDate;
-export const getCurrentEvents = (state, date = '') => state.calendar.events || [];
+export const getCurrentEvents = (state) => state.calendar.events;
 
 export const { setDate, increaseMonth, decreaseMonth } = calendarSlice.actions;
 

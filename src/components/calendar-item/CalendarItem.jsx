@@ -3,18 +3,12 @@ import { AiOutlinePlus } from 'react-icons/Ai';
 import { useState } from 'react';
 import CalendarEvent from '../calendar-event/CalendarEvent';
 import AddEventPopup from '../add-event-popup/AddEventPopup';
-import { TASKS_COLORS } from '../../helpers/colors';
 
-const CalendarItem = ({ currentMonth, day, isSunday, isToday, events }) => {
+const CalendarItem = ({ currentDate, currentMonth, day, isSunday, isToday, events }) => {
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
-  const [eventName, setEventName] = useState('');
-  const [eventColor, setEventColor] = useState(TASKS_COLORS[0]);
 
   const openPopup = () => setIsPopUpOpen(true);
   const closePopup = () => setIsPopUpOpen(false);
-
-  const handleEventNameChange = (e) => setEventName(e.target.value);
-  const handleEventColorChange = (color) => setEventColor(color);
 
   return (
     <section
@@ -28,19 +22,16 @@ const CalendarItem = ({ currentMonth, day, isSunday, isToday, events }) => {
       {events.length > 0 && (
         <section className="calendar-item__events">
           {events.map((event, i) => (
-            <CalendarEvent color="red" content={event.content} key={i} />
+            <CalendarEvent
+              color={event.color}
+              name={event.name}
+              description={event.description}
+              key={i}
+            />
           ))}
         </section>
       )}
-      {isPopupOpen && (
-        <AddEventPopup
-          closePopup={closePopup}
-          eventName={eventName}
-          handleEventNameChange={handleEventNameChange}
-          eventColor={eventColor}
-          handleEventColorChange={handleEventColorChange}
-        />
-      )}
+      {isPopupOpen && <AddEventPopup closePopup={closePopup} currentDate={currentDate} day={day} />}
     </section>
   );
 };
