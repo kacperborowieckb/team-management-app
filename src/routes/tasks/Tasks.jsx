@@ -4,7 +4,7 @@ import { ImSpinner2 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import UserTasksContainer from '../../components/user-tasks-container/UserTasksContainer';
-import { fetchCurrentGroupUsers, getCurrentGroupUsers } from '../../features/groups/groupsSlice';
+import { getCurrentGroupUsers } from '../../features/groups/groupsSlice';
 import { setTasks } from '../../features/tasks/tasksSlice';
 import { getDocumentRef } from '../../utils/firebase/firebase';
 import './tasks.scss';

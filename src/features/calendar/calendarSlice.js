@@ -25,7 +25,7 @@ export const fetchCalendarEvents = createAsyncThunk(
 export const addNewEvent = createAsyncThunk(
   'calendar/addNewEvent',
   async (
-    { eventName, eventDescription, eventColor, date, day, groupId },
+    { eventName, eventDescription, eventColor, date, day, groupId, closePopup },
     { rejectWithValue, getState }
   ) => {
     try {
@@ -46,8 +46,9 @@ export const addNewEvent = createAsyncThunk(
           },
         ],
       };
-
       await updateTaskCollection(newEvents, groupId, date);
+      closePopup();
+      return { date, newEvents };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -109,8 +110,9 @@ export const calendarSlice = createSlice({
         state.status = ACTION_STATUS.PENDING;
         state.error = null;
       })
-      .addCase(addNewEvent.fulfilled, (state) => {
+      .addCase(addNewEvent.fulfilled, (state, { payload: { date, newEvents } }) => {
         state.status = ACTION_STATUS.IDLE;
+        state.events[date] = newEvents;
       })
       .addCase(addNewEvent.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
@@ -121,6 +123,7 @@ export const calendarSlice = createSlice({
 
 export const getCurrentDate = (state) => state.calendar.currentDate;
 export const getCurrentEvents = (state) => state.calendar.events;
+export const getCalendarStatus = (state) => state.calendar.status;
 
 export const { setDate, increaseMonth, decreaseMonth } = calendarSlice.actions;
 

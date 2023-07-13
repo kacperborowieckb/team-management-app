@@ -2,15 +2,18 @@ import Popup from '../popup/Popup';
 import InputField from '../input-field/InputField';
 import ColorSelector from '../color-selector/ColorSelector';
 import Button from '../button/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TASKS_COLORS } from '../../helpers/colors';
 import { useState } from 'react';
-import { addNewEvent } from '../../features/calendar/calendarSlice';
+import { addNewEvent, getCalendarStatus } from '../../features/calendar/calendarSlice';
 import { useParams } from 'react-router';
+import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
+import { ImSpinner2 } from 'react-icons/im';
 
 const AddEventPopup = ({ closePopup, currentDate, day }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
+  const status = useSelector(getCalendarStatus);
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDesciption] = useState('');
   const [eventColor, setEventColor] = useState(TASKS_COLORS[0]);
@@ -21,7 +24,9 @@ const AddEventPopup = ({ closePopup, currentDate, day }) => {
 
   const date = `${currentDate.year}${currentDate.month}`;
   const handleAddNewEvent = () =>
-    dispatch(addNewEvent({ eventName, eventDescription, eventColor, date, day, groupId }));
+    dispatch(
+      addNewEvent({ eventName, eventDescription, eventColor, date, day, groupId, closePopup })
+    );
 
   return (
     <Popup heading={'Add Event'} handleClosePopUp={closePopup} error={''}>
@@ -39,7 +44,13 @@ const AddEventPopup = ({ closePopup, currentDate, day }) => {
           onChange={handleEventDescriptionChange}
         />
         <ColorSelector taskColor={eventColor} setTaskColor={handleEventColorChange} />
-        <Button handleOnClick={handleAddNewEvent}>Add Event</Button>
+        {status === ACTION_STATUS.PENDING ? (
+          <Button disabled>
+            <ImSpinner2 className="spinner" />
+          </Button>
+        ) : (
+          <Button handleOnClick={handleAddNewEvent}>Add Event</Button>
+        )}
       </section>
     </Popup>
   );
