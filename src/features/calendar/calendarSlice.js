@@ -83,8 +83,10 @@ export const deleteEvent = createAsyncThunk(
 
       const newEvents = {
         ...events[date],
-        [day]: updateEvents,
+        ...(updateEvents.length > 0 && { [day]: updateEvents }),
       };
+
+      updateEvents.length === 0 && delete newEvents[day];
 
       await updateTaskCollection(newEvents, groupId, date);
       closePopup();
