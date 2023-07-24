@@ -26,6 +26,8 @@ const CalendarItem = ({ currentDate, currentMonth, day, isSunday, isToday, event
               color={event.color}
               name={event.name}
               description={event.description}
+              createdAt={event.createdAt}
+              createdBy={event.createdBy}
               key={i}
             />
           ))}

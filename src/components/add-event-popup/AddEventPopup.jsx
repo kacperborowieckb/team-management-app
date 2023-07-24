@@ -23,19 +23,27 @@ const AddEventPopup = ({ closePopup, currentDate, day }) => {
   const handleEventColorChange = (color) => setEventColor(color);
 
   const date = `${currentDate.year}${currentDate.month}`;
-  const handleAddNewEvent = () =>
+  const handleAddNewEvent = (e) => {
+    e.preventDefault();
     dispatch(
       addNewEvent({ eventName, eventDescription, eventColor, date, day, groupId, closePopup })
     );
+  };
 
   return (
-    <Popup heading={'Add Event'} handleClosePopUp={closePopup} error={''}>
+    <Popup
+      heading={'Add Event'}
+      handleClosePopUp={closePopup}
+      error={''}
+      onSubmit={handleAddNewEvent}
+    >
       <section style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         <InputField
           label={'Event name'}
           labelFor={'event-name'}
           value={eventName}
           onChange={handleEventNameChange}
+          required
         />
         <InputField
           label={'Event Description'}
@@ -49,7 +57,7 @@ const AddEventPopup = ({ closePopup, currentDate, day }) => {
             <ImSpinner2 className="spinner" />
           </Button>
         ) : (
-          <Button handleOnClick={handleAddNewEvent}>Add Event</Button>
+          <Button>Add Event</Button>
         )}
       </section>
     </Popup>

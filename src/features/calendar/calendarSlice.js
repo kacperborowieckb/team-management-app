@@ -33,6 +33,15 @@ export const addNewEvent = createAsyncThunk(
         calendar: { events: events },
       } = getState();
 
+      const {
+        user: {
+          user: { displayName },
+        },
+      } = getState();
+
+      const currentTime = new Date();
+      const createdAt = String(currentTime).split(' ').slice(1, 4).join(' ');
+
       const newEvents = {
         ...events[date],
         [day]: [
@@ -43,6 +52,8 @@ export const addNewEvent = createAsyncThunk(
             color: eventColor,
             description: eventDescription,
             name: eventName,
+            createdBy: displayName,
+            createdAt,
           },
         ],
       };
