@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
 import { getDaysInMonth } from '../../utils/calendar/calendar.utils';
 import { getEvents, updateTaskCollection } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
@@ -41,7 +41,7 @@ export const addNewEvent = createAsyncThunk(
 
       const currentTime = new Date();
       const createdAt = String(currentTime).split(' ').slice(1, 4).join(' ');
-
+      const eventId = nanoid();
       const newEvents = {
         ...events[date],
         [day]: [
@@ -54,9 +54,38 @@ export const addNewEvent = createAsyncThunk(
             name: eventName,
             createdBy: displayName,
             createdAt,
+            eventId,
           },
         ],
       };
+      await updateTaskCollection(newEvents, groupId, date);
+      closePopup();
+      return { date, newEvents };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const deleteEvent = createAsyncThunk(
+  'calendar/deleteEvent',
+  async ({ day, groupId, eventId, closePopup }, { rejectWithValue, getState }) => {
+    try {
+      const {
+        calendar: { currentDate },
+      } = getState();
+      const {
+        calendar: { events: events },
+      } = getState();
+      const date = `${currentDate.year}${currentDate.month}`;
+
+      const updateEvents = events[date][day].filter((event) => event.eventId !== eventId);
+
+      const newEvents = {
+        ...events[date],
+        [day]: updateEvents,
+      };
+
       await updateTaskCollection(newEvents, groupId, date);
       closePopup();
       return { date, newEvents };
@@ -126,6 +155,18 @@ export const calendarSlice = createSlice({
         state.events[date] = newEvents;
       })
       .addCase(addNewEvent.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(deleteEvent.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(deleteEvent.fulfilled, (state, { payload: { date, newEvents } }) => {
+        state.status = ACTION_STATUS.IDLE;
+        state.events[date] = newEvents;
+      })
+      .addCase(deleteEvent.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });

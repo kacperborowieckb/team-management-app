@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TaskPopup from '../task-popup/TaskPopup';
 import './calendar-event.scss';
 
-const CalendarEvent = ({ color, name, description, createdAt, createdBy }) => {
+const CalendarEvent = ({ color, name, description, createdAt, createdBy, eventId, day }) => {
   const [isEventPopupOpen, setIsEventPopupOpen] = useState(false);
 
   const closeEventPopup = () => setIsEventPopupOpen(false);
@@ -21,6 +21,8 @@ const CalendarEvent = ({ color, name, description, createdAt, createdBy }) => {
           color={color}
           createdAt={createdAt}
           createdBy={createdBy}
+          day={day}
+          eventId={eventId}
         />
       )}
     </>

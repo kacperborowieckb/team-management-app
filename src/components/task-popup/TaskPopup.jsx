@@ -4,19 +4,34 @@ import { BsTrash3 } from 'react-icons/bs';
 import { ImSpinner2 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { deleteEvent, getCalendarStatus } from '../../features/calendar/calendarSlice';
 import { getTasksStatus, removeExistingTask } from '../../features/tasks/tasksSlice';
 import { useClickToClose } from '../../hooks/useClickToClose';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 import './task-popup.scss';
 
-const TaskPopup = ({ title, content, closePopup, color, taskId, uid, createdAt, createdBy }) => {
+const TaskPopup = ({
+  title,
+  content,
+  closePopup,
+  color,
+  taskId,
+  uid,
+  createdAt,
+  createdBy,
+  day,
+  eventId,
+}) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const popup = useRef();
-  const status = useSelector(getTasksStatus);
+  const tasksStatus = useSelector(getTasksStatus);
+  const calendarStatus = useSelector(getCalendarStatus);
   useClickToClose(popup, closePopup);
 
   const handleRemoveTask = () => dispatch(removeExistingTask({ taskId, closePopup, uid, groupId }));
+
+  const handleRemoveEvent = () => dispatch(deleteEvent({ day, groupId, eventId, closePopup }));
 
   return (
     <section className="task-popup" ref={popup}>
@@ -33,10 +48,13 @@ const TaskPopup = ({ title, content, closePopup, color, taskId, uid, createdAt, 
           <p className="task-popup__time">Created at: {createdAt}</p>
           <p className="task-popup__author">Created by: {createdBy}</p>
         </section>
-        {status === ACTION_STATUS.PENDING ? (
+        {tasksStatus === ACTION_STATUS.PENDING || calendarStatus === ACTION_STATUS.PENDING ? (
           <ImSpinner2 className="spinner task-popup__delete" />
         ) : (
-          <BsTrash3 className="task-popup__delete" onClick={handleRemoveTask} />
+          <BsTrash3
+            className="task-popup__delete"
+            onClick={day ? handleRemoveEvent : handleRemoveTask}
+          />
         )}
       </section>
     </section>
