@@ -17,7 +17,7 @@ const ChatContainer = () => {
   const [data = {}, loading, error] = useDocumentData(getDocumentRef('chat', groupId));
 
   useEffect(() => {
-    if (!loading && data) {
+    if (!loading && data.hasOwnProperty('messages')) {
       dispatch(setMessages(data.messages));
     }
   }, [data]);

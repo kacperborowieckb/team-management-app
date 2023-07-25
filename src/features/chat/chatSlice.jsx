@@ -11,10 +11,18 @@ const initialState = {
 
 export const addNewMessage = createAsyncThunk(
   'chat/addNewMessage',
-  async ({ displayName, uid, content, groupId, clearInput, setTimer }, { rejectWithValue }) => {
+  async (
+    { displayName, uid, content, groupId, clearInput, setTimer },
+    { rejectWithValue, getState }
+  ) => {
     try {
       const createdAt = getTimeWhenMessageIsCreated();
-      await addNewMessageToCollection(groupId, { content, createdAt, displayName, uid });
+      const {
+        chat: { messages: messages },
+      } = getState();
+      console.log(messages);
+      const newMessages = [...messages, { content, createdAt, displayName, uid }];
+      await addNewMessageToCollection(groupId, newMessages);
       clearInput();
       setTimer();
       return;
