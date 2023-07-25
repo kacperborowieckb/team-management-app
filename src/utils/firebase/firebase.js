@@ -250,3 +250,15 @@ export const updateTaskCollection = async (newEvents, groupId, date) => {
     await setDoc(eventsDocRef, { [date]: newEvents });
   }
 };
+
+export const addNewMessageToCollection = async (groupId, messageObj) => {
+  const chatRef = doc(db, 'chat', groupId);
+  const chatSnapshot = await getDoc(chatRef);
+  if (chatSnapshot.exists()) {
+    await updateDoc(chatRef, {
+      messages: arrayUnion(messageObj),
+    });
+  } else {
+    setDoc(chatRef, { messages: [messageObj] });
+  }
+};
