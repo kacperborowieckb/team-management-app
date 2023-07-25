@@ -13,21 +13,31 @@ const NewMessage = () => {
   const currentUser = useSelector(getCurrentUser);
   const { groupId } = useParams();
   const [messageValue, setMessageValue] = useState('');
+  const [canSendAnotherMessage, setCanSendAnotherMessage] = useState(true);
 
   const handleChange = (e) => setMessageValue(e.target.value);
   const clearInput = () => setMessageValue('');
+  const setTimer = () => {
+    setCanSendAnotherMessage(false);
+    setTimeout(() => {
+      setCanSendAnotherMessage(true);
+    }, 1000);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addNewMessage({
-        displayName: currentUser.displayName,
-        uid: currentUser.uid,
-        content: messageValue,
-        groupId,
-        clearInput,
-      })
-    );
+    if (canSendAnotherMessage) {
+      dispatch(
+        addNewMessage({
+          displayName: currentUser.displayName,
+          uid: currentUser.uid,
+          content: messageValue,
+          groupId,
+          clearInput,
+          setTimer,
+        })
+      );
+    }
   };
 
   return (

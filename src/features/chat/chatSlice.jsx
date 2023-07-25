@@ -11,11 +11,12 @@ const initialState = {
 
 export const addNewMessage = createAsyncThunk(
   'chat/addNewMessage',
-  async ({ displayName, uid, content, groupId, clearInput }, { rejectWithValue }) => {
+  async ({ displayName, uid, content, groupId, clearInput, setTimer }, { rejectWithValue }) => {
     try {
       const createdAt = getTimeWhenMessageIsCreated();
       await addNewMessageToCollection(groupId, { content, createdAt, displayName, uid });
       clearInput();
+      setTimer();
       return;
     } catch (error) {
       return rejectWithValue(error.message);
