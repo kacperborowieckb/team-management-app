@@ -5,4 +5,11 @@
   flex-direction: column;
   justify-content: flex-end;
   gap: 1rem;
+
+  & &__error {
+    margin: 0 auto;
+    font-size: var(--fs-medium);
+    font-weight: var(--fw-semi-bold);
+    color: var(--clr-error);
+  }
 }
