@@ -1,0 +1,39 @@
+.message {
+  display: flex;
+  gap: 1rem;
+  max-width: 65%;
+  --profile-picture-size: 50px;
+
+  & &__profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  & &__profile-picture {
+    width: var(--profile-picture-size);
+    aspect-ratio: 1/1;
+  }
+
+  & &__display-name {
+    font-size: var(--fs-small);
+    line-height: 100%;
+    width: var(--profile-picture-size);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  & &__content-container {
+    display: flex;
+    align-items: center;
+  }
+
+  & &__content {
+    border-radius: var(--border-radius-large);
+    background-color: var(--clr-main-100);
+    padding: 0.5rem 1rem;
+  }
+}
