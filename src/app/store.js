@@ -5,6 +5,7 @@ import groupsReducer from '../features/groups/groupsSlice';
 import notificationsReducer from '../features/notifications/notificationsSlice';
 import tasksReducer from '../features/tasks/tasksSlice';
 import calendarReducer from '../features/calendar/calendarSlice';
+import chatReducer from '../features/chat/chatSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     notifications: notificationsReducer,
     tasks: tasksReducer,
     calendar: calendarReducer,
+    chat: chatReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
