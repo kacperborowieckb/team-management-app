@@ -21,4 +21,9 @@
   &::-webkit-scrollbar-thumb {
     display: none;
   }
+
+  @media (max-width: 500px) {
+    padding: 2rem;
+    padding-bottom: 0rem;
+  }
 }

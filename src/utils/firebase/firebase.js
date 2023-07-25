@@ -26,7 +26,7 @@ import {
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDkv22CKnc3yf4KkNGqJXM4qVaDTsn9iFk',
+  apiKey: import.meta.env.VITE_FIREBASE_KEY,
   authDomain: 'team-management-app-f3ac6.firebaseapp.com',
   projectId: 'team-management-app-f3ac6',
   storageBucket: 'team-management-app-f3ac6.appspot.com',
