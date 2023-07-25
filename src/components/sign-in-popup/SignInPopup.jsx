@@ -11,7 +11,7 @@ import {
   toogleSignInPopup,
 } from '../../features/user/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
-import { AiOutlineClose } from 'react-icons/Ai';
+import { AiOutlineClose } from 'react-icons/ai';
 import { useRef } from 'react';
 import { useClickToClose } from '../../hooks/useClickToClose';
 import { ImSpinner2 } from 'react-icons/im';

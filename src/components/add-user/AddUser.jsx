@@ -1,4 +1,4 @@
-import { AiOutlineUserAdd } from 'react-icons/Ai';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 import Button from '../button/Button';
 
 const AddUser = ({ toogleAddUserPopup }) => {

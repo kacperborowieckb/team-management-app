@@ -1,5 +1,5 @@
 import './calendar-item.scss';
-import { AiOutlinePlus } from 'react-icons/Ai';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { useState } from 'react';
 import CalendarEvent from '../calendar-event/CalendarEvent';
 import AddEventPopup from '../add-event-popup/AddEventPopup';

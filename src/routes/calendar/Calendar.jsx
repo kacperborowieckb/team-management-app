@@ -10,7 +10,7 @@ import {
   setDate,
 } from '../../features/calendar/calendarSlice';
 import { generateMonthArray, getDaysInMonth } from '../../utils/calendar/calendar.utils';
-import { GrFormNext } from 'react-icons/Gr';
+import { GrFormNext } from 'react-icons/gr';
 import { MONTHS } from '../../helpers/months';
 import './calendar.scss';
 import { useParams } from 'react-router';

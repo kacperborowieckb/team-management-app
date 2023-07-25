@@ -2,7 +2,7 @@ import './new-message.scss';
 import InputField from '../input-field/InputField';
 import Button from '../button/Button';
 import { useState } from 'react';
-import { AiOutlineSend } from 'react-icons/Ai';
+import { AiOutlineSend } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewMessage } from '../../features/chat/chatSlice';
 import { getCurrentUser } from '../../features/user/userSlice';

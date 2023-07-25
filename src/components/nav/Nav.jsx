@@ -1,6 +1,6 @@
 import GroupsList from '../groups-list/GroupsList';
 import './nav.scss';
-import { AiOutlineClose } from 'react-icons/Ai';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const Nav = ({ isNavOpen, closeNav }) => {
   return (

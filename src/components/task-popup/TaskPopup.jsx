@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { AiOutlineClose } from 'react-icons/Ai';
+import { AiOutlineClose } from 'react-icons/ai';
 import { BsTrash3 } from 'react-icons/bs';
 import { ImSpinner2 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';

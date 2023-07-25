@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useState } from 'react';
-import { AiOutlineClose } from 'react-icons/Ai';
+import { AiOutlineClose } from 'react-icons/ai';
 import { ImSpinner2 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNewGroupDoc, getGroupsStatus } from '../../features/groups/groupsSlice';

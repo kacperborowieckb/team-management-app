@@ -1,5 +1,5 @@
 import './notifications.scss';
-import { MdNotifications } from 'react-icons/Md';
+import { MdNotifications } from 'react-icons/md';
 import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
