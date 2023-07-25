@@ -1,0 +1,13 @@
+.new-message {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem;
+
+  & > :first-child {
+    flex-grow: 1;
+  }
+
+  & > button {
+    width: 43px;
+  }
+}
