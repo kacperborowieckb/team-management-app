@@ -51,24 +51,26 @@ const Calendar = () => {
             </h2>
             <GrFormNext className="calendar__next" onClick={handleIncreaseMonth} />
           </section>
-          <section className="calendar__container">
-            {generateMonthArray(currentDate).map((date, i) => (
-              <CalendarItem
-                key={i}
-                currentDate={currentDate}
-                currentMonth={date.currentMonth}
-                day={date.day}
-                isSunday={(i + 1) % 7 === 0}
-                isToday={
-                  date.day === currentDate.day && currentDate.month === new Date().getMonth() + 1
-                }
-                events={
-                  events.hasOwnProperty(yearAndMonth) && events[yearAndMonth][date.day]
-                    ? events[yearAndMonth][date.day]
-                    : []
-                }
-              />
-            ))}
+          <section className="calendar__scroll-box">
+            <section className="calendar__container">
+              {generateMonthArray(currentDate).map((date, i) => (
+                <CalendarItem
+                  key={i}
+                  currentDate={currentDate}
+                  currentMonth={date.currentMonth}
+                  day={date.day}
+                  isSunday={(i + 1) % 7 === 0}
+                  isToday={
+                    date.day === currentDate.day && currentDate.month === new Date().getMonth() + 1
+                  }
+                  events={
+                    events.hasOwnProperty(yearAndMonth) && events[yearAndMonth][date.day]
+                      ? events[yearAndMonth][date.day]
+                      : []
+                  }
+                />
+              ))}
+            </section>
           </section>
         </>
       ) : (

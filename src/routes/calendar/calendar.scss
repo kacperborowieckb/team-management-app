@@ -35,14 +35,24 @@
     user-select: none;
   }
 
+  & &__scroll-box {
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   & &__container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     max-width: 1000px;
+    min-width: 800px;
     background-color: var(--clr-main-700);
     border: 6px solid var(--clr-main-700);
     grid-gap: 6px;
     margin: 0 auto;
     border-radius: var(--border-radius-small);
+    margin-bottom: 1rem;
   }
 }

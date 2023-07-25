@@ -45,4 +45,10 @@
       width: 0;
     }
   }
+
+  @media (max-width: 600px) {
+    & &__header {
+      line-height: 100%;
+    }
+  }
 }
