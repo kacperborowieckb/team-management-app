@@ -1,9 +1,13 @@
 .tasks {
-  overflow: scroll hidden;
+  --min-task-height: 600px;
+  overflow-x: auto;
   display: flex;
   gap: 2rem;
   padding: 3rem;
+  padding-bottom: 0rem;
+  margin-bottom: 1.5rem;
   font-size: var(--fs-heading);
+  min-height: var(--min-task-height);
 
   & &__loading {
     height: 100%;

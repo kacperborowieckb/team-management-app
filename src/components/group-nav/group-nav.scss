@@ -52,6 +52,12 @@
     }
   }
 
+  @media (max-width: 475px) {
+    & &__options {
+      margin-right: 0.75rem;
+    }
+  }
+
   @media (max-width: 440px) {
     & &__container {
       gap: 1.5rem;
