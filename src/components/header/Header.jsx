@@ -12,8 +12,9 @@ import { Link, useParams } from 'react-router-dom';
 import Notifications from '../notifications/Notifications';
 import { useRef, useState } from 'react';
 import UserDropdown from '../user-dropdown/UserDropdown';
+import { GiHamburgerMenu } from 'react-icons/gi';
 
-const Header = () => {
+const Header = ({ openNav }) => {
   const dispatch = useDispatch();
   const isSignInPopupOpen = useSelector(getIsSignInPopupOpen);
   const user = useSelector(getCurrentUser);
@@ -27,6 +28,7 @@ const Header = () => {
 
   return (
     <header className="header">
+      <GiHamburgerMenu className="header__hamburger" onClick={openNav} />
       <section className="header__logo-container">
         <Link to={'/'}>
           <h1 className="header__logo">TM</h1>

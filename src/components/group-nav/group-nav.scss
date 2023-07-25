@@ -51,4 +51,10 @@
       flex-basis: 100%;
     }
   }
+
+  @media (max-width: 440px) {
+    & &__container {
+      gap: 1.5rem;
+    }
+  }
 }
