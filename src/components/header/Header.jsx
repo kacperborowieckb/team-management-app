@@ -28,7 +28,7 @@ const Header = ({ openNav }) => {
 
   return (
     <header className="header">
-      <GiHamburgerMenu className="header__hamburger" onClick={openNav} />
+      {user && <GiHamburgerMenu className="header__hamburger" onClick={openNav} />}
       <section className="header__logo-container">
         <Link to={'/'}>
           <h1 className="header__logo">TM</h1>
@@ -63,7 +63,7 @@ const Header = ({ openNav }) => {
         <Button
           buttonType="signIn"
           handleOnClick={handleOpenSignInPopup}
-          style={{ paddingRight: '2rem' }}
+          style={{ paddingRight: '1rem', gridColumn: '3', justifySelf: 'flex-end' }}
         >
           Sign In
         </Button>

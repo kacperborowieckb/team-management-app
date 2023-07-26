@@ -16,5 +16,8 @@ export const store = configureStore({
     calendar: calendarReducer,
     chat: chatReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) =>
+    process.env.NODE_ENV === 'development'
+      ? getDefaultMiddleware().concat(logger)
+      : getDefaultMiddleware(),
 });

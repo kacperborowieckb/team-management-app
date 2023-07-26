@@ -27,7 +27,7 @@
     }
   }
 
-  & > &__header:hover > &__add-event {
+  &:hover &__add-event {
     display: block;
   }
 
