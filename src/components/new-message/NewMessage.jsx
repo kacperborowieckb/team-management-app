@@ -1,10 +1,10 @@
 import './new-message.scss';
 import InputField from '../input-field/InputField';
 import Button from '../button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewMessage } from '../../features/chat/chatSlice';
+import { addNewMessage, setMessages } from '../../features/chat/chatSlice';
 import { getCurrentUser } from '../../features/user/userSlice';
 import { useParams } from 'react-router';
 
@@ -39,6 +39,10 @@ const NewMessage = () => {
       );
     }
   };
+
+  useEffect(() => {
+    dispatch(setMessages([]));
+  }, [groupId]);
 
   return (
     <form className="new-message" onSubmit={handleSubmit}>

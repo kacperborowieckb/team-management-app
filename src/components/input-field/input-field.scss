@@ -20,10 +20,22 @@
     transition: all 0.5s ease;
   }
 
-  & &__input:focus,
   & &__input-text {
-    outline: 2px solid var(--clr-main-300);
+    position: relative;
+  }
+
+  &:focus-within:before,
+  & &__input-text:before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    border: 2px solid var(--clr-main-300);
     box-shadow: 0px 0px 4px 2px var(--clr-main-300);
+    background-color: var(--clr-main-100);
+    border-radius: var(--border-radius-medium);
   }
 
   & &__input:focus ~ &__label,

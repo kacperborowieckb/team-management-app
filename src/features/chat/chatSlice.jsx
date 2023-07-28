@@ -20,7 +20,7 @@ export const addNewMessage = createAsyncThunk(
       const {
         chat: { messages: messages },
       } = getState();
-      console.log(messages);
+
       const newMessages = [...messages, { content, createdAt, displayName, uid }];
       await addNewMessageToCollection(groupId, newMessages);
       clearInput();
