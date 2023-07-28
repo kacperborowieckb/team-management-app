@@ -14,6 +14,7 @@ import { GrFormNext } from 'react-icons/gr';
 import { MONTHS } from '../../helpers/months';
 import './calendar.scss';
 import { useParams } from 'react-router';
+import { DAYS } from '../../helpers/days';
 
 const Calendar = () => {
   const dispatch = useDispatch();
@@ -53,6 +54,9 @@ const Calendar = () => {
           </section>
           <section className="calendar__scroll-box">
             <section className="calendar__container">
+              {DAYS.map((day) => (
+                <p className="calendar__day">{day}</p>
+              ))}
               {generateMonthArray(currentDate).map((date, i) => (
                 <CalendarItem
                   key={i}
@@ -61,7 +65,9 @@ const Calendar = () => {
                   day={date.day}
                   isSunday={(i + 1) % 7 === 0}
                   isToday={
-                    date.day === currentDate.day && currentDate.month === new Date().getMonth() + 1
+                    date.day === currentDate.day &&
+                    currentDate.month === new Date().getMonth() + 1 &&
+                    date.currentMonth
                   }
                   events={
                     events.hasOwnProperty(yearAndMonth) && events[yearAndMonth][date.day]

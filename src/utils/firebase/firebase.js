@@ -213,6 +213,8 @@ export const getUserGroupsFromFirestore = async (uid) => {
 export const deleteGroup = async (groupId, filteredUserGroups) => {
   await deleteDoc(doc(db, 'groups', groupId));
   await deleteDoc(doc(db, 'tasks', groupId));
+  await deleteDoc(doc(db, 'events', groupId));
+  await deleteDoc(doc(db, 'chat', groupId));
   for (const user of filteredUserGroups) {
     await runTransaction(db, async (transaction) => {
       transaction.update(doc(db, 'users', user.uid), { groups: user.groups });

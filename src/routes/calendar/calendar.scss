@@ -43,6 +43,12 @@
     }
   }
 
+  & &__day {
+    text-align: center;
+    color: var(--clr-font-white);
+    font-weight: var(--fw-semi-bold);
+  }
+
   & &__container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
