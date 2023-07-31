@@ -26,7 +26,7 @@
 
   & &__options {
     position: relative;
-    color: var(--clr-font-body-black);
+    color: var(--clr-font-black);
     font-size: var(--fs-heading);
     display: flex;
     justify-content: center;
@@ -39,7 +39,7 @@
     font-style: italic;
     text-align: center;
     margin-top: -1.25rem;
-    color: var(--clr-font-body-black);
+    color: var(--clr-font-black);
   }
 
   & &__accept-popup-buttons {
