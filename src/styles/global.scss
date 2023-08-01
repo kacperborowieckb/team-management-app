@@ -5,6 +5,7 @@ body {
 
 #root {
   display: flex;
+  background-color: var(--clr-bg);
 
   & > .spinner {
     font-size: var(--fs-heading);

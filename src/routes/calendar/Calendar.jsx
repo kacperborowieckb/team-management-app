@@ -22,6 +22,7 @@ const Calendar = () => {
   const currentDate = useSelector(getCurrentDate);
   const yearAndMonth = `${currentDate.year}${currentDate.month}`;
   const events = useSelector(getCurrentEvents);
+
   const handleIncreaseMonth = () => dispatch(increaseMonth());
   const handleDecreaseMonth = () => dispatch(decreaseMonth());
 

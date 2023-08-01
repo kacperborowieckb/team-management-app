@@ -50,6 +50,10 @@
     cursor: pointer;
   }
 
+  & > .button__sign-in {
+    padding-right: 0rem !important;
+  }
+
   @media (max-width: 850px) {
     & &__hamburger {
       display: block;
