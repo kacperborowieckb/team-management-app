@@ -55,8 +55,10 @@ const Calendar = () => {
           </section>
           <section className="calendar__scroll-box">
             <section className="calendar__container">
-              {DAYS.map((day) => (
-                <p className="calendar__day">{day}</p>
+              {DAYS.map((day, i) => (
+                <p className="calendar__day" key={i}>
+                  {day}
+                </p>
               ))}
               {generateMonthArray(currentDate).map((date, i) => (
                 <CalendarItem
