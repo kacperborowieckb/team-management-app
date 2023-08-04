@@ -41,9 +41,11 @@ const TaskPopup = ({
         <section className="task-popup__title-section" style={{ backgroundColor: color }}>
           <h2 className="task-popup__title">{title}</h2>
         </section>
-        <section className="task-popup__content-section" style={{ backgroundColor: color }}>
-          <p className="task-popup__content">{content}</p>
-        </section>
+        {content && (
+          <section className="task-popup__content-section" style={{ backgroundColor: color }}>
+            <p className="task-popup__content">{content}</p>
+          </section>
+        )}
         <section className="task-popup__info">
           <p className="task-popup__time">Created at: {createdAt}</p>
           <p className="task-popup__author">Created by: {createdBy}</p>
