@@ -20,8 +20,6 @@ const Calendar = () => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const currentDate = useSelector(getCurrentDate);
-  const yearAndMonth = `${currentDate.year}${currentDate.month}`;
-  const events = useSelector(getCurrentEvents);
 
   const handleIncreaseMonth = () => dispatch(increaseMonth());
   const handleDecreaseMonth = () => dispatch(decreaseMonth());
@@ -49,7 +47,7 @@ const Calendar = () => {
           <section className="calendar__nav">
             <GrFormNext className="calendar__previous" onClick={handleDecreaseMonth} />
             <h2 className="calendar__current-date">
-              {`${currentDate.day} ${MONTHS[currentDate.month]} ${currentDate.year}`}
+              {`${MONTHS[currentDate.month]} ${currentDate.year}`}
             </h2>
             <GrFormNext className="calendar__next" onClick={handleIncreaseMonth} />
           </section>
@@ -71,11 +69,6 @@ const Calendar = () => {
                     date.day === currentDate.day &&
                     currentDate.month === new Date().getMonth() + 1 &&
                     date.currentMonth
-                  }
-                  events={
-                    events.hasOwnProperty(yearAndMonth) && events[yearAndMonth][date.day]
-                      ? events[yearAndMonth][date.day]
-                      : []
                   }
                 />
               ))}
