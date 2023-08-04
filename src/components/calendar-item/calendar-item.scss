@@ -14,7 +14,7 @@
   &__selected {
     background-color: var(--clr-white);
     box-shadow: 0px 0px 4px var(--clr-black);
-    outline: 2px solid var(--clr-black);
+    border: 2px solid var(--clr-black);
   }
 
   & &__header {
