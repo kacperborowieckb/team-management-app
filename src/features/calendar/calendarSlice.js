@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice, nanoid } from '@reduxjs/toolkit';
 import { getDaysInMonth } from '../../utils/calendar/calendar.utils';
 import { getEvents, updateTaskCollection } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
@@ -178,6 +178,16 @@ export const calendarSlice = createSlice({
 export const getCurrentDate = (state) => state.calendar.currentDate;
 export const getCurrentEvents = (state) => state.calendar.events;
 export const getCalendarStatus = (state) => state.calendar.status;
+
+export const getEventsForCurrentDate = createSelector(
+  [getCurrentEvents, getCurrentDate, (state, day) => day],
+  (events, currentDate, day) => {
+    const yearAndMonth = `${currentDate.year}${currentDate.month}`;
+    return events.hasOwnProperty(yearAndMonth) && events[yearAndMonth][day]
+      ? events[yearAndMonth][day]
+      : undefined;
+  }
+);
 
 export const { setDate, increaseMonth, decreaseMonth } = calendarSlice.actions;
 
