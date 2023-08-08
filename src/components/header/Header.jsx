@@ -45,7 +45,7 @@ const Header = ({ openNav }) => {
           <p className="header__user-name">{user.displayName}</p>
           <section className="header__profile-picture-container">
             <img
-              src="/profile-picture.png"
+              src="/profile-picture.svg"
               alt="profile-picture"
               className="header__profile-picture"
               onClick={handleToogleUserDropdown}

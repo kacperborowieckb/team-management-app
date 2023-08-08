@@ -9,7 +9,7 @@ const Message = ({ isYours = false, displayName, content }) => {
       {!isYours && (
         <section className="message__profile">
           <img
-            src="/profile-picture.png"
+            src="/profile-picture.svg"
             alt="profile picture"
             className="message__profile-picture"
           />
