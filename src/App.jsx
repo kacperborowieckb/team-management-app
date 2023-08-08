@@ -8,6 +8,7 @@ import { getCurrentUser, setCurrentUser } from './features/user/userSlice';
 import SignUp from './routes/sign-up/SignUp';
 import GroupPage from './routes/group-page/GroupPage';
 import { ImSpinner2 } from 'react-icons/im';
+import UserProfile from './routes/user-profile/UserProfile';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ function App() {
               <Route path="sign-up" element={<SignUp />} />
               <Route path="groups/:groupId/*" element={<GroupPage />} />
             </Route>
+            <Route path="user/:uid" element={<UserProfile />} />
           </Route>
         </Routes>
       )}
