@@ -13,6 +13,7 @@ import Notifications from '../notifications/Notifications';
 import { useRef, useState } from 'react';
 import UserDropdown from '../user-dropdown/UserDropdown';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import Logo from '../logo/Logo';
 
 const Header = ({ openNav }) => {
   const dispatch = useDispatch();
@@ -30,9 +31,7 @@ const Header = ({ openNav }) => {
     <header className="header">
       {user && <GiHamburgerMenu className="header__hamburger" onClick={openNav} />}
       <section className="header__logo-container">
-        <Link to={'/'}>
-          <h1 className="header__logo">TM</h1>
-        </Link>
+        <Logo />
       </section>
       {currentGroup && (
         <section className="header__group-name-container">

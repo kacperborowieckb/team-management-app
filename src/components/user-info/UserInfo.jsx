@@ -49,8 +49,8 @@ const UserInfo = () => {
         />
         <ImFilePicture className="user-info__add-icon" />
       </div>
-      <h1 className="user-info__username">{user.displayName}</h1>
-      <h2 className="user-info__email">{user.email}</h2>
+      <h2 className="user-info__username">{user.displayName}</h2>
+      <h3 className="user-info__email">{user.email}</h3>
       <input
         type="file"
         accept="image/*"
