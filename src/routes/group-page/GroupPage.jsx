@@ -13,14 +13,14 @@ import './group-page.scss';
 const GroupPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { uid } = useSelector(getCurrentUser);
+  const currentUser = useSelector(getCurrentUser);
   const { groupId } = useParams();
 
   useEffect(() => {
     dispatch(fetchCurrentGroupUsers({ groupId }))
       .unwrap()
       .then((users) => {
-        const user = users.find((user) => user.uid === uid);
+        const user = users.find((user) => user.uid === currentUser.uid);
         if (!user) navigate('/');
       });
   }, [groupId]);

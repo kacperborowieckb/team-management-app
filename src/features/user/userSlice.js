@@ -6,6 +6,7 @@ import {
   signInWithGooglePopup,
   signOutCurrentUser,
   updataDisplayName,
+  uploadProfilePicture,
 } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
@@ -21,10 +22,10 @@ export const signInUser = createAsyncThunk(
   async (navigateToHomePage, { rejectWithValue }) => {
     try {
       const {
-        user: { displayName, email, uid },
+        user: { displayName, email, uid, url },
       } = await signInWithGooglePopup();
       navigateToHomePage();
-      return { displayName, email, uid };
+      return { displayName, email, uid, url };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -63,6 +64,19 @@ export const signOutUser = createAsyncThunk(
     try {
       await signOutCurrentUser();
       closeDropdown();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const changeProfilePicture = createAsyncThunk(
+  'user/changeProfilePicture',
+  async ({ uid, image, closePopup }, { rejectWithValue }) => {
+    try {
+      const url = await uploadProfilePicture(uid, image);
+      closePopup();
+      return url;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -130,6 +144,18 @@ export const userSlice = createSlice({
         state.status = ACTION_STATUS.SUCCEEDED;
       })
       .addCase(signOutUser.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(changeProfilePicture.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(changeProfilePicture.fulfilled, (state, action) => {
+        state.user.url = action.payload;
+        state.status = ACTION_STATUS.SUCCEEDED;
+      })
+      .addCase(changeProfilePicture.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });

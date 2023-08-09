@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
-import { createUserDocumentFromAuth, onAuthStateChangedListener } from './utils/firebase/firebase';
+import {
+  createUserDocumentFromAuth,
+  getUserProfileUrl,
+  onAuthStateChangedListener,
+} from './utils/firebase/firebase';
 import { Routes, Route, useNavigate } from 'react-router';
 import Layout from './components/layout/Layout';
 import Home from './routes/home/Home';
@@ -15,6 +19,22 @@ function App() {
   const navigate = useNavigate();
   const user = useSelector(getCurrentUser);
 
+  const setUser = async (user) => {
+    if (user) {
+      const url = await getUserProfileUrl(user.uid);
+      dispatch(
+        setCurrentUser({
+          displayName: user.displayName,
+          email: user.email,
+          uid: user.uid,
+          url: url,
+        })
+      );
+    } else {
+      dispatch(setCurrentUser(null));
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
@@ -22,11 +42,7 @@ function App() {
       } else {
         navigate('/');
       }
-      dispatch(
-        setCurrentUser(
-          user === null ? null : { displayName: user.displayName, email: user.email, uid: user.uid }
-        )
-      );
+      setUser(user);
     });
 
     return unsubscribe;
