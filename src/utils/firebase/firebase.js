@@ -24,6 +24,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_KEY,
@@ -45,6 +46,7 @@ googleProvider.setCustomParameters({
 export const auth = getAuth();
 
 export const db = getFirestore();
+export const storage = getStorage();
 
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
 
@@ -70,6 +72,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
       uid: userAuth.uid,
       groups: [],
       notifications: [],
+      url: null,
     });
   }
 
@@ -262,5 +265,22 @@ export const addNewMessageToCollection = async (groupId, newMessages) => {
     });
   } else {
     setDoc(chatRef, { messages: newMessages });
+  }
+};
+
+export const uploadProfilePicture = async (uid, image) => {
+  const imageRef = ref(storage, `profile-pictures/${uid}`);
+  await uploadBytes(imageRef, image);
+  const url = await getDownloadURL(imageRef);
+  await runTransaction(db, async (transaction) => {
+    transaction.update(doc(db, 'users', uid), { url: url });
+  });
+  return url;
+};
+
+export const getUserProfileUrl = async (uid) => {
+  const userSnapshot = await getDoc(doc(db, 'users', uid));
+  if (userSnapshot.exists()) {
+    return userSnapshot.data().url;
   }
 };

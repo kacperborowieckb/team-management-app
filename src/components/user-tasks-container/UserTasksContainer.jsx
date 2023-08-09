@@ -114,7 +114,9 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
         )}
         <img
           className="user-tasks-container__img"
-          src="/profile-picture.svg"
+          src={`${
+            user && user.uid === uid && user.url.length > 0 ? user.url : '/profile-picture.svg'
+          }`}
           alt="profile picture"
         />
         <h2 className="user-tasks-container__username">{displayName}</h2>

@@ -1,20 +1,22 @@
 import './user-info.scss';
-import { getCurrentUser } from '../../features/user/userSlice';
+import { changeProfilePicture, getCurrentUser } from '../../features/user/userSlice';
 import { ImFilePicture } from 'react-icons/im';
 import Popup from '../../components/popup/Popup';
 import { useRef, useState } from 'react';
 import Button from '../../components/button/Button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const UserInfo = () => {
   const user = useSelector(getCurrentUser);
   const input = useRef();
+  const dispatch = useDispatch();
   const [isAcceptPicturePopupOpen, setIsAcceptPicturePopupOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const [image, setImage] = useState(null);
 
   const openPopup = () => setIsAcceptPicturePopupOpen(true);
   const closePopup = () => {
+    input.current.value = '';
     setIsAcceptPicturePopupOpen(false);
     setImage(null);
     setImageUrl(null);
@@ -29,6 +31,10 @@ const UserInfo = () => {
     openPopup();
   };
 
+  const uploadImage = () => {
+    dispatch(changeProfilePicture({ uid: user.uid, image, closePopup }));
+  };
+
   const handleInputClick = () => {
     input.current.click();
   };
@@ -37,7 +43,7 @@ const UserInfo = () => {
     <section className="user-info">
       <div className="user-info__profile-picture-container" onClick={handleInputClick}>
         <img
-          src="/profile-picture.svg"
+          src={`${user.url.length > 0 ? user.url : '/profile-picture.svg'}`}
           alt="profile-picture"
           className="user-info__profile-picture"
         />
@@ -58,8 +64,12 @@ const UserInfo = () => {
             <img src={imageUrl} alt="profile-picture" className="user-info__profile-picture" />
           </div>
           <section className="user-info__button-section">
-            <Button buttonType="accept">Save</Button>
-            <Button buttonType="decline">Cancel</Button>
+            <Button buttonType="accept" onClick={uploadImage}>
+              Save
+            </Button>
+            <Button buttonType="decline" onClick={closePopup}>
+              Cancel
+            </Button>
           </section>
         </Popup>
       )}
