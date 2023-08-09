@@ -49,6 +49,7 @@ const GroupsList = ({ content, forceOpen = false }) => {
             {error && <p>error</p>}
             {loading && <ImSpinner2 className="spinner" />}
             {groups &&
+              groups.data() &&
               groups.data().groups.map((group, i) => (
                 <li
                   className={`groups-list__sub-list-item ${

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getTimeWhenMessageIsCreated } from '../../utils/chat/chat.utils';
-import { addNewMessageToCollection } from '../../utils/firebase/firebase';
+import { addNewMessageToCollection, getUserProfileUrl } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {

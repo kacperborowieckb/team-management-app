@@ -135,7 +135,7 @@ export const groupsSlice = createSlice({
   initialState,
   reducers: {
     setUserGroups: (state, action) => {
-      state.groups = action.payload;
+      state.groups = action.payload || [];
     },
     setGroupsError: (state, action) => {
       state.error = action.payload;

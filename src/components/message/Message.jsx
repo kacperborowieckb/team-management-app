@@ -1,6 +1,20 @@
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { getUserProfileUrl } from '../../utils/firebase/firebase';
 import './message.scss';
 
-const Message = ({ isYours = false, displayName, content }) => {
+const Message = ({ uid, isYours = false, displayName, content }) => {
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    const getUrl = async () => {
+      const url = await getUserProfileUrl(uid);
+      setUrl(url);
+    };
+
+    getUrl();
+  }, []);
+
   return (
     <section
       className="message"
@@ -9,7 +23,7 @@ const Message = ({ isYours = false, displayName, content }) => {
       {!isYours && (
         <section className="message__profile">
           <img
-            src="/profile-picture.svg"
+            src={`${url.length > 0 ? url : '/profile-picture.svg'}`}
             alt="profile picture"
             className="message__profile-picture"
           />
