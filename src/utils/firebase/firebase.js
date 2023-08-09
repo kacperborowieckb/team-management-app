@@ -72,7 +72,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
       uid: userAuth.uid,
       groups: [],
       notifications: [],
-      url: null,
+      url: '',
     });
   }
 
@@ -168,7 +168,12 @@ export const getGroupUsers = async (groupId) => {
   const groupDocRef = getDocumentRef('groups', groupId);
   const groupSnap = await getDoc(groupDocRef);
   if (groupSnap.exists()) {
-    return groupSnap.data().users;
+    const users = [];
+    for (let user of groupSnap.data().users) {
+      const url = await getUserProfileUrl(user.uid);
+      users.push({ ...user, url });
+    }
+    return users;
   }
   return [];
 };

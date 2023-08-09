@@ -19,7 +19,7 @@ import RemoveUserPopup from '../remove-user-popup/RemoveUserPopup';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 import { ImSpinner2 } from 'react-icons/im';
 
-const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
+const UserTasksContainer = ({ displayName, tasks, uid, admin, url = '' }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const user = useSelector(getCurrentUser);
@@ -114,9 +114,7 @@ const UserTasksContainer = ({ displayName, tasks, uid, admin }) => {
         )}
         <img
           className="user-tasks-container__img"
-          src={`${
-            user && user.uid === uid && user.url.length > 0 ? user.url : '/profile-picture.svg'
-          }`}
+          src={`${url.length > 0 ? url : '/profile-picture.svg'}`}
           alt="profile picture"
         />
         <h2 className="user-tasks-container__username">{displayName}</h2>

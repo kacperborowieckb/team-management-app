@@ -8,7 +8,7 @@ import { Routes, Route, useNavigate } from 'react-router';
 import Layout from './components/layout/Layout';
 import Home from './routes/home/Home';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser, setCurrentUser } from './features/user/userSlice';
+import { getCurrentUser, setCurrentUser, signOutUser } from './features/user/userSlice';
 import SignUp from './routes/sign-up/SignUp';
 import GroupPage from './routes/group-page/GroupPage';
 import { ImSpinner2 } from 'react-icons/im';
@@ -27,7 +27,7 @@ function App() {
           displayName: user.displayName,
           email: user.email,
           uid: user.uid,
-          url: url,
+          url: url || '',
         })
       );
     } else {
@@ -36,12 +36,13 @@ function App() {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
+    const unsubscribe = onAuthStateChangedListener(async (user) => {
       if (user) {
-        createUserDocumentFromAuth(user);
+        await createUserDocumentFromAuth(user);
       } else {
         navigate('/');
       }
+
       setUser(user);
     });
 

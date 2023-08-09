@@ -28,7 +28,7 @@ const Tasks = () => {
       )}
       {tasks &&
         !loading &&
-        groupUsers.map(({ displayName, uid, admin }) => {
+        groupUsers.map(({ displayName, uid, admin, url }) => {
           return (
             <UserTasksContainer
               displayName={displayName}
@@ -36,6 +36,7 @@ const Tasks = () => {
               uid={uid}
               admin={admin}
               key={uid}
+              url={url}
             />
           );
         })}

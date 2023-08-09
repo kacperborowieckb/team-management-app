@@ -35,6 +35,7 @@ const ChatContainer = () => {
         <section className="chat-container__message-box" ref={messageBox}>
           {data.messages.map(({ uid, displayName, content }, i) => (
             <Message
+              uid={uid}
               isYours={uid === currentUser.uid}
               displayName={displayName}
               content={content}
