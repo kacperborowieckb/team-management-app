@@ -21,9 +21,7 @@ export const signInUser = createAsyncThunk(
   'user/signInUser',
   async (navigateToHomePage, { rejectWithValue }) => {
     try {
-      const {
-        user: { displayName, email, uid, url },
-      } = await signInWithGooglePopup();
+      await signInWithGooglePopup();
       navigateToHomePage();
       return { displayName, email, uid, url };
     } catch (error) {
