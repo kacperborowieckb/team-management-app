@@ -1,4 +1,6 @@
 .user-tasks-and-events {
+  margin: 0 1rem;
+
   & &__nav-container {
     overflow-x: scroll;
     max-width: 80%;
@@ -7,6 +9,16 @@
 
     &::-webkit-scrollbar {
       display: none;
+    }
+  }
+
+  & &__content {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+
+    & > * {
+      flex-basis: 100%;
     }
   }
 }
