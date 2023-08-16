@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import UserProfileNav from '../user-profile-nav/UserProfileNav';
+import UserProfileTasks from '../user-profile-tasks/UserProfileTasks';
 import './user-tasks-and-events.scss';
 
 const UserTasksAndEvents = ({ groups }) => {
@@ -13,6 +14,7 @@ const UserTasksAndEvents = ({ groups }) => {
           currentGroup={currentGroup}
           setCurrentGroup={setCurrentGroup}
         />
+        <UserProfileTasks group={currentGroup} />
       </section>
     </section>
   );

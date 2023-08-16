@@ -289,3 +289,10 @@ export const getUserProfileUrl = async (uid) => {
     return userSnapshot.data().url;
   }
 };
+
+export const getUserTasksFromFirestore = async (group, uid) => {
+  const groupSnapshot = await getDoc(doc(db, 'tasks', group));
+  if (groupSnapshot.exists() && groupSnapshot.data()?.[uid]) {
+    return groupSnapshot.data()[uid];
+  }
+};
