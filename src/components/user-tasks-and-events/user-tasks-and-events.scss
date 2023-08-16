@@ -1,0 +1,12 @@
+.user-tasks-and-events {
+  & &__nav-container {
+    overflow-x: scroll;
+    max-width: 80%;
+    margin: 1.5rem auto;
+    border-radius: var(--border-radius-medium);
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

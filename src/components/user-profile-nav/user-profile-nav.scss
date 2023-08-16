@@ -1,0 +1,22 @@
+.user-profile-nav {
+  display: flex;
+  justify-content: center;
+  width: max-content;
+  gap: 1rem;
+  margin: 0 auto;
+
+  & &__item {
+    cursor: pointer;
+    background-color: var(--clr-main-300);
+    font-size: var(--fs-medium);
+    font-weight: var(--fw-semi-bold);
+    border-radius: var(--border-radius-medium);
+    padding: 0.1rem 0.8rem;
+    color: var(--clr-font-white);
+  }
+
+  & &__item:hover,
+  & &__item-active {
+    background-color: var(--clr-main-700);
+  }
+}
