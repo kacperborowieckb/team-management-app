@@ -4,7 +4,8 @@
   background-color: var(--clr-bg);
   border-radius: var(--border-radius-small);
   padding: 0.25rem;
-  overflow: hidden;
+  overflow-y: unset;
+  width: 100%;
 
   &::-webkit-scrollbar-track,
   &::-webkit-scrollbar-thumb {
@@ -13,8 +14,8 @@
 
   &__selected {
     background-color: var(--clr-white);
-    box-shadow: 0px 0px 4px var(--clr-black);
-    border: 2px solid var(--clr-black);
+    box-shadow: 0px 0px 2px 2px var(--clr-black);
+    background-color: var(--clr-main-100);
   }
 
   & &__header {
@@ -37,9 +38,10 @@
   }
 
   & &__events {
-    overflow-y: auto;
+    overflow-y: scroll;
     border-radius: var(--border-radius-small);
     scrollbar-gutter: auto;
+    width: 100%;
 
     &::-webkit-scrollbar {
       width: 0;

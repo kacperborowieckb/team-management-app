@@ -5,7 +5,6 @@ import {
   decreaseMonth,
   fetchCalendarEvents,
   getCurrentDate,
-  getCurrentEvents,
   increaseMonth,
   setDate,
 } from '../../features/calendar/calendarSlice';
