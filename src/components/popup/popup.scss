@@ -1,7 +1,7 @@
 .popup {
   --popup-padding: 2.5rem;
   --form-gap: 1rem;
-  position: absolute;
+  position: fixed;
   inset: 0px 0px 0px 0px;
   display: flex;
   justify-content: center;
