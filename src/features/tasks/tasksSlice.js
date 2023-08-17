@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
-import { addTask, updateTasks } from '../../utils/firebase/firebase';
+import { addTask, getUserTasksFromFirestore, updateTasks } from '../../utils/firebase/firebase';
 import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
-  tasks: [],
+  tasks: {},
   status: ACTION_STATUS.IDLE,
   error: null,
 };
@@ -43,15 +43,23 @@ export const removeExistingTask = createAsyncThunk(
   'tasks/removeTask',
   async ({ taskId, closePopup, uid, groupId }, { rejectWithValue, getState }) => {
     try {
-      const state = getState();
-      let newTasks;
-      if (state.tasks.tasks[uid]) {
-        newTasks = state.tasks.tasks[uid].filter((task) => task.taskId !== taskId);
-      } else {
-        newTasks = state.user.userTasks.filter((task) => task.taskId !== taskId);
-      }
+      const tasks = getState().tasks.tasks;
+      const newTasks = tasks[uid].filter((task) => task.taskId !== taskId);
       await updateTasks(groupId, uid, newTasks);
       closePopup();
+      return { [uid]: newTasks };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getUserTasksThunk = createAsyncThunk(
+  'tasks/getAllUserTasks',
+  async ({ group, uid }, { rejectWithValue }) => {
+    try {
+      const tasks = await getUserTasksFromFirestore(group, uid);
+      return tasks;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -83,10 +91,24 @@ const tasksSlice = createSlice({
         state.status = ACTION_STATUS.PENDING;
         state.error = null;
       })
-      .addCase(removeExistingTask.fulfilled, (state) => {
+      .addCase(removeExistingTask.fulfilled, (state, action) => {
         state.status = ACTION_STATUS.IDLE;
+        state.tasks = action.payload;
+        console.log(action.payload);
       })
       .addCase(removeExistingTask.rejected, (state, action) => {
+        state.status = ACTION_STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(getUserTasksThunk.pending, (state) => {
+        state.status = ACTION_STATUS.PENDING;
+        state.error = null;
+      })
+      .addCase(getUserTasksThunk.fulfilled, (state, action) => {
+        state.tasks = action.payload;
+        state.status = ACTION_STATUS.SUCCEEDED;
+      })
+      .addCase(getUserTasksThunk.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
       });
@@ -94,6 +116,7 @@ const tasksSlice = createSlice({
 });
 
 export const getTasksStatus = (state) => state.tasks.status;
+export const getTasks = (state) => state.tasks.tasks;
 
 export const { setTasks } = tasksSlice.actions;
 

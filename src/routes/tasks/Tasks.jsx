@@ -13,7 +13,7 @@ const Tasks = () => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const groupUsers = useSelector(getCurrentGroupUsers);
-  const [tasks = [], loading, error] = useDocumentData(getDocumentRef('tasks', groupId));
+  const [tasks = {}, loading, error] = useDocumentData(getDocumentRef('tasks', groupId));
 
   useEffect(() => {
     dispatch(setTasks(tasks));

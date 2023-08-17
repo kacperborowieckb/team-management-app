@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocDisplayName,
-  getUserTasksFromFirestore,
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
   signOutCurrentUser,
@@ -13,7 +12,6 @@ import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 
 const initialState = {
   user: undefined,
-  userTasks: [],
   status: ACTION_STATUS.IDLE,
   error: null,
   isSignInPopupOpen: false,
@@ -77,18 +75,6 @@ export const changeProfilePicture = createAsyncThunk(
       const url = await uploadProfilePicture(uid, image);
       closePopup();
       return url;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
-export const getUserTasksThunk = createAsyncThunk(
-  'tasks/getAllUserTasks',
-  async ({ group, uid }, { rejectWithValue }) => {
-    try {
-      const tasks = await getUserTasksFromFirestore(group, uid);
-      return tasks;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -170,18 +156,6 @@ export const userSlice = createSlice({
       .addCase(changeProfilePicture.rejected, (state, action) => {
         state.status = ACTION_STATUS.FAILED;
         state.error = action.payload;
-      })
-      .addCase(getUserTasksThunk.pending, (state) => {
-        state.status = ACTION_STATUS.PENDING;
-        state.error = null;
-      })
-      .addCase(getUserTasksThunk.fulfilled, (state, action) => {
-        state.userTasks = action.payload;
-        state.status = ACTION_STATUS.SUCCEEDED;
-      })
-      .addCase(getUserTasksThunk.rejected, (state, action) => {
-        state.status = ACTION_STATUS.FAILED;
-        state.error = action.payload;
       });
   },
 });
@@ -191,7 +165,6 @@ export const getUserStatus = (state) => state.user.status;
 export const getUserError = (state) => state.user.error;
 export const getIsSignInPopupOpen = (state) => state.user.isSignInPopupOpen;
 export const getUserUid = (state) => state.user.user.uid;
-export const getUserTasks = (state) => state.user.userTasks;
 
 export const { toogleSignInPopup, setCurrentUser, setError } = userSlice.actions;
 
