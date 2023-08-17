@@ -1,6 +1,12 @@
 .user-tasks-and-events {
   margin: 0 1rem;
 
+  & .input-field {
+    max-width: 300px;
+    margin: 0 auto;
+    margin-bottom: 0.5rem;
+  }
+
   & &__nav-container {
     overflow-x: scroll;
     max-width: 80%;
