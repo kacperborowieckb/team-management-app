@@ -10,21 +10,18 @@ const UserProfileEvents = ({ group, searchValue }) => {
   const events = useSelector(getCurrentEvents);
 
   const filterDates = (date) => {
-    return Object.keys(events[date]).some((day) =>
-      events[date][day].some(
-        ({ description, name }) => description.includes(searchValue) || name.includes(searchValue)
-      )
-    );
+    return Object.keys(events[date]).some((day) => filterDays(date, day));
   };
 
   const filterDays = (date, day) => {
-    return events[date][day].some(
-      ({ description, name }) => description.includes(searchValue) || name.includes(searchValue)
-    );
+    return events[date][day].some(filterEvents);
   };
 
   const filterEvents = ({ description, name }) => {
-    return description.includes(searchValue) || name.includes(searchValue);
+    return (
+      description.toLowerCase().includes(searchValue.toLowerCase()) ||
+      name.toLowerCase().includes(searchValue.toLowerCase())
+    );
   };
 
   useEffect(() => {

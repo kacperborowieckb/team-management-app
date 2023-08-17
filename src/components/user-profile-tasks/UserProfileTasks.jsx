@@ -12,7 +12,9 @@ const UserProfileTasks = ({ group, searchValue }) => {
 
   const filterItems = (tasks) => {
     return tasks.filter(
-      (task) => task.title.includes(searchValue) || task.content.includes(searchValue)
+      (task) =>
+        task.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+        task.content.toLowerCase().includes(searchValue.toLowerCase())
     );
   };
 
