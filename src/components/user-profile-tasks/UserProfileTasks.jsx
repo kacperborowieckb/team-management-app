@@ -27,6 +27,7 @@ const UserProfileTasks = ({ group }) => {
             uid={uid}
             createdAt={createdAt}
             createdBy={createdBy}
+            group={group}
           />
         ))
       ) : (

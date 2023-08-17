@@ -18,7 +18,7 @@ const UserTasksAndEvents = ({ groups }) => {
       </section>
       <section className="user-tasks-and-events__content">
         <UserProfileTasks group={currentGroup} />
-        <UserProfileEvents />
+        <UserProfileEvents group={currentGroup} />
       </section>
     </section>
   );

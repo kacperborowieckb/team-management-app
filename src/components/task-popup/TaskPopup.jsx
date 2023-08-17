@@ -21,6 +21,7 @@ const TaskPopup = ({
   createdBy,
   day,
   eventId,
+  group,
 }) => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
@@ -29,7 +30,8 @@ const TaskPopup = ({
   const calendarStatus = useSelector(getCalendarStatus);
   useClickToClose(popup, closePopup);
 
-  const handleRemoveTask = () => dispatch(removeExistingTask({ taskId, closePopup, uid, groupId }));
+  const handleRemoveTask = () =>
+    dispatch(removeExistingTask({ taskId, closePopup, uid, groupId: groupId ? groupId : group }));
 
   const handleRemoveEvent = () => dispatch(deleteEvent({ day, groupId, eventId, closePopup }));
 

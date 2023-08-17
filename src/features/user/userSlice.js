@@ -14,7 +14,6 @@ import { ACTION_STATUS } from '../../utils/reducer/reducer.utils';
 const initialState = {
   user: undefined,
   userTasks: [],
-  userEvents: [],
   status: ACTION_STATUS.IDLE,
   error: null,
   isSignInPopupOpen: false,
@@ -88,7 +87,6 @@ export const getUserTasksThunk = createAsyncThunk(
   'tasks/getAllUserTasks',
   async ({ group, uid }, { rejectWithValue }) => {
     try {
-      console.log(group);
       const tasks = await getUserTasksFromFirestore(group, uid);
       return tasks;
     } catch (error) {

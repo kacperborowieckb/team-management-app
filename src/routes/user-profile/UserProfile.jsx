@@ -25,7 +25,7 @@ const UserProfile = () => {
       <Logo />
       <UserInfo />
       {loading && <ImSpinner2 className="spinner" />}
-      {userGroups.length > 0 && <UserTasksAndEvents groups={userGroups} />}
+      {userGroups.length > 0 && !loading && <UserTasksAndEvents groups={userGroups} />}
       {userGroups.length === 0 && (
         <h2 className="user-profile__no-groups">You don't belong to any group.</h2>
       )}

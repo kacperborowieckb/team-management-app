@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TaskPopup from '../task-popup/TaskPopup';
 import './task-item.scss';
 
-const TaskItem = ({ title, content, color, taskId, uid, createdAt, createdBy }) => {
+const TaskItem = ({ title, content, color, taskId, uid, createdAt, createdBy, group = '' }) => {
   const [isTaskPopupOpen, setIsTaskPopUpOpen] = useState(false);
 
   const toogleTaskPopup = () => setIsTaskPopUpOpen(!isTaskPopupOpen);
@@ -27,6 +27,7 @@ const TaskItem = ({ title, content, color, taskId, uid, createdAt, createdBy }) 
           uid={uid}
           createdAt={createdAt}
           createdBy={createdBy}
+          group={group}
         />
       )}
     </>

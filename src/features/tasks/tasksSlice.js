@@ -43,8 +43,13 @@ export const removeExistingTask = createAsyncThunk(
   'tasks/removeTask',
   async ({ taskId, closePopup, uid, groupId }, { rejectWithValue, getState }) => {
     try {
-      const tasks = getState().tasks.tasks;
-      const newTasks = tasks[uid].filter((task) => task.taskId !== taskId);
+      const state = getState();
+      let newTasks;
+      if (state.tasks.tasks[uid]) {
+        newTasks = state.tasks.tasks[uid].filter((task) => task.taskId !== taskId);
+      } else {
+        newTasks = state.user.userTasks.filter((task) => task.taskId !== taskId);
+      }
       await updateTasks(groupId, uid, newTasks);
       closePopup();
     } catch (error) {
