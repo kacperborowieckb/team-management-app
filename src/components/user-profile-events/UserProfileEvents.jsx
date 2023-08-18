@@ -46,7 +46,9 @@ const UserProfileEvents = ({ group, searchValue }) => {
                     .map((day, i) => {
                       return (
                         <section className="user-profile-events__day-container" key={i}>
-                          <p className="user-profile-events__day">{day + ':'}</p>
+                          <p className="user-profile-events__day">
+                            {day < 10 ? '0' + day + ':' : day + ':'}
+                          </p>
                           <section className="user-profile-events__events">
                             {events[date][day].filter(filterEvents).map((events, i) => {
                               const { color, createdAt, createdBy, description, name, eventId } =
